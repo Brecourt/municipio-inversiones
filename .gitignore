@@ -1,6 +1,9 @@
 # Claude internal config
 .claude/
 
+# Carpetas con repos git anidados
+AppFrontino/
+
 # Python cache
 __pycache__/
 *.pyc
