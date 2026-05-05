@@ -102,8 +102,8 @@ function ContratosPage({ onSelectProyecto }) {
             <BarChart data={porSector} margin={{ top: 5, right: 5, left: 0, bottom: 50 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="sector" tick={{ fontSize: 10 }} angle={-35} textAnchor="end" interval={0} />
-              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `$${v.toFixed(1)}B`} />
-              <Tooltip formatter={v => [`$${v.toFixed(2)}B`, 'Valor']} />
+              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `$${v.toFixed(1)} mmM`} />
+              <Tooltip formatter={v => [`$${v.toFixed(2)} mmM`, 'Valor']} />
               <Bar dataKey="valor" radius={[3,3,0,0]}>
                 {porSector.map((d, i) => <Recharts.Cell key={i} fill={d.color} />)}
               </Bar>
@@ -283,9 +283,9 @@ function ComparativoPage() {
             <div style={{ textAlign:'center', fontSize:12, fontWeight:700, color:'#059669', background:'#f0fdf4', borderRadius:6, padding:'6px 8px' }}>Vigencia {vigB}</div>
           </div>
           <MetricRow label="Proyectos con ejecución" vA={dataA.proyectos}       vB={dataB.proyectos}       fmt={v=>v} />
-          <MetricRow label="Apropiación total"        vA={dataA.apropiacion/1e9} vB={dataB.apropiacion/1e9} fmt={v=>`$${v.toFixed(2)}B`} />
-          <MetricRow label="Comprometido (RP)"        vA={dataA.rp/1e9}          vB={dataB.rp/1e9}          fmt={v=>`$${v.toFixed(2)}B`} />
-          <MetricRow label="Pagos efectivos"          vA={dataA.pagos/1e9}       vB={dataB.pagos/1e9}       fmt={v=>`$${v.toFixed(2)}B`} />
+          <MetricRow label="Apropiación total"        vA={dataA.apropiacion/1e9} vB={dataB.apropiacion/1e9} fmt={v=>`$${v.toFixed(2)} mmM`} />
+          <MetricRow label="Comprometido (RP)"        vA={dataA.rp/1e9}          vB={dataB.rp/1e9}          fmt={v=>`$${v.toFixed(2)} mmM`} />
+          <MetricRow label="Pagos efectivos"          vA={dataA.pagos/1e9}       vB={dataB.pagos/1e9}       fmt={v=>`$${v.toFixed(2)} mmM`} />
           <MetricRow label="% Ejecución"              vA={dataA.pctEjecucion}    vB={dataB.pctEjecucion}    fmt={v=>`${v}%`} />
         </Card>
 
@@ -295,8 +295,8 @@ function ComparativoPage() {
             <BarChart data={sectorComp} margin={{ top:5, right:5, left:0, bottom:55 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="sector" tick={{ fontSize:10 }} angle={-38} textAnchor="end" interval={0} />
-              <YAxis tick={{ fontSize:11 }} tickFormatter={v=>`$${v.toFixed(1)}B`} />
-              <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)}B`,n.includes(vigA)?`Vigencia ${vigA}`:`Vigencia ${vigB}`]} />
+              <YAxis tick={{ fontSize:11 }} tickFormatter={v=>`$${v.toFixed(1)} mmM`} />
+              <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)} mmM`,n.includes(vigA)?`Vigencia ${vigA}`:`Vigencia ${vigB}`]} />
               <Legend verticalAlign="top" formatter={v=>v.includes(vigA)?`Vigencia ${vigA}`:`Vigencia ${vigB}`}/>
               <Bar dataKey={`v${vigA}`} fill="#93c5fd" radius={[3,3,0,0]}/>
               <Bar dataKey={`v${vigB}`} fill="#059669" radius={[3,3,0,0]}/>

@@ -246,8 +246,8 @@ function DashboardPage() {
             <BarChart data={porSector} margin={{top:5,right:5,left:0,bottom:65}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
               <XAxis dataKey="sector" tick={{fontSize:10}} angle={-38} textAnchor="end" interval={0}/>
-              <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v.toFixed(1)}B`}/>
-              <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)}B`,n==='apropiacion'?'Apropiado':'Pagado']}/>
+              <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v.toFixed(1)} mmM`}/>
+              <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)} mmM`,n==='apropiacion'?'Apropiado':'Pagado']}/>
               <Legend verticalAlign="top"/>
               <Bar dataKey="apropiacion" name="Apropiado" fill="#93c5fd" radius={[3,3,0,0]}/>
               <Bar dataKey="pagos"       name="Pagado"    fill="#2563eb" radius={[3,3,0,0]}/>
@@ -261,7 +261,7 @@ function DashboardPage() {
               <Pie data={fuentesData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={95} innerRadius={40}>
                 {fuentesData.map((d,i)=><Cell key={i} fill={d.color}/>)}
               </Pie>
-              <Tooltip formatter={v=>`$${v.toFixed(2)}B`}/>
+              <Tooltip formatter={v=>`$${v.toFixed(2)} mmM`}/>
               <Legend iconType="circle" iconSize={10}/>
             </PieChart>
           </ResponsiveContainer>
