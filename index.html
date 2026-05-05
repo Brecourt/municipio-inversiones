@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Seguimiento · Inversión Municipal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- React 18 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- PropTypes (dependencia requerida por Recharts) -->
+  <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+
+  <!-- Recharts 2.9 — versión estable con UMD completo -->
+  <script src="https://unpkg.com/recharts@2.9.0/umd/Recharts.js"></script>
+
+  <!-- Babel Standalone (transforma JSX en el navegador) -->
+  <script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      -webkit-font-smoothing: antialiased;
+    }
+    #root { height: 100vh; display: flex; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+    button { font-family: inherit; }
+    input, select, textarea { font-family: inherit; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.25s ease; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid #e5e7eb;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div style="display:flex;align-items:center;justify-content:center;width:100%;flex-direction:column;gap:16px;">
+      <div class="spinner"></div>
+      <p style="color:#6b7280;font-size:14px;">Cargando sistema...</p>
+    </div>
+  </div>
+
+  <!-- Datos mock (sin JSX, carga normal) -->
+  <script src="js/data.js?v=20260426"></script>
+
+  <!-- Catálogo de Productos DNP (sin JSX, carga normal) -->
+  <script src="js/catalogo_dnp.js?v=20260426"></script>
+
+  <!-- Módulos adicionales (JSX → Babel lo transforma) -->
+  <script type="text/babel" src="js/modules.js?v=20260426"></script>
+
+  <!-- App principal (JSX → Babel lo transforma) -->
+  <script type="text/babel" src="js/app.js?v=20260426"></script>
+</body>
+</html>
