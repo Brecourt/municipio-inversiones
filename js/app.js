@@ -674,7 +674,7 @@ function ProyectosPage({ onSelect, onNew }) {
       <div style={{marginBottom:20,display:'flex',justifyContent:'space-between',alignItems:'flex-end'}}>
         <div>
           <h1 style={{margin:0,fontSize:22,fontWeight:800,color:'#111827'}}>📁 Proyectos de Inversión</h1>
-          <p style={{margin:'4px 0 0',color:'#6b7280',fontSize:14}}>{filtered.length} proyectos · {formatCOP(totalAp)} apropiados 2024</p>
+          <p style={{margin:'4px 0 0',color:'#6b7280',fontSize:14}}>{filtered.length} proyectos · {formatCOP(totalAp)} apropiados {vigencia}</p>
         </div>
         <button onClick={onNew} style={{padding:'9px 18px',background:'#2563eb',color:'#fff',border:'none',borderRadius:8,cursor:'pointer',fontSize:13,fontWeight:700}}>
           + Nuevo Proyecto
@@ -734,12 +734,18 @@ function ProyectosPage({ onSelect, onNew }) {
 // ============================================================
 function ProyectoDetalle({ proyecto, onBack, onEdit }) {
   const [tab, setTab] = useState('general');
+  const vigencia = React.useContext(VigenciaContext);
   const tabs=[
     {key:'general',    label:'📋 Ficha General'},
     {key:'fisico',     label:'🏗️ Seg. Físico'},
     {key:'financiero', label:'💰 Seg. Financiero'},
     {key:'pdm',        label:'🎯 PDM'},
   ];
+
+  const ejecVig = proyecto.ejecucion.find(e => e.vigencia === vigencia);
+  const aprop   = ejecVig ? ejecVig.apropiacion : 0;
+  const pagos   = ejecVig ? ejecVig.pagos : 0;
+  const ejecPct = aprop > 0 ? Math.round((pagos / aprop) * 100) : 0;
 
   return (
     <div>
@@ -750,7 +756,7 @@ function ProyectoDetalle({ proyecto, onBack, onEdit }) {
 
       <div style={{background:'#fff',borderRadius:12,padding:'20px 24px',marginBottom:20,border:'1px solid #e5e7eb',boxShadow:'0 1px 4px rgba(0,0,0,0.08)'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:12}}>
-          <div>
+          <div style={{flex:1,minWidth:0}}>
             <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap',marginBottom:8}}>
               <EstadoBadge estado={proyecto.estado}/>
               <SectorBadge sector={proyecto.sector}/>
@@ -760,10 +766,23 @@ function ProyectoDetalle({ proyecto, onBack, onEdit }) {
             <h2 style={{margin:0,fontSize:20,fontWeight:800,color:'#111827'}}>{proyecto.nombre}</h2>
             <p style={{margin:'6px 0 0',fontSize:13,color:'#6b7280'}}>{proyecto.descripcion}</p>
           </div>
-          <div style={{textAlign:'right'}}>
-            <div style={{fontSize:12,color:'#9ca3af'}}>Valor Total</div>
-            <div style={{fontSize:24,fontWeight:800,color:'#059669'}}>{formatCOP(proyecto.valorTotal)}</div>
-            <div style={{fontSize:12,color:'#9ca3af'}}>Vigencia {proyecto.vigenciaInicio}–{proyecto.vigenciaFin}</div>
+          <div style={{display:'flex',gap:12,flexShrink:0}}>
+            <div style={{textAlign:'right'}}>
+              <div style={{fontSize:11,color:'#9ca3af',textTransform:'uppercase',letterSpacing:0.5}}>Apropiación {vigencia}</div>
+              <div style={{fontSize:22,fontWeight:800,color: aprop>0 ? '#2563eb' : '#9ca3af'}}>
+                {aprop > 0 ? formatCOP(aprop) : '—'}
+              </div>
+              {aprop > 0 && (
+                <div style={{fontSize:12,color:'#6b7280',marginTop:2}}>
+                  Pagos: <strong style={{color:'#059669'}}>{formatCOP(pagos)}</strong>
+                  <span style={{marginLeft:6,background:'#d1fae5',color:'#065f46',fontWeight:700,padding:'1px 6px',borderRadius:4,fontSize:11}}>{ejecPct}%</span>
+                </div>
+              )}
+            </div>
+            <div style={{textAlign:'right',borderLeft:'1px solid #f3f4f6',paddingLeft:12}}>
+              <div style={{fontSize:11,color:'#9ca3af',textTransform:'uppercase',letterSpacing:0.5}}>Valor Total PDM</div>
+              <div style={{fontSize:22,fontWeight:800,color:'#059669'}}>{formatCOP(proyecto.valorTotal)}</div>
+            </div>
           </div>
         </div>
         {proyecto.estado==='EJECUCION' && <div style={{marginTop:16}}><AvanceBar fisico={proyecto.avanceFisico} financiero={proyecto.avanceFinanciero}/></div>}
@@ -786,9 +805,21 @@ function TabGeneral({ p }) {
         <InfoRow label="Nombre" value={p.nombre}/>
         <InfoRow label="BPIN" value={<code>{formatBPIN(p.bpin)}</code>}/>
         <InfoRow label="Sector" value={<SectorBadge sector={p.sector}/>}/>
-        <InfoRow label="Subsector" value={p.subsector||'—'}/>
+        <InfoRow label="Producto" value={
+          (p.productoNombre || p.codigoProductoDNP)
+            ? <span>
+                {p.codigoProductoDNP && <code style={{background:'#eff6ff',color:'#2563eb',padding:'1px 6px',borderRadius:4,fontSize:12,fontWeight:700,marginRight:6}}>{p.codigoProductoDNP}</code>}
+                {p.productoNombre || '—'}
+              </span>
+            : '—'
+        }/>
+        <InfoRow label="Programa PDM" value={
+          p.programaPDM
+            ? <code style={{background:'#f0fdf4',color:'#059669',padding:'1px 6px',borderRadius:4,fontSize:12,fontWeight:700}}>{p.programaPDM}</code>
+            : '—'
+        }/>
         <InfoRow label="Estado" value={<EstadoBadge estado={p.estado}/>}/>
-        <InfoRow label="Vigencia" value={`${p.vigenciaInicio} – ${p.vigenciaFin}`}/>
+        <InfoRow label="Fechas" value={`${p.fechaInicio||'—'} → ${p.fechaFin||'—'}`}/>
         <InfoRow label="Objetivo" value={p.objetivo}/>
       </Card>
       <Card title="Fuentes de Financiación">
