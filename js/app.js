@@ -373,7 +373,10 @@ function SemaforoPage({ onSelect }) {
                       <div style={{fontSize:11,color:'#9ca3af'}}><SectorBadge sector={p.sector}/> · BPIN {formatBPIN(p.bpin)}</div>
                     </div>
                     <div style={{fontSize:12,color:'#6b7280',whiteSpace:'nowrap',marginLeft:8}}>
-                      Brecha: <b style={{color:cfg[k].dot}}>{Math.abs(p.avanceFisico-p.avanceFinanciero)}pp</b>
+                      {p.avanceFisico===0&&p.avanceFinanciero===0
+                        ? <b style={{color:cfg[k].dot}}>Sin inicio</b>
+                        : <>Brecha: <b style={{color:cfg[k].dot}}>{Math.abs(p.avanceFisico-p.avanceFinanciero)}pp</b></>
+                      }
                     </div>
                   </div>
                   <AvanceBar fisico={p.avanceFisico} financiero={p.avanceFinanciero}/>

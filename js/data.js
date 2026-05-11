@@ -48,7 +48,7 @@ const FUENTES = {
 // PROYECTOS (25 proyectos)
 // ---------------------------------------------------------------
 
-// ─── Datos generados por cargar_datos.py — 2026-04-17 16:10:32 ───────────────────────────
+// ─── Datos generados por cargar_datos.py — 2026-05-11 11:11:43 ───────────────────────────
 
 const PDM = {
   municipio:"Frontino",
@@ -57,7 +57,7 @@ const PDM = {
   alcalde:"Luz Gabriela Rivera Cano" ,
   acuerdo:"Acuerdo 007 de 31 de Mayo de 2024",
   inversionTotal:47964833565,
-  indicadoresRadar:[{eje:"Tejido Social",logrado:28.0,meta:100.0},{eje:"Sostenibilidad Ambiental",logrado:15.0,meta:100.0},{eje:"Competitividad",logrado:42.0,meta:100.0},{eje:"Buen Gobierno",logrado:35.0,meta:100.0}],
+  indicadoresRadar:[{eje:"FRONTINO NOS UNE CON TEJIDO SOCIAL, INCLUSIÓN Y RECONCILIACIÓN",logrado:28.0,meta:100.0},{eje:"FRONTINO NOS UNE CON SOSTENIBILIDAD AMBIENTAL Y DESARROLLO SUSTENTABLE",logrado:15.0,meta:100.0},{eje:"FRONTINO NOS UNE CON COMPETITIVIDAD Y DESARROLLO ECONÓMICO LOCAL",logrado:42.0,meta:100.0},{eje:"FRONTINO NOS UNE CON BUEN GOBIERNO, GOBERNANZA Y GOBERNABILIDAD",logrado:35.0,meta:100.0}],
   ejes:[{id:"LE-1",nombre:"FRONTINO NOS UNE CON TEJIDO SOCIAL, INCLUSIÓN Y RECONCILIACIÓN.",programas:[{id:"2201",nombre:"1.2.1 Calidad, cobertura y fortalecimiento de la educación inicial, preescolar, básica y media (2201)",meta:"14000 Beneficiarios de la alimentación escolar",indicador:"",lineaBase:0.0,presupuesto:430310136},{id:"2201",nombre:"1.2.1 Calidad, cobertura y fortalecimiento de la educación inicial, preescolar, básica y media (2201)",meta:"1200 Beneficiarios de transporte escolar",indicador:"",lineaBase:0.0,presupuesto:542196483},{id:"2201",nombre:"1.2.1 Calidad, cobertura y fortalecimiento de la educación inicial, preescolar, básica y media (2201)",meta:"30 Sedes educativas mejoradas ",indicador:"",lineaBase:0.0,presupuesto:125000000},{id:"2201",nombre:"1.2.1 Calidad, cobertura y fortalecimiento de la educación inicial, preescolar, básica y media (2201)",meta:"30 Sedes mantenidas (Servicios Publicos)",indicador:"",lineaBase:0.0,presupuesto:195000000},{id:"2201",nombre:"1.2.1 Calidad, cobertura y fortalecimiento de la educación inicial, preescolar, básica y media (2201)",meta:"5 Foros educativos territoriales realizados",indicador:"",lineaBase:0.0,presupuesto:30000000},{id:"3301",nombre:"1.3.1 Promoción y acceso efectivo a procesos culturales y artísticos (3301)",meta:"800 Personas capacitadas",indicador:"",lineaBase:0.0,presupuesto:182759000},{id:"3301",nombre:"1.3.1 Promoción y acceso efectivo a procesos culturales y artísticos (3301)",meta:"10000 Usuarios atendidos",indicador:"",lineaBase:0.0,presupuesto:33206000},{id:"3301",nombre:"1.3.1 Promoción y acceso efectivo a procesos culturales y artísticos (3301)",meta:"40 Eventos de promoción de actividades culturales realizados",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"3301",nombre:"1.3.1 Promoción y acceso efectivo a procesos culturales y artísticos (3301)",meta:"2 Casas de la cultura adecuadas",indicador:"",lineaBase:0.0,presupuesto:31029249},{id:"3301",nombre:"1.3.1 Promoción y acceso efectivo a procesos culturales y artísticos (3301)",meta:"1 Documentos de planeación realizados",indicador:"",lineaBase:0.0,presupuesto:20000000},{id:"3302",nombre:"1.3.2 Gestión, protección y salvaguardia del patrimonio cultural frontineño (3302)",meta:"4 Procesos de salvaguardia efectiva del patrimonio inmaterial realizados",indicador:"",lineaBase:0.0,presupuesto:120000000},{id:"3302",nombre:"1.3.2 Gestión, protección y salvaguardia del patrimonio cultural frontineño (3302)",meta:"2 Servicio de Archivos Patrimoniales",indicador:"",lineaBase:0.0,presupuesto:42000000},{id:"4301",nombre:"1.4.1 Fomento a la recreación, la actividad física y el deporte (4301)",meta:"4 Parques recreativos mantenidos",indicador:"",lineaBase:0.0,presupuesto:30000000},{id:"4301",nombre:"1.4.1 Fomento a la recreación, la actividad física y el deporte (4301)",meta:"4 Gimnasios al Aire libre construidos",indicador:"",lineaBase:0.0,presupuesto:50000000},{id:"4301",nombre:"1.4.1 Fomento a la recreación, la actividad física y el deporte (4301)",meta:"6000 Personas que acceden a servicios deportivos, recreativos y de actividad física",indicador:"",lineaBase:0.0,presupuesto:620853292},{id:"4101",nombre:" 1.5.1 Atención, asistencia y reparación integral a las víctimas del conflicto armado (4101)",meta:"150 Victimas caracterizadas para su posterior atencion, asistencia y reparacion integral ",indicador:"",lineaBase:0.0,presupuesto:42480000},{id:"4101",nombre:" 1.5.1 Atención, asistencia y reparación integral a las víctimas del conflicto armado (4101)",meta:"50 Personas con asistencia humanitaria a las victimas del conflicto armado",indicador:"",lineaBase:0.0,presupuesto:15000000},{id:"4102",nombre:"1.5.2 Desarrollo integral y fortalecimiento de las capacidades de la primera infancia, infancia, adolescencia, la juventud y de las familias. (4102)",meta:"1200 Niños y niñas atendidos en servicios integrales",indicador:"",lineaBase:0.0,presupuesto:120000000},{id:"4102",nombre:"1.5.2 Desarrollo integral y fortalecimiento de las capacidades de la primera infancia, infancia, adolescencia, la juventud y de las familias. (4102)",meta:"60 Niños, niñas, adolescentes y jóvenes atendidos en los servicios de restablecimiento en la administración de justicia",indicador:"",lineaBase:0.0,presupuesto:158217564},{id:"4102",nombre:"1.5.2 Desarrollo integral y fortalecimiento de las capacidades de la primera infancia, infancia, adolescencia, la juventud y de las familias. (4102)",meta:"24 Acciones ejecutadas con las comunidades en temas de fortalecimiento del tejido social y construcción de escenarios comunitarios protectores de derechos.",indicador:"",lineaBase:0.0,presupuesto:56000000},{id:"4102",nombre:"1.5.2 Desarrollo integral y fortalecimiento de las capacidades de la primera infancia, infancia, adolescencia, la juventud y de las familias. (4102)",meta:"150 Familias atendidas en de promoción de temas de dinámica relacional y desarrollo autónomo",indicador:"",lineaBase:0.0,presupuesto:27720000},{id:"4104",nombre:"1.5.4 Atención integral de población en situación permanente de desprotección social y/o familiar: Población en situación de discapacidad, Adulto Mayor y Habitantes de Calle (4104)",meta:"450 Adultos mayores atendidos con servicios integrales",indicador:"",lineaBase:0.0,presupuesto:160000000},{id:"4104",nombre:"1.5.4 Atención integral de población en situación permanente de desprotección social y/o familiar: Población en situación de discapacidad, Adulto Mayor y Habitantes de Calle (4104)",meta:"2 Centros de día para el adulto mayor modificados",indicador:"",lineaBase:0.0,presupuesto:65606561},{id:"4104",nombre:"1.5.4 Atención integral de población en situación permanente de desprotección social y/o familiar: Población en situación de discapacidad, Adulto Mayor y Habitantes de Calle (4104)",meta:"50 Personas con discapacidad atendidas con servicios integrales",indicador:"",lineaBase:0.0,presupuesto:27720000},{id:"4001",nombre:" 1.6.1 Acceso a soluciones de vivienda digna (4001)",meta:"100 Vivienda de Interés Prioritario construidas",indicador:"",lineaBase:0.0,presupuesto:464000000},{id:"4001",nombre:" 1.6.1 Acceso a soluciones de vivienda digna (4001)",meta:"100 Vivienda de Interés Social mejoradas",indicador:"",lineaBase:0.0,presupuesto:30000000},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"10 Acueductos optimizados",indicador:"",lineaBase:0.0,presupuesto:582000000},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"1 Alcantarillados ampliados",indicador:"",lineaBase:0.0,presupuesto:130000000},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"1 Alcantarillados optimizados",indicador:"",lineaBase:0.0,presupuesto:573841493},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"1 Acueductos ampliados",indicador:"",lineaBase:0.0,presupuesto:50000000},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"1 Servicios de apoyo financiero para la ejecución de proyectos de acueductos y alcantarillado",indicador:"",lineaBase:0.0,presupuesto:845294274},{id:"4003",nombre:"1.6.3 Acceso De La Población A Los Servicios De Agua Potable Y Saneamiento Básico (4003)",meta:"7000 Usuarios beneficiados con subsidios al consumo",indicador:"",lineaBase:0.0,presupuesto:816511812}]},{id:"LE-2",nombre:"FRONTINO NOS UNE CON SOSTENIBILIDAD AMBIENTAL Y DESARROLLO SUSTENTABLE.",programas:[{id:"3201",nombre:"2.1.1 Fortalecimiento del desempeño ambiental de los sectores productivos (3201)",meta:"10 Negocios verdes consolidados con asistencia técnica",indicador:"",lineaBase:0.0,presupuesto:20000000},{id:"3202",nombre:"2.1.2 Conservación de la biodiversidad y sus servicios ecosistémicos para el desarrollo territorial (3202)",meta:"1 Documentos de investigación realizados",indicador:"",lineaBase:0.0,presupuesto:42000000},{id:"3202",nombre:"2.1.2 Conservación de la biodiversidad y sus servicios ecosistémicos para el desarrollo territorial (3202)",meta:"10000 Árboles plantados",indicador:"",lineaBase:0.0,presupuesto:80000000},{id:"3203",nombre:"2.1.3 Gestión integral del recurso hídrico y cuidado del agua (3203)",meta:"100 Áreas protegidas",indicador:"",lineaBase:0.0,presupuesto:110963095},{id:"3208",nombre:"2.1.8 Educación ambiental (3208)",meta:"4000 Personas capacitadas hacia el  conocimiento de la  biodiversidad y los ecosistemas  para sensibilizar a la población  despertar la conciencia  ambiental. ",indicador:"",lineaBase:0.0,presupuesto:170000000}]},{id:"LE-3",nombre:"FRONTINO NOS UNE CON COMPETITIVIDAD Y DESARROLLO ECONÓMICO LOCAL.",programas:[{id:"2102",nombre:".1.1 Consolidación productiva del sector de energía eléctrica (2102)",meta:"2000 Redes de alumbrado público mejoradas",indicador:"",lineaBase:0.0,presupuesto:200000000},{id:"2104",nombre:"3.1.2 Consolidación productiva del sector minero social, justo y sostenible (2104)",meta:"200 Personas capacitadas en seguridad minera",indicador:"",lineaBase:0.0,presupuesto:20000000},{id:"2104",nombre:"3.1.2 Consolidación productiva del sector minero social, justo y sostenible (2104)",meta:"4 Unidades productivas mineras beneficiarias de asistencia técnica para regularización",indicador:"",lineaBase:0.0,presupuesto:20000000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"4000 Vía terciaria mejorada",indicador:"",lineaBase:0.0,presupuesto:2505450000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"6 Puentes de la red terciaria con mantenimiento",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"150 Caminos ancestrales con mantenimiento ",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"2 Puente construido en caminos ancestrales ",indicador:"",lineaBase:0.0,presupuesto:380000000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"104 Vía terciaria con mantenimiento ",indicador:"",lineaBase:0.0,presupuesto:450000000},{id:"2402",nombre:"3.2.1 Infraestructura red vial regional para el desarrollo (2402)",meta:"3 Vía urbana mejorada ",indicador:"",lineaBase:0.0,presupuesto:844512767},{id:"2409",nombre:"3.2.2 Acciones de Seguridad en el transporte y la Movilidad (2409)",meta:"136 Vías con dispositivos de control y señalización",indicador:"",lineaBase:0.0,presupuesto:6000000},{id:"3502",nombre:"3.3.1 Productividad y competitividad desde el Turismo y la Agroindustria de las empresas frontineñas (3502)",meta:"100 Personas capacitadas",indicador:"",lineaBase:0.0,presupuesto:41580000},{id:"1702",nombre:"3.5.1 Inclusión productiva de pequeños productores rurales (1702)",meta:"1000 Pequeños productores rurales asistidos técnicamente",indicador:"",lineaBase:0.0,presupuesto:330900000},{id:"1702",nombre:"3.5.1 Inclusión productiva de pequeños productores rurales (1702)",meta:"1 Formulación de plan de Desarrollo Agropecuario y Rural ",indicador:"",lineaBase:0.0,presupuesto:60000000},{id:"1702",nombre:"3.5.1 Inclusión productiva de pequeños productores rurales (1702)",meta:"10 Organizaciones de productores  formales apoyadas la  adquisición de competencias  comerciales y en casos  requeridos, la inserción o  consolidación en  encadenamientos comerciales. ",indicador:"",lineaBase:0.0,presupuesto:42000000},{id:"1704",nombre:"3.5.2 Ordenamiento social y uso productivo del territorio rural (1704)",meta:"1 Mapas de zonificación elaborados",indicador:"",lineaBase:0.0,presupuesto:15000000},{id:"1709",nombre:"3.5.5 Infraestructura productiva y comercialización de productos agropecuarios frontineños (1709)",meta:"6 Cadenas productivas apoyadas",indicador:"",lineaBase:0.0,presupuesto:238894601}]},{id:"LE-4",nombre:" FRONTINO NOS UNE CON BUEN GOBIERNO, GOBERNANZA Y GOBERNABILIDAD.",programas:[{id:"4502",nombre:"4.2.2 Fortalecimiento del buen gobierno para el respeto y garantía de los derechos humanos (4502)",meta:"4 Espacios de participación promovidos",indicador:"",lineaBase:0.0,presupuesto:75000000},{id:"4502",nombre:"4.2.2 Fortalecimiento del buen gobierno para el respeto y garantía de los derechos humanos (4502)",meta:"20 Salones comunales adecuados",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"4503",nombre:"4.2.3 Gestión del riesgo de desastres y emergencias (4503)",meta:"4 Obras de infraestructura para la reducción del riesgo de desastres realizadas",indicador:"",lineaBase:0.0,presupuesto:170000000},{id:"4503",nombre:"4.2.3 Gestión del riesgo de desastres y emergencias (4503)",meta:"100 Personas afectadas por situaciones de emergencia, desastre o declaratorias de calamidad pública apoyadas",indicador:"",lineaBase:0.0,presupuesto:105481547},{id:"4599",nombre:"4.2.4 Fortalecimiento a la gestión y dirección de la administración pública territorial (4599)",meta:"4 Sedes administrativas adecuadas",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"4599",nombre:"4.2.4 Fortalecimiento a la gestión y dirección de la administración pública territorial (4599)",meta:"4 Sedes administrativas mantenidad",indicador:"",lineaBase:0.0,presupuesto:100000000},{id:"4599",nombre:"4.2.4 Fortalecimiento a la gestión y dirección de la administración pública territorial (4599)",meta:"4 Servicio de asistencia técnica",indicador:"",lineaBase:0.0,presupuesto:20000000},{id:"1202",nombre:"4.3.1 Promoción al acceso a la justicia (1202)",meta:"4 Iniciativas viabilizadas apoyadas a las comunidades etnicas, al programa nacional de casa de justicia y las iniciativas, estretegias y poryectos en materia de acceso a la justicia",indicador:"",lineaBase:0.0,presupuesto:97244592},{id:"1202",nombre:"4.3.1 Promoción al acceso a la justicia (1202)",meta:"4 Espacios de articulacion generados",indicador:"",lineaBase:0.0,presupuesto:30000000},{id:"1206",nombre:"4.3.2 Sistema penitenciario y carcelario en el marco de los derechos humanos (1206)",meta:"100 Personas privadas de la libertad (PPL) con servicio de alimentacion",indicador:"",lineaBase:0.0,presupuesto:40000000},{id:"1206",nombre:"4.3.2 Sistema penitenciario y carcelario en el marco de los derechos humanos (1206)",meta:"200 Personas beneficiarias de procesos de informacion para el trabajo y desarrollo humano",indicador:"",lineaBase:0.0,presupuesto:20000000}]}]
 };
 
@@ -89,9 +89,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Gobierno y Servicios Administrativos", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:97244592,
-    avanceFisico:0, avanceFinanciero:13,
+    avanceFisico:0, avanceFinanciero:18,
     fuentes:[{f:"SGP_LI",monto:97244592}],
-    ejecucion:[{vigencia:2026,apropiacion:97244592,cdp:13086756,rp:13086756,obligaciones:13086756,pagos:13086756,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:97244592,cdp:17873353,rp:17873353,obligaciones:17873353,pagos:17873353,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"120201800",
@@ -107,9 +107,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Gobierno y Servicios Administrativos", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:40000000,
-    avanceFisico:0, avanceFinanciero:12,
+    avanceFisico:0, avanceFinanciero:18,
     fuentes:[{f:"SGP_LI",monto:40000000}],
-    ejecucion:[{vigencia:2026,apropiacion:40000000,cdp:27308000,rp:27308000,obligaciones:4696000,pagos:4696000,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:40000000,cdp:27308000,rp:27308000,obligaciones:7068000,pagos:7068000,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"120600702",
@@ -179,9 +179,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Agricultura y Medio Ambiente", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:60000000,
-    avanceFisico:0, avanceFinanciero:0,
+    avanceFisico:0, avanceFinanciero:3,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:60000000}],
-    ejecucion:[{vigencia:2026,apropiacion:60000000,cdp:27000000,rp:27000000,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:60000000,cdp:27000000,rp:27000000,obligaciones:2000000,pagos:2000000,fuente:"RECURSOS_PROPIOS"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"170202301",
@@ -197,10 +197,10 @@ let PROYECTOS = [
     responsable:"Secretaria de Agricultura y Medio Ambiente", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:330900000,
-    avanceFisico:0, avanceFinanciero:8,
+    avanceFisico:0, avanceFinanciero:19,
     fuentes:[{f:"SGP_LI",monto:330900000}],
-    ejecucion:[{vigencia:2026,apropiacion:330900000,cdp:155833250,rp:148214066,obligaciones:26757066,pagos:26757066,fuente:"SGP_LI"}],
-    contrato:{numero:"CD-CPS-030 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACION DE SERVICIOS DE APOYO A LA GESTION ADMINISTRATIVA EN LA EJECUCION DE PROGRAMAS DE ASISTENCIA TECNICA PARA LA PRODUCCION SOSTENIBLE, SUSTENTABLE DE ALIMENTOS Y EL FORTALECIMIENTO DE LA SEGURIDAD ALIMENTARIA EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO 2024 - 2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Keisy Yadira Lopez",nit:"1001581161",valor:11692908,fecha:"19-0-2026",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9611382"},
+    ejecucion:[{vigencia:2026,apropiacion:330900000,cdp:195314250,rp:148214066,obligaciones:61740066,pagos:61740066,fuente:"SGP_LI"}],
+    contrato:{numero:"CD-CPS-030 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACION DE SERVICIOS DE APOYO A LA GESTION ADMINISTRATIVA EN LA EJECUCION DE PROGRAMAS DE ASISTENCIA TECNICA PARA LA PRODUCCION SOSTENIBLE, SUSTENTABLE DE ALIMENTOS Y EL FORTALECIMIENTO DE LA SEGURIDAD ALIMENTARIA EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO 2024 - 2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Keisy Yadira Lopez",nit:"1001581161",valor:11692908,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9611382"},
     hitos:[],
     codigoProductoDNP:"170201000",
     indicadorDNP:"Pequeños productores rurales asistidos técnicamente",
@@ -236,7 +236,7 @@ let PROYECTOS = [
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_LI",monto:42000000}],
     ejecucion:[{vigencia:2026,apropiacion:42000000,cdp:42000000,rp:42000000,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
-    contrato:null,
+    contrato:{numero:"ESAL 001 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA EL FORTALECIMIENTO DE LOS CIRCUITOS CORTOS DE COMERCIALIZACIÓN EN EL MUNICIPIO, EL FORTALECIMIENTO DE LA ECONOMÍA CAMPESINA, FAMILIAR, COMUNITARIA, POPULAR Y EL FORTALECIMIENTO DE LA EDUCACIÓN AMBIENTAL EN LAS FERIAS DE COMERCIALIZACIÓN EN CUMPLIMIENTO A LO ESTABLECIDO AL PLAN DE DESARROLLO FRONTINO NOS UNE 2024-2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"AGROTABLAITO",nit:"900564184",valor:110000000,fecha:"2026-03-07",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9386124&AwardContractDetailId=7439770&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     hitos:[],
     codigoProductoDNP:"170203800",
     indicadorDNP:"Organizaciones de productores  formales apoyadas la  adquisición de competencias  comerciales y en casos  requeridos, la inserción o  consolidación en  encadenamientos comerciales. ",
@@ -269,9 +269,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Agricultura y Medio Ambiente", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:20000000,
-    avanceFisico:0, avanceFinanciero:9,
+    avanceFisico:0, avanceFinanciero:18,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:20000000}],
-    ejecucion:[{vigencia:2026,apropiacion:20000000,cdp:7330000,rp:7330000,obligaciones:1832500,pagos:1832500,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:20000000,cdp:10995000,rp:7330000,obligaciones:3665000,pagos:3665000,fuente:"RECURSOS_PROPIOS"}],
     contrato:{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"},
     hitos:[],
     codigoProductoDNP:"210401002",
@@ -287,9 +287,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Agricultura y Medio Ambiente", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:20000000,
-    avanceFisico:0, avanceFinanciero:9,
+    avanceFisico:0, avanceFinanciero:18,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:20000000}],
-    ejecucion:[{vigencia:2026,apropiacion:20000000,cdp:7330000,rp:7330000,obligaciones:1832500,pagos:1832500,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:20000000,cdp:10995000,rp:7330000,obligaciones:3665000,pagos:3665000,fuente:"RECURSOS_PROPIOS"}],
     contrato:{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"},
     hitos:[],
     codigoProductoDNP:"210401800",
@@ -323,9 +323,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:195000000,
-    avanceFisico:0, avanceFinanciero:18,
+    avanceFisico:0, avanceFinanciero:23,
     fuentes:[{f:"SGP_EDUCACION",monto:195000000}],
-    ejecucion:[{vigencia:2026,apropiacion:195000000,cdp:85000000,rp:35685552,obligaciones:35685552,pagos:35685552,fuente:"SGP_EDUCACION"}],
+    ejecucion:[{vigencia:2026,apropiacion:195000000,cdp:85000000,rp:44770196,obligaciones:44770196,pagos:44770196,fuente:"SGP_EDUCACION"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"220106200",
@@ -343,7 +343,7 @@ let PROYECTOS = [
     valorTotal:2693686570,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:2263376434},{f:"SGP_PAE",monto:430310136}],
-    ejecucion:[{vigencia:2026,apropiacion:2263376434,cdp:2263376434,rp:2263376434,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:430310136,cdp:206477385,rp:205405993,obligaciones:5857144,pagos:5857144,fuente:"SGP_PAE"}],
+    ejecucion:[{vigencia:2026,apropiacion:2263376434,cdp:2263376434,rp:2263376434,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:430310136,cdp:206477385,rp:205405993,obligaciones:8785716,pagos:8785716,fuente:"SGP_PAE"}],
     contrato:{numero:"MINC-001 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE TRANSPORTE DE ALIMENTOS DEL PROGRAMA DE ALIMENTACIÓN ESCOLAR - PAE, PARA LOS ESTUDIANTES DE LAS INSTITUCIONES EDUCATIVAS RURALES NOBOGACITA, GABRIELA WHITE DE VÉLEZ, LA BLANQUITA DEL MURRI, CER INDIGENISTA JAICHINIDAU Y CERI CHUSCAL CON SUS RESPECTIVAS SEDES RURALES EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"WILTON HERNAN OQUENDO PINEDA ",nit:"1038332890",valor:42071400,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9451577"},
     hitos:[],
     codigoProductoDNP:"220102801",
@@ -361,7 +361,7 @@ let PROYECTOS = [
     valorTotal:542196483,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_EDUCACION",monto:410634589},{f:"SGP_LD",monto:131561894}],
-    ejecucion:[{vigencia:2026,apropiacion:410634589,cdp:410634589,rp:384457077,obligaciones:0,pagos:0,fuente:"SGP_EDUCACION"},{vigencia:2026,apropiacion:131561894,cdp:131561894,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:410634589,cdp:410634589,rp:401091666,obligaciones:0,pagos:0,fuente:"SGP_EDUCACION"},{vigencia:2026,apropiacion:131561894,cdp:131561894,rp:125007528,obligaciones:0,pagos:0,fuente:"SGP_LD"}],
     contrato:{numero:"ESAL 003 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS A TODO COSTO PARA EL TRANSPORTE ESCOLAR PARA LOS ESTUDIANTES QUE EFECTIVAMENTE SE ENCUENTREN MATRICULADOS EN EL SIMAT CON RESIDENCIA EN LAS DIFERENTES VEREDAS Y CORREGIMIENTOS PARA SER TRASLADADOS A LAS DIFERENTES INSTITUCIONES EDUCATIVAS OFICIALES DURANTE LA VIGENCIA 2026 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"COOPERATIVA DE TRANSPORTADORES DE FRONTINO",nit:"800220950",valor:387545943,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9390012"},
     hitos:[],
     codigoProductoDNP:"220102900",
@@ -379,7 +379,7 @@ let PROYECTOS = [
     valorTotal:30000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:30000000}],
-    ejecucion:[{vigencia:2026,apropiacion:30000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:30000000,cdp:30000000,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"220104902",
@@ -413,9 +413,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Planeación y Desarrollo Territorial", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:450000000,
-    avanceFisico:0, avanceFinanciero:5,
+    avanceFisico:0, avanceFinanciero:10,
     fuentes:[{f:"SGP_LI",monto:450000000}],
-    ejecucion:[{vigencia:2026,apropiacion:450000000,cdp:148850680,rp:148407396,obligaciones:23794302,pagos:23794302,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:450000000,cdp:158850680,rp:148407396,obligaciones:45196149,pagos:45196149,fuente:"SGP_LI"}],
     contrato:{numero:"MINC-002 DE 2026",tipo:"Suministro",objeto:"SUMINISTRO DE COMBUSTIBLE ACPM PARA LOS VEHICULOS Y MAQUINARIA PROPIEDAD DEL MUNICIPIO QUE TRABAJAN EN LOS PROYECTOS DE MANTENIMIENTO Y MEJORAMIENTO DE LAS REDES VIALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MAURICIO ELEJALDE GAVIRIA",nit:"71020141",valor:49025340,fecha:"2026-01-14",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9512230"},
     hitos:[],
     codigoProductoDNP:"240211200",
@@ -523,7 +523,7 @@ let PROYECTOS = [
     valorTotal:80000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_LI",monto:80000000}],
-    ejecucion:[{vigencia:2026,apropiacion:80000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:80000000,cdp:24000000,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"320204100",
@@ -539,9 +539,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Agricultura y Medio Ambiente", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:170000000,
-    avanceFisico:0, avanceFinanciero:4,
+    avanceFisico:0, avanceFinanciero:8,
     fuentes:[{f:"SGP_LI",monto:170000000}],
-    ejecucion:[{vigencia:2026,apropiacion:170000000,cdp:76842500,rp:76485996,obligaciones:7340996,pagos:7340996,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:170000000,cdp:92757500,rp:76485996,obligaciones:13255996,pagos:13255996,fuente:"SGP_LI"}],
     contrato:{numero:"CD-CPS-033 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION ADMINISTRATIVA EN EL CUMPLIMIENTO DE LA NORMATIVIDAD AMBIENTAL, EN LOS PLANES, PROGRAMAS Y SENTENCIAS CON RELACIÓN AL FOMENTO DE LAS BUENAS PRÁCTICAS AMBIENTALES PARA LA SOSTENIBILIDAD AMBIENTAL Y CONSERVACIÓN DE LOS ELEMENTOS NATURALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Paula Andrea Manco Alcaraz",nit:"1001580952",valor:15685996,fecha:"2026-01-20",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9645515"},
     hitos:[],
     codigoProductoDNP:"320801000",
@@ -577,7 +577,7 @@ let PROYECTOS = [
     valorTotal:110963093,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:70963093},{f:"SGP_LI",monto:40000000}],
-    ejecucion:[{vigencia:2026,apropiacion:70963093,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:40000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:70963093,cdp:70963093,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:40000000,cdp:9036907,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"320305000",
@@ -611,9 +611,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:42000000,
-    avanceFisico:0, avanceFinanciero:6,
+    avanceFisico:0, avanceFinanciero:11,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:42000000}],
-    ejecucion:[{vigencia:2026,apropiacion:42000000,cdp:9284000,rp:9284000,obligaciones:2321000,pagos:2321000,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:42000000,cdp:13926000,rp:9284000,obligaciones:4642000,pagos:4642000,fuente:"RECURSOS_PROPIOS"}],
     contrato:{numero:"CD-CPS-083 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA EN LA SECRETARIA DE GOBIERNO EN LABORES DE GESTIÓN DOCUMENTAL EN EL ARCHIVO MUNICIPAL DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MILDREY YASMID CARVAJAL DUQUE",nit:"1046953294",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9872988"},
     hitos:[],
     codigoProductoDNP:"330207000",
@@ -647,9 +647,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:182759000,
-    avanceFisico:0, avanceFinanciero:13,
+    avanceFisico:0, avanceFinanciero:25,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:84619031},{f:"SGP_CULTURA",monto:98139969}],
-    ejecucion:[{vigencia:2026,apropiacion:84619031,cdp:52490000,rp:52490000,obligaciones:13490000,pagos:13490000,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:98139969,cdp:36800000,rp:36800000,obligaciones:9800000,pagos:9800000,fuente:"SGP_CULTURA"}],
+    ejecucion:[{vigencia:2026,apropiacion:84619031,cdp:57390000,rp:52490000,obligaciones:26490000,pagos:26490000,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:98139969,cdp:97352000,rp:89352000,obligaciones:18800000,pagos:18800000,fuente:"SGP_CULTURA"}],
     contrato:{numero:"CD-CPS-056 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PARA LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROYECTOS ENCAMINADOS AL FOMENTO DE LA EXPRESIÓN Y CREACIÓN ARTÍSTICA, MEDIANTE LA COORDINACIÓN DEL PROGRAMA DE FORMACIÓN EN DANZAS Y BAILES FOLCLÓRICOS, EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO - ANTIOQUIA.",contratista:"VILMA MILENA ARIAS",nit:"39280716",valor:10200000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9761447"},
     hitos:[],
     codigoProductoDNP:"330105100",
@@ -686,7 +686,7 @@ let PROYECTOS = [
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:100000000}],
     ejecucion:[{vigencia:2026,apropiacion:100000000,cdp:13840000,rp:13600000,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
-    contrato:null,
+    contrato:{numero:"MINC-010 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE BIENES Y SERVICIOS PARA LA REALIZACIÓN DE ACTIVIDADES ARTÍSTICAS Y CULTURALES EN EL MARCO DE LA CELEBRACIÓN DE LA SEMANA SANTA CON EL FIN DE PROMOVER EL TURISMO RELIGIOSO, LA CULTURA Y LAS TRADICIONES FRONTINEÑAS",contratista:"JUAN FERNANDO CALLE",nit:"8085116",valor:13600000,fecha:"2026-03-27",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9422416&AwardContractDetailId=7467469&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     hitos:[],
     codigoProductoDNP:"330105300",
     indicadorDNP:"Eventos de promoción de actividades culturales realizados",
@@ -736,10 +736,10 @@ let PROYECTOS = [
     descripcion:"Mejoramiento de Viviendas de Interés Social para el fortalecimiento de condiciones de habitabilidad en el municipio de  Frontino ", objetivo:"Vivienda de Interes Social mejoradas",
     responsable:"Secretaria de Planeación y Desarrollo Territorial", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
-    valorTotal:95569410,
+    valorTotal:167329383,
     avanceFisico:0, avanceFinanciero:0,
-    fuentes:[{f:"SGP_LI",monto:95569410}],
-    ejecucion:[{vigencia:2026,apropiacion:95569410,cdp:92914811,rp:88714811,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    fuentes:[{f:"SGP_LI",monto:167329383}],
+    ejecucion:[{vigencia:2026,apropiacion:167329383,cdp:164674784,rp:88714811,obligaciones:65569410,pagos:0,fuente:"SGP_LI"}],
     contrato:{numero:"CI-003 DE 2026",tipo:"Suministro",objeto:"CONTRATO INTERADMINISTRATIVO DE MANDATO SIN REPRESENTACION DE ADMINISTRACIÓN DE RECURSOS PARA GESTIONAR EL SUMINISTRO DE MATERIALES PARA EL DESARROLLO DEL PROYECTO DE MEJORAMIENTO DE VIVIENDA DE LA ZONA URBANA O RURAL, EN EL MUNICIPIO DE FRONTINO, ANTIOQUIA.",contratista:"EMPRESA DE VIVIENDA DE ANTIOQUIA-VIVA",nit:"811032187",valor:69470790,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9935662"},
     hitos:[],
     codigoProductoDNP:"400104400",
@@ -754,10 +754,10 @@ let PROYECTOS = [
     descripcion:"Construcción e Viviendas de Interés Prioritario para la reducción del déficit habitacional en el municipio de  Frontino ", objetivo:"Vivienda de Interes Prioritario construidas",
     responsable:"Secretaria de Planeación y Desarrollo Territorial", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
-    valorTotal:398430590,
-    avanceFisico:0, avanceFinanciero:13,
-    fuentes:[{f:"SGP_LI",monto:398430590}],
-    ejecucion:[{vigencia:2026,apropiacion:398430590,cdp:50000000,rp:50000000,obligaciones:50000000,pagos:50000000,fuente:"SGP_LI"}],
+    valorTotal:254910644,
+    avanceFisico:0, avanceFinanciero:20,
+    fuentes:[{f:"SGP_LI",monto:254910644}],
+    ejecucion:[{vigencia:2026,apropiacion:254910644,cdp:50000000,rp:50000000,obligaciones:50000000,pagos:50000000,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"400103900",
@@ -847,7 +847,7 @@ let PROYECTOS = [
     valorTotal:816511812,
     avanceFisico:0, avanceFinanciero:23,
     fuentes:[{f:"SGP_APSB",monto:816511812}],
-    ejecucion:[{vigencia:2026,apropiacion:816511812,cdp:816511812,rp:816511812,obligaciones:186627384,pagos:186627384,fuente:"SGP_APSB"}],
+    ejecucion:[{vigencia:2026,apropiacion:816511812,cdp:816511812,rp:816511812,obligaciones:190533684,pagos:190533684,fuente:"SGP_APSB"}],
     contrato:{numero:"CI-001 DE 2026",tipo:"Contratos o convenios Interadministrativos",objeto:"Contrato interadministrativo de transferencia y/o recepción re recursos para el pago de subsidios a la Empresa de Servicios Públicos de Frontino E.S.P con desembolso de los recursos que se registren en el fondo de solidaridad y redistribución de ingresos FSRI destinados a subsidiar la demanda del servicio de acueducto, alcantarillado y aseo por los suscriptores de los estratos 1,2 y 3, después de aplicar la metodología del decreto 1077 de 2015 o la norma que lo modifique, adicione o derogue en",contratista:"EMPRESA DE SERVICIOS PUBLICOS DE FRONTINO E.S.P. FRONTINO",nit:"811019874",valor:800511812,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9619934"},
     hitos:[],
     codigoProductoDNP:"400304700",
@@ -883,7 +883,7 @@ let PROYECTOS = [
     valorTotal:15000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:15000000}],
-    ejecucion:[{vigencia:2026,apropiacion:15000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
+    ejecucion:[{vigencia:2026,apropiacion:15000000,cdp:15000000,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"410102500",
@@ -899,9 +899,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Gobierno y Servicios Administrativos", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:42480000,
-    avanceFisico:0, avanceFinanciero:8,
+    avanceFisico:0, avanceFinanciero:16,
     fuentes:[{f:"SGP_LD",monto:42480000}],
-    ejecucion:[{vigencia:2026,apropiacion:42480000,cdp:13620000,rp:13620000,obligaciones:3405000,pagos:3405000,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:42480000,cdp:20430000,rp:13620000,obligaciones:6810000,pagos:6810000,fuente:"SGP_LD"}],
     contrato:{numero:"CD-CPS-068 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA PARA EJERCER EL ROL COMO ENLACE OPERATIVO PARA EL APOYO INTEGRAL A LA POBLACIÓN VICTIMA POR DESPLAZAMIENTO Y OTROS HECHOS VICTIMIZANTES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Doris Ruth Arboleda Yepes",nit:"43781068",valor:13620000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9794603"},
     hitos:[],
     codigoProductoDNP:"410101400",
@@ -917,9 +917,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Gobierno y Servicios Administrativos", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:158217564,
-    avanceFisico:0, avanceFinanciero:9,
+    avanceFisico:0, avanceFinanciero:15,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:110000000},{f:"SGP_LI",monto:48217564}],
-    ejecucion:[{vigencia:2026,apropiacion:110000000,cdp:47008500,rp:44929500,obligaciones:13744500,pagos:13744500,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:48217564,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:110000000,cdp:67798500,rp:44929500,obligaciones:24139500,pagos:24139500,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:48217564,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:{numero:"CD-CPS-027 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA COMISARIA DE FAMILIA COMO PROFESIONAL EN TRABAJO SOCIAL EN EL MUNICIPIO DE FRONTINO - ANTIOQUIA",contratista:"MARIA CONSTANZA SANCHEZ JARAMILLO",nit:"43584162",valor:15592500,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9584475"},
     hitos:[],
     codigoProductoDNP:"410203800",
@@ -935,9 +935,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Gobierno y Servicios Administrativos", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:60000000,
-    avanceFisico:0, avanceFinanciero:13,
+    avanceFisico:0, avanceFinanciero:22,
     fuentes:[{f:"SGP_LD",monto:60000000}],
-    ejecucion:[{vigencia:2026,apropiacion:60000000,cdp:15000000,rp:15000000,obligaciones:7941000,pagos:7941000,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:60000000,cdp:22500000,rp:22500000,obligaciones:13345000,pagos:13345000,fuente:"SGP_LD"}],
     contrato:{numero:"CD-CPS-025 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN MEDIANTE LA ATENCIÓN INTEGRAL A NIÑOS NIÑAS Y ADOLESCENTES EN MEDIDA DE PROTECCIÓN MODALIDAD HOGAR DE PASO DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Nora Dielly Giraldo Ferraro",nit:"43150080",valor:15000000,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9582332"},
     hitos:[],
     codigoProductoDNP:"410200100",
@@ -953,9 +953,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:27720000,
-    avanceFisico:0, avanceFinanciero:11,
+    avanceFisico:0, avanceFinanciero:19,
     fuentes:[{f:"SGP_LD",monto:27720000}],
-    ejecucion:[{vigencia:2026,apropiacion:27720000,cdp:10105000,rp:10105000,obligaciones:3055000,pagos:3055000,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:27720000,cdp:14805000,rp:10105000,obligaciones:5405000,pagos:5405000,fuente:"SGP_LD"}],
     contrato:{numero:"CD-CPS-042 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN DE LOS PROGRAMAS DE DPS: RENTA CIUDADANA Y DEVOLUCIÓN DEL IVA EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA",contratista:"LUISA FERNANDA PUERTA RUEDA",nit:"1038333888",valor:10105000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9722269"},
     hitos:[],
     codigoProductoDNP:"410204300",
@@ -971,9 +971,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:56000002,
-    avanceFisico:0, avanceFinanciero:4,
+    avanceFisico:0, avanceFinanciero:9,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:37328368},{f:"SGP_LD",monto:18671634}],
-    ejecucion:[{vigencia:2026,apropiacion:37328368,cdp:35000000,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:18671634,cdp:9600000,rp:7500000,obligaciones:2500000,pagos:2500000,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:37328368,cdp:36598500,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:18671634,cdp:13350000,rp:11250000,obligaciones:5000000,pagos:5000000,fuente:"SGP_LD"}],
     contrato:{numero:"CD-CPS-076 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN EL FORTALECIMIENTO Y COORDINACIÓN DE LA POLITICA PUBLICA DE JUVENTUDES DEL MUNICIPIO DE FRONTINO ANTIOQUIA\"",contratista:"Sebastian Florez Marin",nit:"1038926262",valor:7500000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9791649"},
     hitos:[],
     codigoProductoDNP:"410204200",
@@ -1025,9 +1025,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Salud y Protección Social", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:27720000,
-    avanceFisico:0, avanceFinanciero:8,
+    avanceFisico:0, avanceFinanciero:17,
     fuentes:[{f:"SGP_LD",monto:27720000}],
-    ejecucion:[{vigencia:2026,apropiacion:27720000,cdp:10000000,rp:9284000,obligaciones:2321000,pagos:2321000,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:27720000,cdp:10000000,rp:9284000,obligaciones:4642000,pagos:4642000,fuente:"SGP_LD"}],
     contrato:{numero:"CD-CPS-085 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PARA LA IMPLEMENTACIÓN DEL PROYECTO DE ATENCIÓN INTEGRAL A LA POBLACIÓN EN CONDICIÓN O SITUACIÓN DE DISCAPACIDAD EN CUMPLIMIENTO A LA POLÍTICA PÚBLICA DE DISCAPACIDAD EN LA VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"DORA ALICIA SARRAZOLA ESTRADA",nit:"21743837",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9877200"},
     hitos:[],
     codigoProductoDNP:"410402000",
@@ -1063,7 +1063,7 @@ let PROYECTOS = [
     valorTotal:50000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_LI",monto:50000000}],
-    ejecucion:[{vigencia:2026,apropiacion:50000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:50000000,cdp:50000000,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"430102400",
@@ -1099,7 +1099,7 @@ let PROYECTOS = [
     valorTotal:100000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_LI",monto:100000000}],
-    ejecucion:[{vigencia:2026,apropiacion:100000000,cdp:15000000,rp:15000000,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:100000000,cdp:45000000,rp:42668325,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"450200300",
@@ -1115,9 +1115,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:75000000,
-    avanceFisico:0, avanceFinanciero:9,
+    avanceFisico:0, avanceFinanciero:16,
     fuentes:[{f:"SGP_LI",monto:75000000}],
-    ejecucion:[{vigencia:2026,apropiacion:75000000,cdp:63276666,rp:22466656,obligaciones:6656656,pagos:6656656,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:75000000,cdp:68476666,rp:63016656,obligaciones:11926656,pagos:11926656,fuente:"SGP_LI"}],
     contrato:{numero:"CD-CPS-017 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTION PARA LA PROMOCION, SENSIBILIZACION Y FORTALECIMIENTO DE ORGANIZACIONES COMUNALES Y DE CUALQUIER OTRA INDOLE E IMPULSAR LA FORMALIZACION EMPRESARIAL, CONFORME A LAS POTENCIALIDADES IDENTIFICADAS EN EL MUNICIPIO DE FRONTINO -ANTIOQUIA",contratista:"LILIANA MARIA GUISAO GUISAO",nit:"32278431",valor:11786656,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9555127"},
     hitos:[],
     codigoProductoDNP:"450200100",
@@ -1135,7 +1135,7 @@ let PROYECTOS = [
     valorTotal:170000000,
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"SGP_LI",monto:170000000}],
-    ejecucion:[{vigencia:2026,apropiacion:170000000,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    ejecucion:[{vigencia:2026,apropiacion:170000000,cdp:148901214,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"450302200",
@@ -1151,9 +1151,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Planeación y Desarrollo Territorial", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:403781547,
-    avanceFisico:0, avanceFinanciero:0,
+    avanceFisico:0, avanceFinanciero:3,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:313170484},{f:"SGP_LD",monto:90611063}],
-    ejecucion:[{vigencia:2026,apropiacion:313170484,cdp:48300000,rp:0,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:90611063,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LD"}],
+    ejecucion:[{vigencia:2026,apropiacion:313170484,cdp:298300000,rp:11640000,obligaciones:11640000,pagos:11640000,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:90611063,cdp:0,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LD"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"450302800",
@@ -1475,9 +1475,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Salud y Protección Social", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:108000000,
-    avanceFisico:0, avanceFinanciero:16,
+    avanceFisico:0, avanceFinanciero:18,
     fuentes:[{f:"SGP_SALUD",monto:108000000}],
-    ejecucion:[{vigencia:2026,apropiacion:108000000,cdp:51150000,rp:48839993,obligaciones:17615000,pagos:17615000,fuente:"SGP_SALUD"}],
+    ejecucion:[{vigencia:2026,apropiacion:108000000,cdp:51150000,rp:48839993,obligaciones:19615000,pagos:19615000,fuente:"SGP_SALUD"}],
     contrato:{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:6300000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"},
     hitos:[],
     codigoProductoDNP:"190505200",
@@ -1493,9 +1493,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Salud y Protección Social", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:150968761,
-    avanceFisico:0, avanceFinanciero:10,
+    avanceFisico:0, avanceFinanciero:13,
     fuentes:[{f:"SGP_SALUD",monto:150968761}],
-    ejecucion:[{vigencia:2026,apropiacion:150968761,cdp:107033333,rp:103763333,obligaciones:14833333,pagos:14833333,fuente:"SGP_SALUD"}],
+    ejecucion:[{vigencia:2026,apropiacion:150968761,cdp:107033333,rp:103763333,obligaciones:19248333,pagos:19248333,fuente:"SGP_SALUD"}],
     contrato:{numero:"CD-CPS-037 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DEL PROCESO DE GESTIÓN DE VIGILANCIA BASADA EN LA COMUNIDAD INCLUYENDO ACCIONES DEL PLAN AMPLIADO DE INMUNIZACIONES, DESARROLLO DE CAPACIDADES Y COORDINACIÓN INTERSECTORIAL PARA LA ADAPTACIÓN Y MITIGACIÓN DEL CAMBIO CLIMÁTICO Y SUS EFECTOS EN SALUD EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"CRISTIAN CAMILO RODRIGUEZ VALLE",nit:"1038336263",valor:11700000,fecha:"2026-01-22",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9690697"},
     hitos:[],
     codigoProductoDNP:"190505400",
@@ -1511,9 +1511,9 @@ let PROYECTOS = [
     responsable:"Secretaria de Salud y Protección Social", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:28444310444,
-    avanceFisico:0, avanceFinanciero:28,
+    avanceFisico:0, avanceFinanciero:38,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:16658667364},{f:"SGP_SALUD",monto:11785643080}],
-    ejecucion:[{vigencia:2026,apropiacion:16658667364,cdp:16658667364,rp:5437873680,obligaciones:5437873680,pagos:5437873680,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:11785643080,cdp:11785643080,rp:3088884030,obligaciones:2649484735,pagos:2649484735,fuente:"SGP_SALUD"}],
+    ejecucion:[{vigencia:2026,apropiacion:16658667364,cdp:16658667364,rp:6972223794,obligaciones:6972223794,pagos:6972223794,fuente:"RECURSOS_PROPIOS"},{vigencia:2026,apropiacion:11785643080,cdp:11785643080,rp:4194000941,obligaciones:3754601646,pagos:3754601646,fuente:"SGP_SALUD"}],
     contrato:null,
     hitos:[],
     codigoProductoDNP:"190604400",
@@ -1550,10 +1550,28 @@ let PROYECTOS = [
     avanceFisico:0, avanceFinanciero:0,
     fuentes:[{f:"RECURSOS_PROPIOS",monto:32106043}],
     ejecucion:[{vigencia:2026,apropiacion:32106043,cdp:32106043,rp:30899000,obligaciones:0,pagos:0,fuente:"RECURSOS_PROPIOS"}],
-    contrato:null,
+    contrato:{numero:"MINC-008 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE MENAJE, MATERIALES Y DEMÁS ELEMENTOS NECESARIOS PARA EL FORTALECIMIENTO COMUNITARIO, CON EL FIN DE GARANTIZAR DE FORMA ADECUADA Y OPORTUNA EN EL ACOMPAÑAMIENTO Y LA PROTECCIÓN DE LOS DERECHOS ETNICOS Y COLECTIVOS EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"GUILLERMO LEON VELEZ GOMEZ",nit:"71629613",valor:30899000,fecha:"2026-02-28",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9366231&AwardContractDetailId=7431140&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     hitos:[],
     codigoProductoDNP:"410303100",
     indicadorDNP:"Centros comunitarios dotados",
+    unidadDNP:"Número"
+  },
+  {
+    bpin:"202600000011039", nombre:"Mejoramiento de Viviendas de Interés Prioritario VIP para el fortalecimiento de condiciones de habitabilidad en el municipio de Frontino",
+    sector:"VIVIENDA, CIUDAD Y TERRITORIO", estado:"EN_EJECUCION",
+    programaPDM:"4003",
+    fechaInicio:"2026-05-01", fechaFin:"2026-12-31",
+    descripcion:"Mejoramiento de Viviendas de Interés Prioritario VIP para el fortalecimiento de condiciones de habitabilidad en el municipio de Frontino", objetivo:"Vivienda de Interes Prioritario mejoradas",
+    responsable:"Secretaria de Planeación y Desarrollo Territorial", poblacionBeneficiada:21905,
+    tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
+    valorTotal:71759973,
+    avanceFisico:0, avanceFinanciero:0,
+    fuentes:[{f:"SGP_LI",monto:71759973}],
+    ejecucion:[{vigencia:2026,apropiacion:71759973,cdp:71759973,rp:0,obligaciones:0,pagos:0,fuente:"SGP_LI"}],
+    contrato:null,
+    hitos:[],
+    codigoProductoDNP:"400104100",
+    indicadorDNP:"Vivienda de Interés Prioritario mejoradas",
     unidadDNP:"Número"
   },
   {
@@ -1679,10 +1697,10 @@ function formatBPIN(bpin) {
 
 function formatCOP(v) {
   const n = Number(v)||0;
-  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+' B';      // billón real (10¹²)
-  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+' mmM';     // miles de millones (10⁹)
-  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+' M';       // millones
-  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+' K';       // miles
+  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+'B';
+  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+'B';
+  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+'M';
+  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+'K';
   return '$'+n.toFixed(0);
 }
 
@@ -1691,13 +1709,30 @@ function formatCOPFull(v) {
 }
 
 function semaforoColor(fisico, financiero, estado) {
+  // Estados especiales
   if (estado==='SUSPENDIDO') return 'ROJO';
   if (estado==='TERMINADO'||estado==='CERRADO') return 'VERDE';
+  // Sin semáforo para proyectos que aún no arrancan
   if (estado==='FORMULACION'||estado==='VIABILIZADO'||estado==='REGISTRADO') return null;
-  const f=Number(fisico)||0, g=Number(financiero)||0;
-  const brecha=Math.abs(f-g);
-  if (brecha>=25||(f<15&&g>35)) return 'ROJO';
-  if (brecha>=15) return 'AMARILLO';
+
+  const f = Number(fisico)  || 0;
+  const g = Number(financiero) || 0;
+
+  // ① Sin ningún avance → Atención Prioritaria (proyecto paralizado)
+  if (f === 0 && g === 0) return 'ROJO';
+
+  const brecha = Math.abs(f - g);
+
+  // ② Solo uno de los dos tiene avance → Alerta (desequilibrio)
+  if (f === 0 || g === 0) return 'AMARILLO';
+
+  // ③ Brecha crítica entre físico y financiero
+  if (brecha >= 25 || (f < 15 && g > 35)) return 'ROJO';
+
+  // ④ Brecha moderada → Seguimiento
+  if (brecha >= 15) return 'AMARILLO';
+
+  // ⑤ Ambos avanzan y brecha controlada → Normal
   return 'VERDE';
 }
 
