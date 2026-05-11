@@ -175,7 +175,7 @@ function DashboardPage() {
   const vigencia = React.useContext(VigenciaContext);
   const totalInversion = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.apropiacion||0);},0);
   const totalPagado   = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.pagos||0);},0);
-  const enEjecucion   = PROYECTOS.filter(p=>p.estado==='EJECUCION');
+  const enEjecucion   = PROYECTOS.filter(p=>p.estado==='EN_EJECUCION'||p.estado==='EJECUCION');
   const avgFis  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFisico,0)/enEjecucion.length) : 0;
   const avgFin  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFinanciero,0)/enEjecucion.length) : 0;
   const alertas = enEjecucion.filter(p=>Math.abs(p.avanceFisico-p.avanceFinanciero)>15).length;
@@ -189,40 +189,50 @@ function DashboardPage() {
     return {sector:cfg.label,apropiacion:ap/1e9,pagos:pg/1e9,avanceFisico:af,count:ps.length,color:cfg.color};
   }).filter(Boolean);
 
-  const fuentesData = Object.entries(FUENTES).map(([key,cfg])=>{
-    const t=PROYECTOS.reduce((a,p)=>{const f=p.fuentes.find(f=>f.f===key);return a+(f?.monto||0);},0);
-    return {name:cfg.label,value:t/1e9,color:cfg.color};
+  // Agrupamos fuentes por padre (SGP_LI, SGP_SALUD… → SGP)
+  const fuentesData = FUENTES_PADRE.map(key => {
+    const cfg = FUENTES[key];
+    const childKeys = Object.entries(FUENTES)
+      .filter(([k,v]) => k===key || v.parent===key)
+      .map(([k]) => k);
+    const t = PROYECTOS.reduce((a,p) =>
+      a + p.fuentes.filter(f=>childKeys.includes(f.f)).reduce((s,f)=>s+(f.monto||0),0)
+    , 0);
+    return {name: cfg.full || cfg.label, value: t/1e9, color: cfg.color};
   }).filter(d=>d.value>0);
 
-  const estadosData = Object.entries(ESTADOS).map(([key,cfg])=>({
-    estado:cfg.label, count:PROYECTOS.filter(p=>p.estado===key).length, color:cfg.color
-  })).filter(d=>d.count>0);
+  // Deduplica EJECUCION / EN_EJECUCION (mismo estado, distinta clave legacy)
+  const estadosData = Object.entries(ESTADOS)
+    .filter(([key])=>key!=='EJECUCION')   // EN_EJECUCION es la clave real; EJECUCION es alias
+    .map(([key,cfg])=>({
+      estado:cfg.label, count:PROYECTOS.filter(p=>p.estado===key).length, color:cfg.color
+    })).filter(d=>d.count>0);
 
   const proyAlerta = enEjecucion
     .map(p=>({...p,brecha:Math.abs(p.avanceFisico-p.avanceFinanciero)}))
     .filter(p=>p.brecha>5).sort((a,b)=>b.brecha-a.brecha).slice(0,5);
 
   return (
-    <div>
+    <div style={{width:'100%',minWidth:0}}>
       <div style={{marginBottom:24}}>
         <h1 style={{margin:0,fontSize:22,fontWeight:800,color:'#111827'}}>📊 Dashboard Ejecutivo</h1>
         <p style={{margin:'4px 0 0',color:'#6b7280',fontSize:14}}>{PDM.municipio} · Vigencia {vigencia} · PDM {PDM.periodo} "{PDM.nombre}"</p>
       </div>
 
       {/* KPIs */}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(175px,1fr))',gap:16,marginBottom:24}}>
-        <KPICard icon="📁" label="Total Proyectos"        value={PROYECTOS.length} sub={`${enEjecucion.length} en ejecución`} color="#2563eb"/>
-        <KPICard icon="💰" label={`Inversión ${vigencia}`}   value={formatCOP(totalInversion)} sub="Apropiación vigente" color="#059669"/>
-        <KPICard icon="✅" label="Pagos acumulados"        value={formatCOP(totalPagado)} sub={`${totalInversion?((totalPagado/totalInversion)*100).toFixed(1):0}% ejecutado`} color="#7c3aed"/>
-        <KPICard icon="🏗️" label="Avance Físico Prom."    value={`${avgFis}%`} sub="Proyectos activos" color="#0891b2"/>
-        <KPICard icon="📈" label="Avance Financiero Prom." value={`${avgFin}%`} sub="Proyectos activos" color="#f59e0b"/>
-        <KPICard icon="⚠️" label="Alertas Activas"         value={alertas} sub="Brecha >15pp" color="#ef4444"/>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:14,marginBottom:24}}>
+        <KPICard icon="📁" label="Total Proyectos"         value={PROYECTOS.length}          sub={`${enEjecucion.length} en ejecución`}                                   color="#2563eb"/>
+        <KPICard icon="💰" label={`Inversión ${vigencia}`} value={formatCOP(totalInversion)}  sub="Apropiación vigente"                                                     color="#059669"/>
+        <KPICard icon="✅" label="Pagos acumulados"         value={formatCOP(totalPagado)}     sub={`${totalInversion?((totalPagado/totalInversion)*100).toFixed(1):0}% ejecutado`} color="#7c3aed"/>
+        <KPICard icon="🏗️" label="Avance Físico Prom."     value={`${avgFis}%`}              sub="Proyectos activos"                                                        color="#0891b2"/>
+        <KPICard icon="📈" label="Avance Financiero Prom." value={`${avgFin}%`}              sub="Proyectos activos"                                                        color="#f59e0b"/>
+        <KPICard icon="⚠️" label="Alertas Activas"          value={alertas}                   sub="Brecha >15pp"                                                             color="#ef4444"/>
       </div>
 
-      {/* Tendencia mensual */}
+      {/* Tendencia mensual — ancho completo */}
       <Card title={`Tendencia de Ejecución Presupuestal ${vigencia}`} subtitle="Apropiado vs Comprometido vs Pagado — miles de millones COP" style={{marginBottom:20}}>
-        <ResponsiveContainer width="100%" height={220}>
-          <AreaChart data={TENDENCIA_MENSUAL} margin={{top:5,right:10,left:0,bottom:0}}>
+        <ResponsiveContainer width="100%" height={230}>
+          <AreaChart data={TENDENCIA_MENSUAL} margin={{top:5,right:20,left:10,bottom:0}}>
             <defs>
               <linearGradient id="gAp" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#93c5fd" stopOpacity={0.4}/><stop offset="95%" stopColor="#93c5fd" stopOpacity={0}/></linearGradient>
               <linearGradient id="gCo" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/><stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/></linearGradient>
@@ -230,8 +240,8 @@ function DashboardPage() {
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
             <XAxis dataKey="mes" tick={{fontSize:11}}/>
-            <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v}B`}/>
-            <Tooltip formatter={(v,n)=>[`$${v}B`,{apropiado:'Apropiado',comprometido:'Comprometido',pagado:'Pagado'}[n]||n]}/>
+            <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v} mmM`}/>
+            <Tooltip formatter={(v,n)=>[`$${v} mmM`,{apropiado:'Apropiado',comprometido:'Comprometido',pagado:'Pagado'}[n]||n]}/>
             <Legend/>
             <Area type="monotone" dataKey="apropiado"    stroke="#93c5fd" fill="url(#gAp)" strokeWidth={2} name="apropiado"/>
             <Area type="monotone" dataKey="comprometido" stroke="#8b5cf6" fill="url(#gCo)" strokeWidth={2} name="comprometido"/>
@@ -240,13 +250,14 @@ function DashboardPage() {
         </ResponsiveContainer>
       </Card>
 
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,marginBottom:20}}>
-        <Card title={`Ejecución por Sector (${vigencia})`} subtitle="Apropiado vs Pagado — $B COP">
-          <ResponsiveContainer width="100%" height={270}>
-            <BarChart data={porSector} margin={{top:5,right:5,left:0,bottom:65}}>
+      {/* Fila 2: Sector (60%) + Fuentes (40%) */}
+      <div style={{display:'grid',gridTemplateColumns:'3fr 2fr',gap:20,marginBottom:20}}>
+        <Card title={`Ejecución por Sector (${vigencia})`} subtitle="Apropiado vs Pagado — mmM COP">
+          <ResponsiveContainer width="100%" height={290}>
+            <BarChart data={porSector} margin={{top:5,right:10,left:10,bottom:70}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
               <XAxis dataKey="sector" tick={{fontSize:10}} angle={-38} textAnchor="end" interval={0}/>
-              <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v.toFixed(1)} mmM`}/>
+              <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v.toFixed(1)}`}/>
               <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)} mmM`,n==='apropiacion'?'Apropiado':'Pagado']}/>
               <Legend verticalAlign="top"/>
               <Bar dataKey="apropiacion" name="Apropiado" fill="#93c5fd" radius={[3,3,0,0]}/>
@@ -255,26 +266,27 @@ function DashboardPage() {
           </ResponsiveContainer>
         </Card>
 
-        <Card title="Fuentes de Financiación" subtitle="Distribución inversión total">
-          <ResponsiveContainer width="100%" height={270}>
+        <Card title="Fuentes de Financiación" subtitle="Distribución de la inversión por fuente">
+          <ResponsiveContainer width="100%" height={290}>
             <PieChart>
-              <Pie data={fuentesData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={95} innerRadius={40}>
+              <Pie data={fuentesData} dataKey="value" nameKey="name" cx="50%" cy="44%"
+                   outerRadius={100} innerRadius={46} paddingAngle={2}>
                 {fuentesData.map((d,i)=><Cell key={i} fill={d.color}/>)}
               </Pie>
-              <Tooltip formatter={v=>`$${v.toFixed(2)} mmM`}/>
-              <Legend iconType="circle" iconSize={10}/>
+              <Tooltip formatter={(v,n)=>[`$${v.toFixed(2)} mmM`, n]}/>
+              <Legend iconType="circle" iconSize={10} wrapperStyle={{fontSize:12}}/>
             </PieChart>
           </ResponsiveContainer>
         </Card>
       </div>
 
-      <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:20,marginBottom:20}}>
-        {/* Radar PDM */}
-        <Card title="Cumplimiento PDM por Dimensión" subtitle="Avance 2024 vs meta cuatrienio">
-          <ResponsiveContainer width="100%" height={260}>
-            <RadarChart data={PDM.indicadoresRadar} cx="50%" cy="50%" outerRadius={90}>
+      {/* Fila 3: Radar (55%) + Estado Proyectos (45%) */}
+      <div style={{display:'grid',gridTemplateColumns:'55fr 45fr',gap:20,marginBottom:20}}>
+        <Card title="Cumplimiento PDM por Dimensión" subtitle={`Avance logrado vs meta cuatrienio — ${vigencia}`}>
+          <ResponsiveContainer width="100%" height={280}>
+            <RadarChart data={PDM.indicadoresRadar} cx="50%" cy="50%" outerRadius={100}>
               <PolarGrid/>
-              <PolarAngleAxis dataKey="eje" tick={{fontSize:11}}/>
+              <PolarAngleAxis dataKey="eje" tick={{fontSize:10,fill:'#374151'}} width={120}/>
               <Radar name="Logrado" dataKey="logrado" stroke="#2563eb" fill="#2563eb" fillOpacity={0.25} strokeWidth={2}/>
               <Radar name="Meta"    dataKey="meta"    stroke="#10b981" fill="#10b981" fillOpacity={0.08} strokeWidth={1} strokeDasharray="5 5"/>
               <Legend/>
@@ -283,17 +295,27 @@ function DashboardPage() {
           </ResponsiveContainer>
         </Card>
 
-        {/* Estado proyectos */}
-        <Card title="Estado Proyectos" subtitle="Por tipo">
-          <ResponsiveContainer width="100%" height={260}>
+        <Card title="Estado Proyectos" subtitle={`${PROYECTOS.length} proyectos registrados`}>
+          <ResponsiveContainer width="100%" height={200}>
             <PieChart>
-              <Pie data={estadosData} dataKey="count" nameKey="estado" cx="50%" cy="50%" innerRadius={45} outerRadius={90}>
+              <Pie data={estadosData} dataKey="count" nameKey="estado" cx="50%" cy="50%"
+                   innerRadius={50} outerRadius={85} paddingAngle={2}>
                 {estadosData.map((d,i)=><Cell key={i} fill={d.color}/>)}
               </Pie>
-              <Tooltip/>
-              <Legend iconType="circle" iconSize={10}/>
+              <Tooltip formatter={(v,n)=>[`${v} proyectos`, n]}/>
+              <Legend iconType="circle" iconSize={10} wrapperStyle={{fontSize:12}}/>
             </PieChart>
           </ResponsiveContainer>
+          {/* Lista de conteos por estado */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginTop:12}}>
+            {estadosData.map((d,i)=>(
+              <div key={i} style={{display:'flex',alignItems:'center',gap:6,padding:'6px 10px',background:'#f9fafb',borderRadius:8}}>
+                <span style={{width:8,height:8,borderRadius:'50%',background:d.color,flexShrink:0}}/>
+                <span style={{fontSize:11,color:'#374151',flex:1,lineHeight:1.2}}>{d.estado}</span>
+                <strong style={{fontSize:14,color:d.color}}>{d.count}</strong>
+              </div>
+            ))}
+          </div>
         </Card>
       </div>
 
@@ -1436,7 +1458,7 @@ function App() {
                       <span style={{fontSize:15,flexShrink:0}}>{item.icon}</span>
                       <span style={{whiteSpace:'nowrap',fontSize:12.5}}>{item.label}</span>
                       {item.id==='alertas' && (() => {
-                        const cnt = PROYECTOS.filter(p=>p.estado==='SUSPENDIDO'||(p.estado==='EJECUCION'&&Math.abs(p.avanceFisico-p.avanceFinanciero)>15)).length;
+                        const cnt = PROYECTOS.filter(p=>p.estado==='SUSPENDIDO'||((p.estado==='EN_EJECUCION'||p.estado==='EJECUCION')&&Math.abs(p.avanceFisico-p.avanceFinanciero)>15)).length;
                         return cnt>0?<span style={{marginLeft:'auto',background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:800,padding:'1px 6px',minWidth:18,textAlign:'center'}}>{cnt}</span>:null;
                       })()}
                     </button>

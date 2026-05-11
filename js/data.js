@@ -27,28 +27,40 @@ const SECTORES = {
 };
 
 const ESTADOS = {
-  FORMULACION: { label: 'Formulación',   color: '#f59e0b', bg: '#fef3c7', text: '#92400e' },
-  VIABILIZADO:  { label: 'Viabilizado',  color: '#3b82f6', bg: '#dbeafe', text: '#1e40af' },
-  REGISTRADO:   { label: 'Registrado',   color: '#8b5cf6', bg: '#ede9fe', text: '#5b21b6' },
-  EJECUCION:    { label: 'En Ejecución', color: '#10b981', bg: '#d1fae5', text: '#065f46' },
-  TERMINADO:    { label: 'Terminado',    color: '#6b7280', bg: '#f3f4f6', text: '#374151' },
-  CERRADO:      { label: 'Cerrado',      color: '#1f2937', bg: '#e5e7eb', text: '#111827' },
-  SUSPENDIDO:   { label: 'Suspendido',   color: '#ef4444', bg: '#fee2e2', text: '#991b1b' },
+  FORMULACION:  { label: 'Formulación',   color: '#f59e0b', bg: '#fef3c7', text: '#92400e' },
+  VIABILIZADO:  { label: 'Viabilizado',   color: '#3b82f6', bg: '#dbeafe', text: '#1e40af' },
+  REGISTRADO:   { label: 'Registrado',    color: '#8b5cf6', bg: '#ede9fe', text: '#5b21b6' },
+  EJECUCION:    { label: 'En Ejecución',  color: '#10b981', bg: '#d1fae5', text: '#065f46' },
+  EN_EJECUCION: { label: 'En Ejecución',  color: '#10b981', bg: '#d1fae5', text: '#065f46' },
+  TERMINADO:    { label: 'Terminado',     color: '#6b7280', bg: '#f3f4f6', text: '#374151' },
+  CERRADO:      { label: 'Cerrado',       color: '#1f2937', bg: '#e5e7eb', text: '#111827' },
+  SUSPENDIDO:   { label: 'Suspendido',    color: '#ef4444', bg: '#fee2e2', text: '#991b1b' },
 };
 
 const FUENTES = {
-  SGP:              { label: 'SGP',          full: 'Sistema General de Participaciones', color: '#2563eb' },
-  SGR:              { label: 'SGR',          full: 'Sistema General de Regalías',        color: '#16a34a' },
-  RECURSOS_PROPIOS: { label: 'Rec. Propios', full: 'Recursos Propios',                  color: '#d97706' },
-  CREDITO:          { label: 'Crédito',      full: 'Crédito Público',                   color: '#7c3aed' },
-  COFINANCIACION:   { label: 'Cofinanciac.', full: 'Cofinanciación',                    color: '#0891b2' },
+  SGP:              { label: 'SGP',              full: 'Sistema General de Participaciones',             color: '#2563eb', parent: null },
+  SGP_LI:           { label: 'SGP-L.Iberal',     full: 'SGP Libre Inversión',                            color: '#3b82f6', parent: 'SGP'  },
+  SGP_LD:           { label: 'SGP-L.Destino',    full: 'SGP Libre Destinación',                          color: '#60a5fa', parent: 'SGP'  },
+  SGP_SALUD:        { label: 'SGP-Salud',         full: 'SGP Salud',                                      color: '#6366f1', parent: 'SGP'  },
+  SGP_EDUCACION:    { label: 'SGP-Educación',     full: 'SGP Educación',                                  color: '#8b5cf6', parent: 'SGP'  },
+  SGP_APSB:         { label: 'SGP-APSB',          full: 'SGP Agua Potable y Saneamiento Básico',          color: '#0891b2', parent: 'SGP'  },
+  SGP_PAE:          { label: 'SGP-Alim.Escolar',  full: 'SGP Programa de Alimentación Escolar',          color: '#0ea5e9', parent: 'SGP'  },
+  SGP_CULTURA:      { label: 'SGP-Cultura',       full: 'SGP Cultura',                                    color: '#9333ea', parent: 'SGP'  },
+  SGP_DEPORTE:      { label: 'SGP-Deporte',       full: 'SGP Deporte y Recreación',                       color: '#7c3aed', parent: 'SGP'  },
+  SGP_PROP:         { label: 'SGP-Propósito Gral',full: 'SGP Propósito General',                          color: '#4f46e5', parent: 'SGP'  },
+  SGR:              { label: 'SGR',               full: 'Sistema General de Regalías',                    color: '#16a34a', parent: null },
+  RECURSOS_PROPIOS: { label: 'Rec. Propios',      full: 'Recursos Propios',                               color: '#d97706', parent: null },
+  CREDITO:          { label: 'Crédito',           full: 'Crédito Público',                                color: '#7c3aed', parent: null },
+  COFINANCIACION:   { label: 'Cofinanciac.',      full: 'Cofinanciación',                                 color: '#0891b2', parent: null },
 };
+// Fuentes de nivel superior (para gráficas agrupadas)
+const FUENTES_PADRE = ['SGP','SGR','RECURSOS_PROPIOS','CREDITO','COFINANCIACION'];
 
 // ---------------------------------------------------------------
 // PROYECTOS (25 proyectos)
 // ---------------------------------------------------------------
 
-// ─── Datos generados por cargar_datos.py — 2026-05-11 11:55:49 ───────────────────────────
+// ─── Datos generados por cargar_datos.py — 2026-05-11 14:28:39 ───────────────────────────
 
 const PDM = {
   municipio:"Frontino",
@@ -77,12 +89,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400303100",
+    codigoProductoDNP:"",
     indicadorDNP:"Estaciones de clasificación y aprovechamiento de residuos sólidos construidas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003031",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047399", nombre:"Fortalecimiento del acceso efectivo a la justicia mediante el apoyo integral a la Casa de Justicia del Municipio de  Frontino ",
@@ -99,12 +111,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"120201800",
+    codigoProductoDNP:"",
     indicadorDNP:"Iniciativas viabilizadas apoyadas a las comunidades etnicas, al programa nacional de casa de justicia y las iniciativas, estretegias y poryectos en materia de acceso a la justicia",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1202018",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047402", nombre:"Prestación del servicio de alimentación como componente del bienestar integral de las personas privadas de la libertad en el municipio de  Frontino ",
@@ -121,12 +133,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"120600702",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas privadas de la libertad (PPL) con servicio de alimentacion",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1206007",
+    metaCuatrienio:"100",
+    metaVigencia:"25"
   },
   {
     bpin:"202500000047404", nombre:"Fortalecimiento de los procesos de educación para el trabajo, resocialización y desarrollo humano de adolescentes vinculados al CETRA del municipio de  Frontino ",
@@ -143,12 +155,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-087 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTION ADMINISTRATIVA PARA EL FUNCIONAMIENTO, CUSTODIA Y NORMAL DESARROLLO DEL CENTRO TRANSITORIO DE APREHENSION DE ADOLESCENTES PRESUNTOS INFRACTORES DE LA LEY PENAL EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA MORENO MORENO ",nit:"1038332006",valor:4000000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9891819"},
     contratos:[{numero:"CD-CPS-087 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTION ADMINISTRATIVA PARA EL FUNCIONAMIENTO, CUSTODIA Y NORMAL DESARROLLO DEL CENTRO TRANSITORIO DE APREHENSION DE ADOLESCENTES PRESUNTOS INFRACTORES DE LA LEY PENAL EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA MORENO MORENO ",nit:"1038332006",valor:4000000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9891819"}],
     hitos:[],
-    codigoProductoDNP:"120601400",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas beneficiarias de procesos de informacion para el trabajo y desarrollo humano",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1206014",
+    metaCuatrienio:"200",
+    metaVigencia:"50"
   },
   {
     bpin:"202500000047408", nombre:"Servicio de resocialización de personas privadas de la libertad mediante convenio interinstitucional con el INPEC del municipio de  Frontino ",
@@ -165,12 +177,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"120203300",
+    codigoProductoDNP:"",
     indicadorDNP:"Espacios de articulacion generados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1202033",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047414", nombre:"Formulación de la cartografía de zonificación y evaluación de tierras para el ordenamiento social y uso productivo del territorio rural del municipio de  Frontino ",
@@ -187,12 +199,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"170400100",
+    codigoProductoDNP:"",
     indicadorDNP:"Mapas de zonificación elaborados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1704001",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047417", nombre:"Formulación del Plan de Desarrollo Agropecuario para la inclusión productiva de pequeños productores rurales del municipio de  Frontino ",
@@ -209,12 +221,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"170202301",
+    codigoProductoDNP:"",
     indicadorDNP:"Formulación de plan de Desarrollo Agropecuario y Rural ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1702023",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047420", nombre:"Formulación de la asistencia técnica agropecuaria integral para la inclusión productiva de pequeños productores rurales del municipio de  Frontino ",
@@ -231,12 +243,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-030 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACION DE SERVICIOS DE APOYO A LA GESTION ADMINISTRATIVA EN LA EJECUCION DE PROGRAMAS DE ASISTENCIA TECNICA PARA LA PRODUCCION SOSTENIBLE, SUSTENTABLE DE ALIMENTOS Y EL FORTALECIMIENTO DE LA SEGURIDAD ALIMENTARIA EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO 2024 - 2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Keisy Yadira Lopez",nit:"1001581161",valor:11692908,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9611382"},
     contratos:[{numero:"CD-CPS-030 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACION DE SERVICIOS DE APOYO A LA GESTION ADMINISTRATIVA EN LA EJECUCION DE PROGRAMAS DE ASISTENCIA TECNICA PARA LA PRODUCCION SOSTENIBLE, SUSTENTABLE DE ALIMENTOS Y EL FORTALECIMIENTO DE LA SEGURIDAD ALIMENTARIA EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO 2024 - 2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Keisy Yadira Lopez",nit:"1001581161",valor:11692908,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9611382"},{numero:"CD-CPS-031 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS DE ASISTENCIA TÉCNICA VETERINARIA PARA EL FOMENTO DE LA SALUD Y EL BIENESTAR ANIMAL Y LA PREVENCIÓN DE ENFERMEDADES ZOONÓTICAS CON PEQUEÑOS Y MEDIANOS PRODUCTORES RURALES DEL MUNICIPIO DE FRONTINO EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO FRONTINO NOS UNE 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Yinedy Rendon Diaz",nit:"1035857649",valor:19174158,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9618724"},{numero:"CD-CPS-044 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS DE ASISTENCIA TÉCNICA VETERINARIA PARA EL MEJORAMIENTO PRODUCTIVO EN TEMAS VETERINARIOS DE LAS UNIDADES PRODUCTIVAS DE PEQUEÑOS Y MEDIANOS PRODUCTORES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Valentina Duran Gonzalez",nit:"1234992480",valor:17062000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9724159"},{numero:"CD-CPS-047 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS DE ASISTENCIA TÉCNICA A PEQUEÑOS Y MEDIANOS PRODUCTORES DEL SECTOR AGROPECUARIO EN EL CORREGIMIENTO DE LA BLANQUITA MURRÍ, MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"vannesa Martinez Montoya",nit:"1020466566",valor:11350000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9728003"},{numero:"CD-CPS-055 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS DE ASISTENCIA TÉCNICA A PEQUEÑOS Y MEDIANOS PRODUCTORES DEL SECTOR AGROPECUARIO EN EL CORREGIMIENTO DE NUTIBARA MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alexander Marín Pérez",nit:"98712055",valor:11350000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9761515"},{numero:"CD-CPS-069 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS DE ASISTENCIA TÉCNICA A PEQUEÑOS Y MEDIANOS PRODUCTORES EN EL SECTOR AGROPECUARIO DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"JHON ALEXIS MURILLO GONZALEZ",nit:"1001579900",valor:11350000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9809770"},{numero:"CD-CPS-071 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA PARA LA REALIZACIÓN DEL PLAN AGROPECUARIO Y LA REALIZACIÓN DE ASISTENCIA TÉCNICA AGROPECUARIA A PEQUEÑOS Y MEDIANOS PRODUCTORES COMO AGRÓNOMO EN CUMPLIMIENTO DEL PLAN DE DESARROLLO FRONTINO NOS UNE 2024-2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"LUIS JAIDER GARCÉS CASTAÑO",nit:"1038334553",valor:36000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9811967"},{numero:"CONVENIO DE COOPERACION 001 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS QUE PERMITAN LA PRESTACIÓN DE SERVICIO DE EXTENSIÓN AGROPECUARIA PARA EL SECTOR PANELERO DEL MUNICIPIO DE FRONTINO ANTIOQUIA Y LA FEDERACIÓN NACIONAL DE PRODUCTORES DE PANELA - FEDEPANELA",contratista:"FEDERACION NACIONAL DE PRODUCTORES DE PANELA - FEDEPANELA",nit:"800059441",valor:46485000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9852127"},{numero:"MINC-005 DE 2026",tipo:"Minima Cuantia",objeto:"PRESTACIÓN DE SERVICIO DE APOYO A LA GESTIÓN PARA EL FORTALECIMIENTO DE LA CADENA PRODUCTIVA CAÑA-PANELA MEDIANTE EL FOMENTO DE LAS BUENAS PRÁCTICAS AGRÍCOLAS Y AMBIENTALES EN CUMPLIMIENTO A LO ESTABLECIDO EN EL PLAN DE DESARROLLO FRONTINO NOS UNE 2024 - 2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"AGROTABLAITO",nit:"900564184",valor:30750000,fecha:"2026-02-23",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9356520&AwardContractDetailId=7425986&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"170201000",
+    codigoProductoDNP:"",
     indicadorDNP:"Pequeños productores rurales asistidos técnicamente",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1702010",
+    metaCuatrienio:"1000",
+    metaVigencia:"1000"
   },
   {
     bpin:"202500000047423", nombre:"Cofinanciación para la reactivación y continuidad de proyectos en encadenamientos productivos agropecuarios ante afectaciones climáticas, sanitarias, agentes biológicos o bajas productividades en el municipio de  Frontino ",
@@ -253,12 +265,12 @@ let PROYECTOS = [
     contrato:{numero:"CN-2026-0055",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA EL FORTALECIMIENTO Y SOSTENIBILIDAD DE LA CAFICULTURA MEDIANTE INCENTIVOS PARA FERTILIZACIÓN Y MEJORAMIENTO DE INFRAESTRUCTURA DE POSCOSECHA",contratista:"FEDERACION NACIONAL DE CAFETEROS DE COLOMBIA",nit:"860007538",valor:259921289,fecha:"2026-01-28",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9839619"},
     contratos:[{numero:"CN-2026-0055",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA EL FORTALECIMIENTO Y SOSTENIBILIDAD DE LA CAFICULTURA MEDIANTE INCENTIVOS PARA FERTILIZACIÓN Y MEJORAMIENTO DE INFRAESTRUCTURA DE POSCOSECHA",contratista:"FEDERACION NACIONAL DE CAFETEROS DE COLOMBIA",nit:"860007538",valor:259921289,fecha:"2026-01-28",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9839619"}],
     hitos:[],
-    codigoProductoDNP:"170910500",
+    codigoProductoDNP:"",
     indicadorDNP:"Cadenas productivas apoyadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1709105",
+    metaCuatrienio:"6",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000047425", nombre:"Fortalecimiento de la comercialización directa de pequeños productores rurales mediante la realización de Mercados Campesinos en el municipio de  Frontino ",
@@ -275,12 +287,12 @@ let PROYECTOS = [
     contrato:{numero:"ESAL 001 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA EL FORTALECIMIENTO DE LOS CIRCUITOS CORTOS DE COMERCIALIZACIÓN EN EL MUNICIPIO, EL FORTALECIMIENTO DE LA ECONOMÍA CAMPESINA, FAMILIAR, COMUNITARIA, POPULAR Y EL FORTALECIMIENTO DE LA EDUCACIÓN AMBIENTAL EN LAS FERIAS DE COMERCIALIZACIÓN EN CUMPLIMIENTO A LO ESTABLECIDO AL PLAN DE DESARROLLO FRONTINO NOS UNE 2024-2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"AGROTABLAITO",nit:"900564184",valor:110000000,fecha:"2026-03-07",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9386124&AwardContractDetailId=7439770&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     contratos:[{numero:"ESAL 001 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA EL FORTALECIMIENTO DE LOS CIRCUITOS CORTOS DE COMERCIALIZACIÓN EN EL MUNICIPIO, EL FORTALECIMIENTO DE LA ECONOMÍA CAMPESINA, FAMILIAR, COMUNITARIA, POPULAR Y EL FORTALECIMIENTO DE LA EDUCACIÓN AMBIENTAL EN LAS FERIAS DE COMERCIALIZACIÓN EN CUMPLIMIENTO A LO ESTABLECIDO AL PLAN DE DESARROLLO FRONTINO NOS UNE 2024-2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"AGROTABLAITO",nit:"900564184",valor:110000000,fecha:"2026-03-07",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9386124&AwardContractDetailId=7439770&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"170203800",
+    codigoProductoDNP:"",
     indicadorDNP:"Organizaciones de productores  formales apoyadas la  adquisición de competencias  comerciales y en casos  requeridos, la inserción o  consolidación en  encadenamientos comerciales. ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1702038",
+    metaCuatrienio:"10",
+    metaVigencia:"2"
   },
   {
     bpin:"202500000047493", nombre:"Mejoramiento de las redes de alumbrado público urbano y rural  mediante la reinversión de la sobretasa de alumbrado público en el municipio de  Frontino ",
@@ -297,12 +309,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"210201300",
+    codigoProductoDNP:"",
     indicadorDNP:"Redes de alumbrado público mejoradas",
     unidadDNP:"Metros ",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2102013",
+    metaCuatrienio:"2000",
+    metaVigencia:"500"
   },
   {
     bpin:"202500000047498", nombre:"Fortalecimiento de capacidades para el trabajo seguro, responsable y sostenible en actividades mineras del municipio de  Frontino ",
@@ -319,12 +331,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"},
     contratos:[{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"}],
     hitos:[],
-    codigoProductoDNP:"210401002",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas capacitadas en seguridad minera",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2104010",
+    metaCuatrienio:"200",
+    metaVigencia:"50"
   },
   {
     bpin:"202500000047506", nombre:"Fortalecimiento para la regularización y formalización de la pequeña minería mediante asistencia técnica integral en el municipio de  Frontino ",
@@ -341,12 +353,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"},
     contratos:[{numero:"CD-CPS-058 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA REALIZACIÓN DE ASISTENCIA TÉCNICA PARA LA REGULARIZACIÓN MINERA Y LA EDUCACIÓN PARA EL TRABAJO EN ACTIVIDADES MINERAS EN CUMPLIMIENTO DEL PLAN DE DESARROLLO \"FRONTINO NOS UNE\" 2024-2027 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Alejandro Carvajal Perez",nit:"1038338470",valor:7330000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763553"}],
     hitos:[],
-    codigoProductoDNP:"210401800",
+    codigoProductoDNP:"",
     indicadorDNP:"Unidades productivas mineras beneficiarias de asistencia técnica para regularización",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2104018",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047538", nombre:"Mejoramiento integral de la infraestructura educativa para fortalecer las condiciones de prestación del servicio educativo en el municipio de  Frontino ",
@@ -363,12 +375,12 @@ let PROYECTOS = [
     contrato:{numero:"CI-004 DE 2026",tipo:"Régimen especial - Obra",objeto:"CONTRATO INTERADMINISTRATIVO PARA REALIZAR LA INTERVENTORIA TECNICA, ADMINISTRATIVA, FINANCIERA Y LEGAL AL CONTRATO DE REPOSICION DEL CENTRO EDUCATIVO RURAL C.E.R CHONTADURO EL CUAL PERTENECE A LA I.E.R NOBOGACITA DEL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"RENTING DE ANTIOQUIA",nit:"900285704",valor:87403038,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9925806"},
     contratos:[{numero:"CI-004 DE 2026",tipo:"Régimen especial - Obra",objeto:"CONTRATO INTERADMINISTRATIVO PARA REALIZAR LA INTERVENTORIA TECNICA, ADMINISTRATIVA, FINANCIERA Y LEGAL AL CONTRATO DE REPOSICION DEL CENTRO EDUCATIVO RURAL C.E.R CHONTADURO EL CUAL PERTENECE A LA I.E.R NOBOGACITA DEL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"RENTING DE ANTIOQUIA",nit:"900285704",valor:87403038,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9925806"}],
     hitos:[],
-    codigoProductoDNP:"220105200",
+    codigoProductoDNP:"",
     indicadorDNP:"Sedes educativas mejoradas ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2201052",
+    metaCuatrienio:"30",
+    metaVigencia:"10"
   },
   {
     bpin:"202500000047541", nombre:"Prestación continua del servicio educativo mediante el pago de servicios públicos domiciliarios en las instituciones educativas oficiales del municipio de  Frontino ",
@@ -385,12 +397,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"220106200",
+    codigoProductoDNP:"",
     indicadorDNP:"Sedes mantenidas (Servicios Publicos)",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2201062",
+    metaCuatrienio:"30",
+    metaVigencia:"12"
   },
   {
     bpin:"202500000047555", nombre:"Fortalecimiento de la permanencia escolar mediante la implementación integral del Programa de Alimentación Escolar -PAE- en el municipio de  Frontino ",
@@ -407,12 +419,12 @@ let PROYECTOS = [
     contrato:{numero:"MINC-001 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE TRANSPORTE DE ALIMENTOS DEL PROGRAMA DE ALIMENTACIÓN ESCOLAR - PAE, PARA LOS ESTUDIANTES DE LAS INSTITUCIONES EDUCATIVAS RURALES NOBOGACITA, GABRIELA WHITE DE VÉLEZ, LA BLANQUITA DEL MURRI, CER INDIGENISTA JAICHINIDAU Y CERI CHUSCAL CON SUS RESPECTIVAS SEDES RURALES EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"WILTON HERNAN OQUENDO PINEDA ",nit:"1038332890",valor:42071400,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9451577"},
     contratos:[{numero:"MINC-001 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE TRANSPORTE DE ALIMENTOS DEL PROGRAMA DE ALIMENTACIÓN ESCOLAR - PAE, PARA LOS ESTUDIANTES DE LAS INSTITUCIONES EDUCATIVAS RURALES NOBOGACITA, GABRIELA WHITE DE VÉLEZ, LA BLANQUITA DEL MURRI, CER INDIGENISTA JAICHINIDAU Y CERI CHUSCAL CON SUS RESPECTIVAS SEDES RURALES EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"WILTON HERNAN OQUENDO PINEDA ",nit:"1038332890",valor:42071400,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9451577"}],
     hitos:[],
-    codigoProductoDNP:"220102801",
+    codigoProductoDNP:"",
     indicadorDNP:"Beneficiarios de la alimentación escolar",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2201028",
+    metaCuatrienio:"14000",
+    metaVigencia:"3500"
   },
   {
     bpin:"202500000047571", nombre:"Fortalecimiento de la permanencia escolar mediante la implementación del servicio de transporte escolar para estudiantes de instituciones educativas oficiales del municipio de  Frontino ",
@@ -429,12 +441,12 @@ let PROYECTOS = [
     contrato:{numero:"ESAL 003 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS A TODO COSTO PARA EL TRANSPORTE ESCOLAR PARA LOS ESTUDIANTES QUE EFECTIVAMENTE SE ENCUENTREN MATRICULADOS EN EL SIMAT CON RESIDENCIA EN LAS DIFERENTES VEREDAS Y CORREGIMIENTOS PARA SER TRASLADADOS A LAS DIFERENTES INSTITUCIONES EDUCATIVAS OFICIALES DURANTE LA VIGENCIA 2026 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"COOPERATIVA DE TRANSPORTADORES DE FRONTINO",nit:"800220950",valor:387545943,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9390012"},
     contratos:[{numero:"ESAL 003 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS A TODO COSTO PARA EL TRANSPORTE ESCOLAR PARA LOS ESTUDIANTES QUE EFECTIVAMENTE SE ENCUENTREN MATRICULADOS EN EL SIMAT CON RESIDENCIA EN LAS DIFERENTES VEREDAS Y CORREGIMIENTOS PARA SER TRASLADADOS A LAS DIFERENTES INSTITUCIONES EDUCATIVAS OFICIALES DURANTE LA VIGENCIA 2026 DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"COOPERATIVA DE TRANSPORTADORES DE FRONTINO",nit:"800220950",valor:387545943,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9390012"}],
     hitos:[],
-    codigoProductoDNP:"220102900",
+    codigoProductoDNP:"",
     indicadorDNP:"Beneficiarios de transporte escolar",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2201029",
+    metaCuatrienio:"1200",
+    metaVigencia:"300"
   },
   {
     bpin:"202500000047582", nombre:"Fortalecimiento de la calidad educativa mediante la realización del Foro Educativo Municipal en el municipio de  Frontino ",
@@ -451,12 +463,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"220104902",
+    codigoProductoDNP:"",
     indicadorDNP:"Foros educativos territoriales realizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2201049",
+    metaCuatrienio:"5",
+    metaVigencia:"2"
   },
   {
     bpin:"202500000047610", nombre:"Mejoramiento de la infraestructura vial urbana para fortalecer la movilidad y seguridad vial en el municipio de  Frontino ",
@@ -473,12 +485,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"240211400",
+    codigoProductoDNP:"",
     indicadorDNP:"Vía urbana mejorada ",
     unidadDNP:"Kilómetros",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402114",
+    metaCuatrienio:"3",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047627", nombre:"Mantenimiento periódico y rutinario de la red vial terciaria del municipio de  Frontino ",
@@ -495,12 +507,12 @@ let PROYECTOS = [
     contrato:{numero:"MINC-002 DE 2026",tipo:"Suministro",objeto:"SUMINISTRO DE COMBUSTIBLE ACPM PARA LOS VEHICULOS Y MAQUINARIA PROPIEDAD DEL MUNICIPIO QUE TRABAJAN EN LOS PROYECTOS DE MANTENIMIENTO Y MEJORAMIENTO DE LAS REDES VIALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MAURICIO ELEJALDE GAVIRIA",nit:"71020141",valor:49025340,fecha:"2026-01-14",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9512230"},
     contratos:[{numero:"MINC-002 DE 2026",tipo:"Suministro",objeto:"SUMINISTRO DE COMBUSTIBLE ACPM PARA LOS VEHICULOS Y MAQUINARIA PROPIEDAD DEL MUNICIPIO QUE TRABAJAN EN LOS PROYECTOS DE MANTENIMIENTO Y MEJORAMIENTO DE LAS REDES VIALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MAURICIO ELEJALDE GAVIRIA",nit:"71020141",valor:49025340,fecha:"2026-01-14",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9512230"},{numero:"CD-CPS-024 DE 2026",tipo:"Prestación de servicios",objeto:"REALIZAR LAS LABORES REQUERIDAS POR LA SECRETARIA DE PLANECION PARA LA EJECUCION DE LOS PROYECTOS DE INVERSION PUBLICA ORIENTADOS AL MANTENIMIENTO PERIODICO Y RUTINARIO DE LA RED VIAL TERCIARIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"JORGE IVAN GAVIRIA MUNOZ",nit:"79924268",valor:18000000,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9581317"},{numero:"CD-CPS-032 DE 2026",tipo:"Prestación de servicios",objeto:"REALIZAR LAS LABORES REQUERIDAS POR LA SECRETARIA DE PLANECIÓN PARA LA EJECUCIÓN DE LOS PROYECTOS DE INVERSIÓN PÚBLICA ORIENTADOS AL MANTENIMIENTO PERIODICO Y RUTINARIO DE LA RED VIAL TERCIARIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA. ",contratista:"DUVAN ARLEY VELEZ BEDOYA",nit:"1128405864",valor:18480000,fecha:"2026-01-20",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9639744"},{numero:"CD-CPS-048 DE 2026",tipo:"Prestación de servicios",objeto:"REALIZAR LAS ACTIVIDADES REQUERIDAS POR LA SECRETARIA DE PLANECIÓN PARA LA EJECUCIÓN DE LOS PROYECTOS DE INVERSIÓN PÚBLICA ORIENTADOS MANTENIMIENTO PERIÓDICO Y RUTINARIO DE LA RED VIAL TERCIARIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"ROBINSON DANILO URREGO URREGO",nit:"1038337014",valor:13000000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9740680"},{numero:"MINC-004 DE 2026",tipo:"Prestación de servicios",objeto:"REALIZAR LAS ACCIONES REQUERIDAS POR LA SECRETARIA DE PLANEACIÓN MEDIANTE EL ARRENDAMIENTO DE MAQUINARIA AMARILLA PARA LA EJECUCIÓN DE LOS PROYECTOS DE INVERSIÓN PÚBLICA ORIENTADOS AL MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE LAS CONDICIONES DE ACCESIBILIDAD VIAL EN LA RED TERCIARIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"JOSÉ MARIO VÁSQUEZ JARAMILLO",nit:"98627809",valor:49022064,fecha:"2026-02-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.10010911"},{numero:"MINC-007 DE 2026",tipo:"Minima Cuantia",objeto:"REALIZAR LAS ACCIONES REQUERIDAS POR LA SECRETARIA DE PLANEACIÓN MEDIANTE EL ARRENDAMIENTO DE MAQUINARIA AMARILLA PARA LA EJECUCIÓN DE LOS PROYECTOS DE INVERSIÓN PÚBLICA ORIENTADOS AL MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE LAS CONDICIONES DE ACCESIBILIDAD VIAL EN LA RED TERCIARIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"JOSÉ MARIO VÁSQUEZ JARAMILLO",nit:"98627809",valor:49022064,fecha:"2026-02-27",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9366319&AwardContractDetailId=7430010&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"240211200",
+    codigoProductoDNP:"",
     indicadorDNP:"Vía terciaria con mantenimiento ",
     unidadDNP:"Kilómetros",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402112",
+    metaCuatrienio:"104",
+    metaVigencia:"35"
   },
   {
     bpin:"202500000047646", nombre:"Mantenimiento periódico y rutinario de puentes de la red vial terciaria del municipio de  Frontino ",
@@ -517,12 +529,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"240204800",
+    codigoProductoDNP:"",
     indicadorDNP:"Puentes de la red terciaria con mantenimiento",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402048",
+    metaCuatrienio:"6",
+    metaVigencia:"2"
   },
   {
     bpin:"202500000047652", nombre:"Mantenimiento y mejoramiento de caminos ancestrales para fortalecer la conectividad rural y cultural del municipio de  Frontino ",
@@ -539,12 +551,12 @@ let PROYECTOS = [
     contrato:{numero:"CONVENIO SOLIDARIO 001 DE 2026",tipo:"Régimen especial - Obra",objeto:"CONVENIO SOLIDARIO PARA AUNAR ESFUERZOS TÉCNICOS Y ECONÓMICOS CON ASOCOMUNAL PARA GARANTIZAR LA CONTINUIDAD EN LA OPERACIÓN Y MANTENIMIENTO DE LOS CAMINOS DE HERRADURA O ANCESTRALES DE LOS CORREGIMIENTOS FUEMIA, PONTON, MUSINGA, MURRÍ, NUTIBARA, CHONTADURO, CARAUTA, NOBOGA Y EL CERRO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA. ",contratista:"ASOCIACION DE JUNTAS DE ACCION COMUNAL Y JUNTAS DE VIVIENDA COMUNITARIA MUNICIPIO FRONTINO",nit:"900368785",valor:96000000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9890298"},
     contratos:[{numero:"CONVENIO SOLIDARIO 001 DE 2026",tipo:"Régimen especial - Obra",objeto:"CONVENIO SOLIDARIO PARA AUNAR ESFUERZOS TÉCNICOS Y ECONÓMICOS CON ASOCOMUNAL PARA GARANTIZAR LA CONTINUIDAD EN LA OPERACIÓN Y MANTENIMIENTO DE LOS CAMINOS DE HERRADURA O ANCESTRALES DE LOS CORREGIMIENTOS FUEMIA, PONTON, MUSINGA, MURRÍ, NUTIBARA, CHONTADURO, CARAUTA, NOBOGA Y EL CERRO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA. ",contratista:"ASOCIACION DE JUNTAS DE ACCION COMUNAL Y JUNTAS DE VIVIENDA COMUNITARIA MUNICIPIO FRONTINO",nit:"900368785",valor:96000000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9890298"},{numero:"CONVENIO SOLIDARIO 002 DE 2026",tipo:"Régimen especial - Obra",objeto:"CONVENIO SOLIDARIO PARA AUNAR ESFUERZOS TÉCNICOS Y ECONÓMICOS CON LA ASOCOMUNAL PARA EL MANTENIMIENTO PREVENTIVO Y CORRECTIVO EN CAMINOS ANCESTRALES EXISTENTES DE LA VEREDA BARRANCAS QUE PERMITAN LA MOVILIDAD SOCIAL Y ECONÓMICA DEL SECTOR RURAL EN EL MUNICIPIO DE FRONTINO.",contratista:"ASOCIACION DE JUNTAS DE ACCION COMUNAL Y JUNTAS DE VIVIENDA COMUNITARIA MUNICIPIO FRONTINO",nit:"900368785",valor:24482979,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9899535"}],
     hitos:[],
-    codigoProductoDNP:"240205600",
+    codigoProductoDNP:"",
     indicadorDNP:"Caminos ancestrales con mantenimiento ",
     unidadDNP:"Kilómetros",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402056",
+    metaCuatrienio:"150",
+    metaVigencia:"50"
   },
   {
     bpin:"202500000047671", nombre:"Construcción de puentes y pontones en caminos ancestrales para fortalecer la conectividad rural del municipio de  Frontino ",
@@ -561,12 +573,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"240205700",
+    codigoProductoDNP:"",
     indicadorDNP:"Puente construido en caminos ancestrales ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402057",
+    metaCuatrienio:"2",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047686", nombre:"Implementación de dispositivos de control y señalización vial para el fortalecimiento de la seguridad del transporte en el municipio de  Frontino ",
@@ -583,12 +595,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"240903900",
+    codigoProductoDNP:"",
     indicadorDNP:"Vías con dispositivos de control y señalización",
     unidadDNP:"Kilómetros",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2409039",
+    metaCuatrienio:"136",
+    metaVigencia:"20"
   },
   {
     bpin:"202500000047730", nombre:"Elaboración del Inventario Municipal de Flora y Fauna para la conservación de la biodiversidad y los servicios ecosistémicos del municipio de  Frontino ",
@@ -605,12 +617,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"320200400",
+    codigoProductoDNP:"",
     indicadorDNP:"Documentos de investigación realizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3202004",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047751", nombre:"Servicio de Establecimiento de especies vegetales nativas para la conservación de la biodiversidad y los servicios ecosistémicos en el municipio de  Frontino ",
@@ -627,12 +639,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"320204100",
+    codigoProductoDNP:"",
     indicadorDNP:"Árboles plantados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3202041",
+    metaCuatrienio:"10000",
+    metaVigencia:"2500"
   },
   {
     bpin:"202500000047762", nombre:"Fortalecimiento e la conciencia ambiental mediante la prestación del servicio de educación informal ambiental en el municipio de  Frontino ",
@@ -649,12 +661,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-033 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION ADMINISTRATIVA EN EL CUMPLIMIENTO DE LA NORMATIVIDAD AMBIENTAL, EN LOS PLANES, PROGRAMAS Y SENTENCIAS CON RELACIÓN AL FOMENTO DE LAS BUENAS PRÁCTICAS AMBIENTALES PARA LA SOSTENIBILIDAD AMBIENTAL Y CONSERVACIÓN DE LOS ELEMENTOS NATURALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Paula Andrea Manco Alcaraz",nit:"1001580952",valor:15685996,fecha:"2026-01-20",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9645515"},
     contratos:[{numero:"CD-CPS-033 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION ADMINISTRATIVA EN EL CUMPLIMIENTO DE LA NORMATIVIDAD AMBIENTAL, EN LOS PLANES, PROGRAMAS Y SENTENCIAS CON RELACIÓN AL FOMENTO DE LAS BUENAS PRÁCTICAS AMBIENTALES PARA LA SOSTENIBILIDAD AMBIENTAL Y CONSERVACIÓN DE LOS ELEMENTOS NATURALES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Paula Andrea Manco Alcaraz",nit:"1001580952",valor:15685996,fecha:"2026-01-20",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9645515"},{numero:"CD-CPS-061 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN PARA EL CUMPLIMIENTO DE LAS ACTIVIDADES PLANTEADAS EN EL PLAN DE EDUCACIÓN AMBIENTAL MUNICIPAL EN CUMPLIMIENTO AL PLAN DE DESARROLLO MUNICIPAL \"FRONTINO NOS UNE\" 2024-2027 DEL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"NATALIA ANDREA SEPULVEDA CASTAÑEDA",nit:"1038337427",valor:9400000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9783289"}],
     hitos:[],
-    codigoProductoDNP:"320801000",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas capacitadas hacia el  conocimiento de la  biodiversidad y los ecosistemas  para sensibilizar a la población  despertar la conciencia  ambiental. ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3208010",
+    metaCuatrienio:"4000",
+    metaVigencia:"1333"
   },
   {
     bpin:"202500000047779", nombre:"Consolidación de negocios verdes mediante asistencia técnica especializada en el municipio de  Frontino ",
@@ -671,12 +683,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"320100300",
+    codigoProductoDNP:"",
     indicadorDNP:"Negocios verdes consolidados con asistencia técnica",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3201003",
+    metaCuatrienio:"10",
+    metaVigencia:"10"
   },
   {
     bpin:"202500000047795", nombre:"Protección y manejo de áreas estratégicas para la conservación del recurso hídrico en el municipio de  Frontino ",
@@ -693,12 +705,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"320305000",
+    codigoProductoDNP:"",
     indicadorDNP:"Áreas protegidas",
     unidadDNP:"Hectáreas",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3203050",
+    metaCuatrienio:"100",
+    metaVigencia:"100"
   },
   {
     bpin:"202500000047800", nombre:"Adecuación de la Casa de la Cultura del corregimiento de Nutibara para el fortalecimiento del acceso a procesos culturales y artísticos del Municipio de  Frontino ",
@@ -715,12 +727,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"330101800",
+    codigoProductoDNP:"",
     indicadorDNP:"Casas de la cultura adecuadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3301018",
+    metaCuatrienio:"2",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047807", nombre:"Fortalecimiento de la gestión documental y archivística para la protección del patrimonio documental del municipio de  Frontino ",
@@ -737,12 +749,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-083 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA EN LA SECRETARIA DE GOBIERNO EN LABORES DE GESTIÓN DOCUMENTAL EN EL ARCHIVO MUNICIPAL DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MILDREY YASMID CARVAJAL DUQUE",nit:"1046953294",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9872988"},
     contratos:[{numero:"CD-CPS-083 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA EN LA SECRETARIA DE GOBIERNO EN LABORES DE GESTIÓN DOCUMENTAL EN EL ARCHIVO MUNICIPAL DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MILDREY YASMID CARVAJAL DUQUE",nit:"1046953294",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9872988"}],
     hitos:[],
-    codigoProductoDNP:"330207000",
+    codigoProductoDNP:"",
     indicadorDNP:"Servicio de Archivos Patrimoniales",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3302070",
+    metaCuatrienio:"2",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047832", nombre:"Formulación del Plan Municipal de Lectura, Escritura y Oralidad (LEO) para el fortalecimiento de los procesos culturales y educativos del municipio de  Frontino ",
@@ -759,12 +771,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"330112900",
+    codigoProductoDNP:"",
     indicadorDNP:"Documentos de planeación realizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3301129",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047838", nombre:"Fortalecimiento de las capacidades del sector artístico y cultural mediante la prestación del servicio de educación informal en el municipio de  Frontino ",
@@ -781,12 +793,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-056 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PARA LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROYECTOS ENCAMINADOS AL FOMENTO DE LA EXPRESIÓN Y CREACIÓN ARTÍSTICA, MEDIANTE LA COORDINACIÓN DEL PROGRAMA DE FORMACIÓN EN DANZAS Y BAILES FOLCLÓRICOS, EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO - ANTIOQUIA.",contratista:"VILMA MILENA ARIAS",nit:"39280716",valor:10200000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9761447"},
     contratos:[{numero:"CD-CPS-056 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PARA LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROYECTOS ENCAMINADOS AL FOMENTO DE LA EXPRESIÓN Y CREACIÓN ARTÍSTICA, MEDIANTE LA COORDINACIÓN DEL PROGRAMA DE FORMACIÓN EN DANZAS Y BAILES FOLCLÓRICOS, EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO - ANTIOQUIA.",contratista:"VILMA MILENA ARIAS",nit:"39280716",valor:10200000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9761447"},{numero:"CD-CPS-057 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO EN LA GESTIÓN ADMINISTRATIVA PARA LA EJECUCIÓN DE PROGRAMAS DE SENSIBILIZACIÓN, PROMOCIÓN Y FOMENTO DE LAS ACTIVIDADES CULTURALES, ARTÍSTICAS, EDUCATIVAS, DE LECTOESCRITURA Y DEMÁS RELACIONADAS CON EL SECTOR CULTURA EN EL CORREGIMIENTO DE NUTIBARA Y SUS VEREDAS DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"KATERINE ANDREA ARDILA RUA",nit:"1028019803",valor:10290000,fecha:"2026-01-24",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9763685"},{numero:"CD-CPS-062 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROGRAMAS Y PROYECTOS ENCAMINADOS AL FOMENTO DE LA LITERATURA, LA ESCRITURA CREATIVA, LA POESÍA, LAS EXPRESIONES ESCRITAS Y ORALES DESDE LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO - ANTIOQUIA",contratista:"CARLOS ALBERTO DIAZ LOPEZ",nit:"71023682",valor:9800000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9784426"},{numero:"CD-CPS-063 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PARA LA GESTIÓN ADMINISTRATIVA EN LA EJECUCIÓN DE PROYECTOS ENCAMINADOS AL FOMENTO DE LA EXPRESIÓN Y CREACIÓN ARTÍSTICA, MEDIANTE LA COORDINACIÓN DEL PROGRAMA DE FORMACIÓN EN BAILES MODERNOS Y URBANOS, EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO - ANTIOQUIA",contratista:"Jhon Jannier Palacios Gomez",nit:"1001637625",valor:10200000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9784811"},{numero:"CD-CPS-066 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTION PARA LA EJECUCIÓN DEL PROYECTO QUE BUSCA FORTALECER LAS ACTIVIDADES CULTURALES Y MUSICALES DE COROS, VOCES E INSTRUMENTOS DE CUERDA DE LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"CRISTIAN CAMILO CEBALLOS ARIAS",nit:"1017147904",valor:11800000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9791389"},{numero:"CD-CPS-067 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PROFESIONAL EN LA EJECUCIÓN DE PROGRAMAS Y PROYECTOS ENCAMINADOS AL FOMENTO, APOYO, DIFUSIÓN DE EVENTOS Y EXPRESIONES ARTISTICAS Y CULTURALES EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA.",contratista:"Carlos Fernando Restrepo Mira",nit:"8357092",valor:16800000,fecha:"2026-01-24",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9794280"},{numero:"CD-CPS-065 DE 2026.",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO PROFESIONAL EN LA EJECUCIÓN DE PROGRAMAS Y PROYECTOS ENCAMINADOS AL FOMENTO, APOYO, DIFUSIÓN DE EVENTOS Y EXPRESIONES ARTISTICAS Y CULTURALES EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA",contratista:"EDINSON DE JESUS CEBALLOS OSORIO",nit:"3482949",valor:10200000,fecha:"2026-01-26",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9796506"},{numero:"CD-CPS-081 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN ADMINISTRATIVA PARA LA EJECUCIÓN DE PROGRAMAS Y PROYECTOS DE FORMACIÓN, CAPACITACIÓN Y FORTALECIMIENTO DE LA CULTURA, COMO DIRECTOR DE LA ESCUELA DE MÚSICA, EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO EL MUNICIPIO DE FRONTINO - ANTIOQUIA.",contratista:"JORGE ARMANDO ARIAS OSPINA",nit:"1038333441",valor:10000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9847706"},{numero:"ESAL 003 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS PARA PROMOVER POR MEDIO DE LA INICIACIÓN MUSICAL HABILIDADES PARA LA VIDA EN NIÑOS, NIÑAS Y JÓVENES ENTRE LOS 7 Y 14 AÑOS DE EDAD, MEJORAR LA CALIDAD DE VIDA DEL ADULTO MAYOR MEDIANTE PRÁCTICAS MUSICALES Y POTENCIALIZAR LA SENSIBILIDAD, LAS HABILIDADES Y EL DESARROLLO INTEGRAL EN LA POBLACIÓN CON DISCAPACIDAD HACIENDO USO DEL POTENCIAL INCLUSIVO DE LA MÚSICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"FUNDACIÓN INCOLMOTOS YAMAHA",nit:"830510362",valor:75146300,fecha:"2026-04-25",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9482907&AwardContractDetailId=7494562&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"330105100",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas capacitadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3301051",
+    metaCuatrienio:"800",
+    metaVigencia:"200"
   },
   {
     bpin:"202500000047842", nombre:"Prestación de los servicios bibliotecarios para el acceso a la información y la cultura en el municipio de  Frontino ",
@@ -803,12 +815,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"330108500",
+    codigoProductoDNP:"",
     indicadorDNP:"Usuarios atendidos",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3301085",
+    metaCuatrienio:"10000",
+    metaVigencia:"2500"
   },
   {
     bpin:"202500000047878", nombre:"Servicio para la Promoción y realización de actividades culturales y de circulación artística en el municipio de  Frontino ",
@@ -825,12 +837,12 @@ let PROYECTOS = [
     contrato:{numero:"MINC-010 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE BIENES Y SERVICIOS PARA LA REALIZACIÓN DE ACTIVIDADES ARTÍSTICAS Y CULTURALES EN EL MARCO DE LA CELEBRACIÓN DE LA SEMANA SANTA CON EL FIN DE PROMOVER EL TURISMO RELIGIOSO, LA CULTURA Y LAS TRADICIONES FRONTINEÑAS",contratista:"JUAN FERNANDO CALLE",nit:"8085116",valor:13600000,fecha:"2026-03-27",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9422416&AwardContractDetailId=7467469&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     contratos:[{numero:"MINC-010 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE BIENES Y SERVICIOS PARA LA REALIZACIÓN DE ACTIVIDADES ARTÍSTICAS Y CULTURALES EN EL MARCO DE LA CELEBRACIÓN DE LA SEMANA SANTA CON EL FIN DE PROMOVER EL TURISMO RELIGIOSO, LA CULTURA Y LAS TRADICIONES FRONTINEÑAS",contratista:"JUAN FERNANDO CALLE",nit:"8085116",valor:13600000,fecha:"2026-03-27",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9422416&AwardContractDetailId=7467469&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"330105300",
+    codigoProductoDNP:"",
     indicadorDNP:"Eventos de promoción de actividades culturales realizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3301053",
+    metaCuatrienio:"40",
+    metaVigencia:"21"
   },
   {
     bpin:"202500000047879", nombre:"Servicio de Salvaguardia integral del patrimonio cultural inmaterial del municipio  Frontino ",
@@ -847,12 +859,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"330204900",
+    codigoProductoDNP:"",
     indicadorDNP:"Procesos de salvaguardia efectiva del patrimonio inmaterial realizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3302049",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000047953", nombre:"Fortalecimiento de capacidades en turismo local mediante la prestación del servicio de educación informal en asuntos turísticos en el municipio de  Frontino ",
@@ -860,7 +872,7 @@ let PROYECTOS = [
     programaPDM:"3502",
     fechaInicio:"2026-01-01", fechaFin:"2026-12-31",
     descripcion:"Fortalecimiento de capacidades en turismo local mediante la prestación del servicio de educación informal en asuntos turísticos en el municipio de  Frontino ", objetivo:"Servicio de educacion informal en asuntos turisticos",
-    responsable:"", poblacionBeneficiada:21905,
+    responsable:"Secretaria de Educación, Cultura y Desarrollo Comunitario", poblacionBeneficiada:21905,
     tipoPoblacion:"Comunidad Rural y Urbana", observaciones:"",
     valorTotal:41580000,
     avanceFisico:0, avanceFinanciero:8,
@@ -869,12 +881,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-064 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES PARA LA PRODUCTIVIDAD Y COMPETITIVIDAD DESDE LA GESTIÓN DEL TURISMO SOSTENIBLE, EL EMPRENDIMIENTO, LA ASOCIATIVIDAD Y EL DESARROLLO ECONÓMICO EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"YAMILE ANDREA HERRERA OQUENDO",nit:"1038332338",valor:13800000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9785099"},
     contratos:[{numero:"CD-CPS-064 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES PARA LA PRODUCTIVIDAD Y COMPETITIVIDAD DESDE LA GESTIÓN DEL TURISMO SOSTENIBLE, EL EMPRENDIMIENTO, LA ASOCIATIVIDAD Y EL DESARROLLO ECONÓMICO EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"YAMILE ANDREA HERRERA OQUENDO",nit:"1038332338",valor:13800000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9785099"},{numero:"MINC-003 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACION DE SERVICIOS DE APOYO LOGISTICO A LA PROMOCIÓN DEL TURISMO A TRAVÉS DEL LANZAMIENTO DE LA MARCA TERRITORIO EN EL MUNICIPIO DE FRONTINO ANTIOQUIA 2026",contratista:"RESTAURANTE LACTAMIG",nit:"3482803",valor:22856274,fecha:"2026-02-07",estado:"TERMINADO",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9996611"}],
     hitos:[],
-    codigoProductoDNP:"350204500",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas capacitadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"3502045",
+    metaCuatrienio:"100",
+    metaVigencia:"25"
   },
   {
     bpin:"202500000048004", nombre:"Mejoramiento de Viviendas de Interés Social para el fortalecimiento de condiciones de habitabilidad en el municipio de  Frontino ",
@@ -891,12 +903,12 @@ let PROYECTOS = [
     contrato:{numero:"CI-003 DE 2026",tipo:"Suministro",objeto:"CONTRATO INTERADMINISTRATIVO DE MANDATO SIN REPRESENTACION DE ADMINISTRACIÓN DE RECURSOS PARA GESTIONAR EL SUMINISTRO DE MATERIALES PARA EL DESARROLLO DEL PROYECTO DE MEJORAMIENTO DE VIVIENDA DE LA ZONA URBANA O RURAL, EN EL MUNICIPIO DE FRONTINO, ANTIOQUIA.",contratista:"EMPRESA DE VIVIENDA DE ANTIOQUIA-VIVA",nit:"811032187",valor:69470790,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9935662"},
     contratos:[{numero:"CI-003 DE 2026",tipo:"Suministro",objeto:"CONTRATO INTERADMINISTRATIVO DE MANDATO SIN REPRESENTACION DE ADMINISTRACIÓN DE RECURSOS PARA GESTIONAR EL SUMINISTRO DE MATERIALES PARA EL DESARROLLO DEL PROYECTO DE MEJORAMIENTO DE VIVIENDA DE LA ZONA URBANA O RURAL, EN EL MUNICIPIO DE FRONTINO, ANTIOQUIA.",contratista:"EMPRESA DE VIVIENDA DE ANTIOQUIA-VIVA",nit:"811032187",valor:69470790,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9935662"}],
     hitos:[],
-    codigoProductoDNP:"400104400",
+    codigoProductoDNP:"",
     indicadorDNP:"Vivienda de Interés Social mejoradas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4001044",
+    metaCuatrienio:"100",
+    metaVigencia:"50"
   },
   {
     bpin:"202500000048025", nombre:"Construcción e Viviendas de Interés Prioritario para la reducción del déficit habitacional en el municipio de  Frontino ",
@@ -913,12 +925,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400103900",
+    codigoProductoDNP:"",
     indicadorDNP:"Vivienda de Interés Prioritario construidas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4001039",
+    metaCuatrienio:"100",
+    metaVigencia:"60"
   },
   {
     bpin:"202500000048067", nombre:"Optimización de los sistemas de acueducto para mejorar el acceso al agua potable en el municipio de  Frontino ",
@@ -935,12 +947,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400301700",
+    codigoProductoDNP:"",
     indicadorDNP:"Acueductos optimizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003017",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048094", nombre:"Optimización de los sistemas de alcantarillado para mejorar el saneamiento básico en el municipio de  Frontino ",
@@ -957,12 +969,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400302000",
+    codigoProductoDNP:"",
     indicadorDNP:"Alcantarillados optimizados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003020",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048118", nombre:"Ampliación de los sistemas de alcantarillado para fortalecer el saneamiento básico en el municipio de  Frontino ",
@@ -979,12 +991,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400301900",
+    codigoProductoDNP:"",
     indicadorDNP:"Alcantarillados ampliados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003019",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048135", nombre:"Ampliación de los sistemas de acueducto para fortalecer el acceso al agua potable en el municipio de  Frontino ",
@@ -1001,12 +1013,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400301600",
+    codigoProductoDNP:"",
     indicadorDNP:"Acueductos ampliados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003016",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048180", nombre:"Apoyo financiero para la aplicación de subsidios al consumo de servicios públicos domiciliarios en acueducto, alcantarillado y aseo en el municipio de  Frontino ",
@@ -1023,12 +1035,12 @@ let PROYECTOS = [
     contrato:{numero:"CI-001 DE 2026",tipo:"Contratos o convenios Interadministrativos",objeto:"Contrato interadministrativo de transferencia y/o recepción re recursos para el pago de subsidios a la Empresa de Servicios Públicos de Frontino E.S.P con desembolso de los recursos que se registren en el fondo de solidaridad y redistribución de ingresos FSRI destinados a subsidiar la demanda del servicio de acueducto, alcantarillado y aseo por los suscriptores de los estratos 1,2 y 3, después de aplicar la metodología del decreto 1077 de 2015 o la norma que lo modifique, adicione o derogue en",contratista:"EMPRESA DE SERVICIOS PUBLICOS DE FRONTINO E.S.P. FRONTINO",nit:"811019874",valor:800511812,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9619934"},
     contratos:[{numero:"CI-001 DE 2026",tipo:"Contratos o convenios Interadministrativos",objeto:"Contrato interadministrativo de transferencia y/o recepción re recursos para el pago de subsidios a la Empresa de Servicios Públicos de Frontino E.S.P con desembolso de los recursos que se registren en el fondo de solidaridad y redistribución de ingresos FSRI destinados a subsidiar la demanda del servicio de acueducto, alcantarillado y aseo por los suscriptores de los estratos 1,2 y 3, después de aplicar la metodología del decreto 1077 de 2015 o la norma que lo modifique, adicione o derogue en",contratista:"EMPRESA DE SERVICIOS PUBLICOS DE FRONTINO E.S.P. FRONTINO",nit:"811019874",valor:800511812,fecha:"2026-01-19",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9619934"},{numero:"CONTRATO NO PLURALIDAD DE OFERENTES 001 2026.",tipo:"Régimen especial",objeto:"CONTRATO DE COOPERACION PARA LA TRANSFERENCIA Y/O RECEPCIÓN DE RECURSOS PARA EL PAGO DE SUBSIDIOS A LA ASOCIACION DE USUARIOS DEL ACUEDUCTO DE NUTIBARA A.S.U.A.N CON DESEMBOLSO DE LOS RECURSOS QUE SE REGISTREN EN EL FONDO DE SOLIDARIDAD Y REDISTRIBUCIÓN DE INGRESOS FSRI DESTINADOS A SUBSIDIAR LA DEMANDA DEL SERVICIO DE ACUEDUCTO, POR LOS SUSCRIPTORES DE LOS ESTRATOS 1,2 Y 3, DEL CORREGIMIENTO DE NUTIBARA DESPUÉS DE APLICAR LA METODOLOGÍA DEL DECRETO 1077 DE 2015 O LA NORMA QUE LO MODIFIQUE, ADI",contratista:"ASUAN NUTIBARA",nit:"9003375225",valor:16000000,fecha:"2026-01-24",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9760847"}],
     hitos:[],
-    codigoProductoDNP:"400304700",
+    codigoProductoDNP:"",
     indicadorDNP:"Usuarios beneficiados con subsidios al consumo",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003047",
+    metaCuatrienio:"7000",
+    metaVigencia:"1800"
   },
   {
     bpin:"202500000048185", nombre:"Apoyo financiero municipal para la ejecución de proyectos de acueducto y alcantarillado a través del Plan Departamental de Aguas PDA en el municipio de  Frontino ",
@@ -1045,12 +1057,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400302500",
+    codigoProductoDNP:"",
     indicadorDNP:"Servicios de apoyo financiero para la ejecución de proyectos de acueductos y alcantarillado",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4003025",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048192", nombre:"Prestación del servicio de ayuda y atención humanitaria a víctimas del conflicto armado en el municipio de  Frontino ",
@@ -1067,12 +1079,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"410102500",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas con asistencia humanitaria a las victimas del conflicto armado",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4101025",
+    metaCuatrienio:"50",
+    metaVigencia:"12"
   },
   {
     bpin:"202500000048206", nombre:"Prestación del servicio de caracterización de la población víctima del conflicto armado para su atención, asistencia y reparación integral en el municipio de  Frontino ",
@@ -1089,12 +1101,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-068 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA PARA EJERCER EL ROL COMO ENLACE OPERATIVO PARA EL APOYO INTEGRAL A LA POBLACIÓN VICTIMA POR DESPLAZAMIENTO Y OTROS HECHOS VICTIMIZANTES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Doris Ruth Arboleda Yepes",nit:"43781068",valor:13620000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9794603"},
     contratos:[{numero:"CD-CPS-068 DE 2026",tipo:"Prestación de servicios",objeto:"APOYO A LA GESTIÓN ADMINISTRATIVA PARA EJERCER EL ROL COMO ENLACE OPERATIVO PARA EL APOYO INTEGRAL A LA POBLACIÓN VICTIMA POR DESPLAZAMIENTO Y OTROS HECHOS VICTIMIZANTES DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Doris Ruth Arboleda Yepes",nit:"43781068",valor:13620000,fecha:"2026-02-01",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9794603"}],
     hitos:[],
-    codigoProductoDNP:"410101400",
+    codigoProductoDNP:"",
     indicadorDNP:"Victimas caracterizadas para su posterior atencion, asistencia y reparacion integral ",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4101014",
+    metaCuatrienio:"150",
+    metaVigencia:"30"
   },
   {
     bpin:"202500000048210", nombre:"Prestación de servicios de atención pedagógica y restaurativa para la inclusión social de niños, niñas, adolescentes y jóvenes mediante la operación de la Comisaría de Familia en la Casa de Justicia del municipio de  Frontino ",
@@ -1111,12 +1123,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-027 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA COMISARIA DE FAMILIA COMO PROFESIONAL EN TRABAJO SOCIAL EN EL MUNICIPIO DE FRONTINO - ANTIOQUIA",contratista:"MARIA CONSTANZA SANCHEZ JARAMILLO",nit:"43584162",valor:15592500,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9584475"},
     contratos:[{numero:"CD-CPS-027 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA COMISARIA DE FAMILIA COMO PROFESIONAL EN TRABAJO SOCIAL EN EL MUNICIPIO DE FRONTINO - ANTIOQUIA",contratista:"MARIA CONSTANZA SANCHEZ JARAMILLO",nit:"43584162",valor:15592500,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9584475"},{numero:"CD-CPS-054 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES EN DERECHO PARA BRINDAR APOYO EN LA COMISARÍA DE FAMILIA EN LOS ASUNTOS JURIDICOS Y DE GESTIÓN ADMINISTRATIVA EN DESARROLLO DEL PROYECTO DE FORTALECIMIENTO A LA COMISARIA DE FAMILIA DEL MUNICIPIO DE FRONTINO- ANTIOQUIA",contratista:"ANA ISABEL USUGA URREGO",nit:"1001581113",valor:14784000,fecha:"2026-01-24",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9756323"},{numero:"CD-CPS-060 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES COMO PSICOLOGA Y APOYO A LA GESTIÓN ADMINISTRATIVA EN DESARROLLO DEL PROYECTO DE FORTALECIMIENTO A LA COMISARIA DE FAMILIA DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MILDREY NATALIA LEAL LEAL",nit:"1038334391",valor:14553000,fecha:"2026-01-24",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9780650"}],
     hitos:[],
-    codigoProductoDNP:"410203800",
+    codigoProductoDNP:"",
     indicadorDNP:"Niños, niñas, adolescentes y jóvenes atendidos en los servicios de restablecimiento en la administración de justicia",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4102038",
+    metaCuatrienio:"60",
+    metaVigencia:"15"
   },
   {
     bpin:"202500000048222", nombre:"Prestación del servicio de atención integral a la primera infancia mediante la operación de Hogares de Paso en el municipio de  Frontino ",
@@ -1133,12 +1145,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-025 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN MEDIANTE LA ATENCIÓN INTEGRAL A NIÑOS NIÑAS Y ADOLESCENTES EN MEDIDA DE PROTECCIÓN MODALIDAD HOGAR DE PASO DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Nora Dielly Giraldo Ferraro",nit:"43150080",valor:15000000,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9582332"},
     contratos:[{numero:"CD-CPS-025 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN MEDIANTE LA ATENCIÓN INTEGRAL A NIÑOS NIÑAS Y ADOLESCENTES EN MEDIDA DE PROTECCIÓN MODALIDAD HOGAR DE PASO DEL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Nora Dielly Giraldo Ferraro",nit:"43150080",valor:15000000,fecha:"2026-01-17",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9582332"}],
     hitos:[],
-    codigoProductoDNP:"410200100",
+    codigoProductoDNP:"",
     indicadorDNP:"Niños y niñas atendidos en servicios integrales",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4102001",
+    metaCuatrienio:"1200",
+    metaVigencia:"300"
   },
   {
     bpin:"202500000048251", nombre:"Desarrollo de programa Renta Ciudadana enfocado en la dinámica relacional familiar, desarrollo autónomo de familias vulnerables y acompañamiento a la superación de la pobreza en el municipio de  Frontino ",
@@ -1155,12 +1167,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-042 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN DE LOS PROGRAMAS DE DPS: RENTA CIUDADANA Y DEVOLUCIÓN DEL IVA EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA",contratista:"LUISA FERNANDA PUERTA RUEDA",nit:"1038333888",valor:10105000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9722269"},
     contratos:[{numero:"CD-CPS-042 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN DE LOS PROGRAMAS DE DPS: RENTA CIUDADANA Y DEVOLUCIÓN DEL IVA EN LA SECRETARÍA DE EDUCACIÓN, CULTURA Y DESARROLLO COMUNITARIO DEL MUNICIPIO DE FRONTINO-ANTIOQUIA",contratista:"LUISA FERNANDA PUERTA RUEDA",nit:"1038333888",valor:10105000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9722269"}],
     hitos:[],
-    codigoProductoDNP:"410204300",
+    codigoProductoDNP:"",
     indicadorDNP:"Familias atendidas en de promoción de temas de dinámica relacional y desarrollo autónomo",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4102043",
+    metaCuatrienio:"150",
+    metaVigencia:"38"
   },
   {
     bpin:"202500000048257", nombre:"Fortalecimiento del tejido social y del Sistema Municipal de Juventudes en el municipio de  Frontino ",
@@ -1177,12 +1189,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-076 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN EL FORTALECIMIENTO Y COORDINACIÓN DE LA POLITICA PUBLICA DE JUVENTUDES DEL MUNICIPIO DE FRONTINO ANTIOQUIA\"",contratista:"Sebastian Florez Marin",nit:"1038926262",valor:7500000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9791649"},
     contratos:[{numero:"CD-CPS-076 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN EL FORTALECIMIENTO Y COORDINACIÓN DE LA POLITICA PUBLICA DE JUVENTUDES DEL MUNICIPIO DE FRONTINO ANTIOQUIA\"",contratista:"Sebastian Florez Marin",nit:"1038926262",valor:7500000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9791649"},{numero:"MINC-014 DE 2026",tipo:"Minima Cuantia",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO OPERATIVO Y LOGÍSTICO A LA GESTIÓN PARA LA COORDINACIÓN, IMPLEMENTACIÓN Y EJECUCIÓN DEL APOYO LOGÍSTICO REQUERIDO EN LAS ACTIVIDADES, PROCESOS DE CAPACITACIÓN Y ESPACIOS DE PARTICIPACIÓN DEL CONSEJO MUNICIPAL DE JUVENTUD (CMJ) Y DE LA PLATAFORMA MUNICIPAL DE JUVENTUDES (PMJ) DEL MUNICIPIO DE FRONTINO, ANTIOQUIA",contratista:"GLOBAL ASOCIADOS MEET SAS",nit:"901742798",valor:34623000,fecha:"2026-05-07",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9500704&AwardContractDetailId=7504015&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"410204200",
+    codigoProductoDNP:"",
     indicadorDNP:"Acciones ejecutadas con las comunidades en temas de fortalecimiento del tejido social y construcción de escenarios comunitarios protectores de derechos.",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4102042",
+    metaCuatrienio:"24",
+    metaVigencia:"5"
   },
   {
     bpin:"202500000048277", nombre:"Mejoramiento y adecuación del Centro de Protección Social de Día para el Adulto Mayor en el municipio de  Frontino ",
@@ -1199,12 +1211,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"410401200",
+    codigoProductoDNP:"",
     indicadorDNP:"Centros de día para el adulto mayor modificados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4104012",
+    metaCuatrienio:"2",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048290", nombre:"Prestación del servicio de atención y protección integral al adulto mayor en el municipio de  Frontino ",
@@ -1221,12 +1233,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"410400800",
+    codigoProductoDNP:"",
     indicadorDNP:"Adultos mayores atendidos con servicios integrales",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4104008",
+    metaCuatrienio:"450",
+    metaVigencia:"113"
   },
   {
     bpin:"202500000048309", nombre:"Prestación del servicio de atención integral a la población en condición de discapacidad en el municipio de  Frontino ",
@@ -1243,12 +1255,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-085 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PARA LA IMPLEMENTACIÓN DEL PROYECTO DE ATENCIÓN INTEGRAL A LA POBLACIÓN EN CONDICIÓN O SITUACIÓN DE DISCAPACIDAD EN CUMPLIMIENTO A LA POLÍTICA PÚBLICA DE DISCAPACIDAD EN LA VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"DORA ALICIA SARRAZOLA ESTRADA",nit:"21743837",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9877200"},
     contratos:[{numero:"CD-CPS-085 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PARA LA IMPLEMENTACIÓN DEL PROYECTO DE ATENCIÓN INTEGRAL A LA POBLACIÓN EN CONDICIÓN O SITUACIÓN DE DISCAPACIDAD EN CUMPLIMIENTO A LA POLÍTICA PÚBLICA DE DISCAPACIDAD EN LA VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"DORA ALICIA SARRAZOLA ESTRADA",nit:"21743837",valor:9284000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9877200"}],
     hitos:[],
-    codigoProductoDNP:"410402000",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas con discapacidad atendidas con servicios integrales",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4104020",
+    metaCuatrienio:"50",
+    metaVigencia:"13"
   },
   {
     bpin:"202500000048358", nombre:"Construcción de parques recreativos para el fomento de la recreación y la convivencia ciudadana en el municipio de  Frontino ",
@@ -1265,12 +1277,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"430101200",
+    codigoProductoDNP:"",
     indicadorDNP:"Parques recreativos mantenidos",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4301012",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048481", nombre:"Instalación de gimnasios biosaludables al aire libre para el fomento de la actividad física y la convivencia en el municipio  Frontino ",
@@ -1287,12 +1299,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"430102400",
+    codigoProductoDNP:"",
     indicadorDNP:"Gimnasios al Aire libre construidos",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4301024",
+    metaCuatrienio:"4",
+    metaVigencia:"2"
   },
   {
     bpin:"202500000048491", nombre:"Desarrollo del Convenio para Promoción de la actividad física, recreación y deporte entre la Junta Municipal de Deportes - JUNDEPORTES Frontino y el municipio de  Frontino ",
@@ -1309,12 +1321,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"430103700",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas que acceden a servicios deportivos, recreativos y de actividad física",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4301037",
+    metaCuatrienio:"6000",
+    metaVigencia:"1500"
   },
   {
     bpin:"202500000048495", nombre:"Adecuación y mejoramiento de salones comunales para el fortalecimiento organizativo de las Juntas de Acción Comunal en el municipio de  Frontino ",
@@ -1331,12 +1343,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"450200300",
+    codigoProductoDNP:"",
     indicadorDNP:"Salones comunales adecuados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4502003",
+    metaCuatrienio:"20",
+    metaVigencia:"4"
   },
   {
     bpin:"202500000048502", nombre:"Apoyo a la Promoción del ejercicio de la participación ciudadana para el fortalecimiento democrático y el respeto a los derechos humanos en el municipio de  Frontino ",
@@ -1353,12 +1365,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-017 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTION PARA LA PROMOCION, SENSIBILIZACION Y FORTALECIMIENTO DE ORGANIZACIONES COMUNALES Y DE CUALQUIER OTRA INDOLE E IMPULSAR LA FORMALIZACION EMPRESARIAL, CONFORME A LAS POTENCIALIDADES IDENTIFICADAS EN EL MUNICIPIO DE FRONTINO -ANTIOQUIA",contratista:"LILIANA MARIA GUISAO GUISAO",nit:"32278431",valor:11786656,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9555127"},
     contratos:[{numero:"CD-CPS-017 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTION PARA LA PROMOCION, SENSIBILIZACION Y FORTALECIMIENTO DE ORGANIZACIONES COMUNALES Y DE CUALQUIER OTRA INDOLE E IMPULSAR LA FORMALIZACION EMPRESARIAL, CONFORME A LAS POTENCIALIDADES IDENTIFICADAS EN EL MUNICIPIO DE FRONTINO -ANTIOQUIA",contratista:"LILIANA MARIA GUISAO GUISAO",nit:"32278431",valor:11786656,fecha:"2026-01-16",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9555127"},{numero:"CD-CPS-079 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN LA PROMOCIÓN DE LA PARTICIPACIÓN CIUDADANA, LA INCLUSIÓN SOCIAL, LA ATENCIÓN Y ACOMPAÑAMIENTO A GRUPOS POBLACIONALES: LGTBIQ+, MUJERES, NIÑEZ Y ADOLESCENCIA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"PAULA ANDREA GÓMEZ RODRIGUEZ",nit:"43631628",valor:10680000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9844462"},{numero:"CONVENIO SOLIDARIO 003 DE 2026",tipo:"Prestación de servicios",objeto:"CONVENIO SOLIDARIO PARA AUNAR ESFUERZOS TÉCNICOS, ECONÓMICOS Y SOCIALES ENTRE EL MUNICIPIO DE FRONTINO Y LA ASOCOMUNAL PARA LA CAPACITACIÓN Y ASISTENCIA TÉCNICA A LAS JUNTAS DE ACCIÓN COMUNAL Y LÍDERES COMUNALES, MEDIANTE EL DESARROLLO DE PROCESOS FORMATIVOS EN NORMATIVIDAD VIGENTE, ORIENTADOS AL FORTALECIMIENTO ORGANIZATIVO, ADMINISTRATIVO Y DEL LIDERAZGO COMUNITARIO, FORTALECER LA PARTICIPACIÓN CIUDADANA EN EL MUNICIPIO DE FRONTINO, ANTIOQUIA.",contratista:"ASOCIACION DE JUNTAS DE ACCION COMUNAL Y JUNTAS DE VIVIENDA COMUNITARIA MUNICIPIO FRONTINO",nit:"900368785",valor:32137750,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9941361"},{numero:"ESAL 002 DE 2026",tipo:"Régimen especial",objeto:"AUNAR ESFUERZOS TÉCNICOS, ECONÓMICOS Y SOCIALES PARA LA CAPACITACIÓN Y ASISTENCIA TÉCNICA A LAS JUNTAS DE ACCIÓN COMUNAL Y LÍDERES COMUNALES, MEDIANTE EL DESARROLLO DE PROCESOS FORMATIVOS EN NORMATIVIDAD VIGENTE, ORIENTADOS AL FORTALECIMIENTO ORGANIZATIVO, ADMINISTRATIVO Y DEL LIDERAZGO COMUNITARIO, FORTALECER LA PARTICIPACIÓN CIUDADANA EN EL MUNICIPIO DE FRONTINO, ANTIOQUIA.",contratista:"AGROTABLAITO",nit:"900564184",valor:47550000,fecha:"2026-04-09",estado:"EN_EJECUCION",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9442898&AwardContractDetailId=7476326&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"450200100",
+    codigoProductoDNP:"",
     indicadorDNP:"Espacios de participación promovidos",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4502001",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048510", nombre:"Construcción y mejoramiento de obras de infraestructura para la reducción del riesgo de desastres en el municipio de  Frontino ",
@@ -1375,12 +1387,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"450302200",
+    codigoProductoDNP:"",
     indicadorDNP:"Obras de infraestructura para la reducción del riesgo de desastres realizadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4503022",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048531", nombre:"Prestación de servicios de apoyo para la atención inmediata de población afectada por emergencias y desastres en el municipio de  Frontino ",
@@ -1397,12 +1409,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"450302800",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas afectadas por situaciones de emergencia, desastre o declaratorias de calamidad pública apoyadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4503028",
+    metaCuatrienio:"100",
+    metaVigencia:"25"
   },
   {
     bpin:"202500000048534", nombre:"Mantenimiento de sedes administrativas públicas para garantizar su operación institucional  en el municipio de  Frontino ",
@@ -1419,12 +1431,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"459901600",
+    codigoProductoDNP:"",
     indicadorDNP:"Sedes administrativas mantenidad",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4599016",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048591", nombre:"Adecuación y modernización de sedes administrativas para el fortalecimiento de la gestión pública y la atención ciudadana en el municipio de  Frontino ",
@@ -1441,12 +1453,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"459901100",
+    codigoProductoDNP:"",
     indicadorDNP:"Sedes administrativas adecuadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4599011",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048648", nombre:"Prestación de servicios de asistencia profesional y técnica para fortalecer la gestión administrativa y operativa de la Alcaldía del Municipio de  Frontino ",
@@ -1463,12 +1475,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"459903100",
+    codigoProductoDNP:"",
     indicadorDNP:"Servicio de asistencia técnica",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4599031",
+    metaCuatrienio:"4",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000048881", nombre:"Formulación y adopción de Modelos en Planeación integral en Salud y Desarrollo Institucional con Planes de acción en Salud en el Municipio de  Frontino ",
@@ -1485,12 +1497,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:7846667,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"},
     contratos:[{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:7846667,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"}],
     hitos:[],
-    codigoProductoDNP:"190501501",
+    codigoProductoDNP:"",
     indicadorDNP:"Planes de salud pública elaborados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905015",
+    metaCuatrienio:"9",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048885", nombre:"Implementación del servicio de gestión del riesgo para prevención del consumo de sustancias psicoactivas con estrategias comunitarias y APS en el municipio de  Frontino ",
@@ -1507,12 +1519,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502000",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo en temas de consumo de sustancias psicoactivas implementadas",
     unidadDNP:"Minutos",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905020",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048893", nombre:"Implementación del servicio de gestión del riesgo en salud sexual y reproductiva con enfoque de derechos y APS en el Municipio de  Frontino ",
@@ -1529,12 +1541,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502100",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo en temas de salud sexual y reproductiva implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905021",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048955", nombre:"Implementación del servicio de gestión del riesgo en trastornos mentales mediante estrategias comunitarias y APS en el Municipio de  Frontino ",
@@ -1551,12 +1563,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502200",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo en temas de trastornos mentales implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905022",
+    metaCuatrienio:"8",
+    metaVigencia:"2"
   },
   {
     bpin:"202500000048959", nombre:"Implementación del servicio de gestión del riesgo para prevención de enfermedades asociadas a condiciones ambientales con enfoque APS en el municipio de  Frontino ",
@@ -1573,12 +1585,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502400",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo para abordar situaciones de salud relacionadas con condiciones ambientales implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905024",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048964", nombre:"Implementación del servicio de gestión del riesgo por exposición laboral con estrategias de educación y prevención en salud para trabajadores en el municipio de  Frontino ",
@@ -1595,12 +1607,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502500",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo para abordar situaciones prevalentes de origen laboral implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905025",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048970", nombre:"Implementación del servicio de gestión del riesgo para enfermedades emergentes, reemergentes y desatendidas con enfoque APS en el municipio de  Frontino ",
@@ -1617,12 +1629,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502600",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo para enfermedades emergentes, reemergentes y desatendidas implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905026",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000048999", nombre:"Implementación del servicio de gestión del riesgo para enfermedades inmunoprevenibles mediante fortalecimiento del PAI y APS territorial en el municipio de  Frontino ",
@@ -1639,12 +1651,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502700",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo para enfermedades inmunoprevenibles  implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905027",
+    metaCuatrienio:"20",
+    metaVigencia:"5"
   },
   {
     bpin:"202500000049005", nombre:"Implementación del servicio de gestión del riesgo nutricional y alimentario con enfoque APS, inocuidad y Seguridad Alimentaria en el municipio de  Frontino ",
@@ -1661,12 +1673,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502800",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de gestión del riesgo para temas de consumo, aprovechamiento biológico, calidad e inocuidad de los alimentos implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905028",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000049009", nombre:"Fortalecimiento del servicio de suministro de insumos para eventos de interés en Salud Pública en el Municipio de  Frontino ",
@@ -1683,12 +1695,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190502900",
+    codigoProductoDNP:"",
     indicadorDNP:"Entidades territoriales con servicio de suministro de insumos para el manejo de eventos de interés en salud pública",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905029",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000049022", nombre:"Servicio de promoción de la salud para prevención de enfermedades no transmisibles y envejecimiento saludable mediante APS en el Municipio de  Frontino ",
@@ -1705,12 +1717,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190503100",
+    codigoProductoDNP:"",
     indicadorDNP:"Campañas de promoción de la salud  y prevención de riesgos asociados a condiciones no transmisibles implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905031",
+    metaCuatrienio:"10",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000049028", nombre:"Servicio de gestión territorial para respuesta en salud publica ante emergencias, desastres y pandemias en el Municipio de  Frontino ",
@@ -1727,12 +1739,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190503505",
+    codigoProductoDNP:"",
     indicadorDNP:"Estrategias de gestión territorial para atención en salud -pandemias- a población afectada por emergencias o desastres implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905035",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000049038", nombre:"Servicio de certificación, registro y caracterización de discapacidad con enfoque diferencial en el Municipio de  Frontino ",
@@ -1749,12 +1761,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190504002",
+    codigoProductoDNP:"",
     indicadorDNP:"Valoraciones multidisciplinarias realizadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905040",
+    metaCuatrienio:"80",
+    metaVigencia:"20"
   },
   {
     bpin:"202500000049043", nombre:"Fortalecimiento de la participación social en salud y gobernanza comunitaria en el Municipio de  Frontino ",
@@ -1771,12 +1783,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-073 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LOS PROCESOS DE GESTIÓN DEL CONOCIMIENTO, CUIDADO INTEGRAL DE LA SALUD, COORDINACIÓN INTERSECTORIAL Y TRANSECTORIAL, DESARROLLO DE CAPACIDADES EN SALUD PUBLICA ENFOCADO A LOS CICLOS DE VIDA Y PRIORIZANDO LA POBLACIÓN MATERNO INFANTIL VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA VARELA GIRALDO",nit:"1036397953",valor:5000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9817873"},
     contratos:[{numero:"CD-CPS-073 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LOS PROCESOS DE GESTIÓN DEL CONOCIMIENTO, CUIDADO INTEGRAL DE LA SALUD, COORDINACIÓN INTERSECTORIAL Y TRANSECTORIAL, DESARROLLO DE CAPACIDADES EN SALUD PUBLICA ENFOCADO A LOS CICLOS DE VIDA Y PRIORIZANDO LA POBLACIÓN MATERNO INFANTIL VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA VARELA GIRALDO",nit:"1036397953",valor:5000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9817873"}],
     hitos:[],
-    codigoProductoDNP:"190504900",
+    codigoProductoDNP:"",
     indicadorDNP:"Estrategias de promoción de la participación social en salud implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905049",
+    metaCuatrienio:"20",
+    metaVigencia:"5"
   },
   {
     bpin:"202500000049049", nombre:"Implementación y fortalecimiento del Sistema de Información en Salud Pública para gestión del conocimiento y toma de decisiones en el Municipio de  Frontino ",
@@ -1793,12 +1805,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:6300000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"},
     contratos:[{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:6300000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"},{numero:"CD-CPS-073 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LOS PROCESOS DE GESTIÓN DEL CONOCIMIENTO, CUIDADO INTEGRAL DE LA SALUD, COORDINACIÓN INTERSECTORIAL Y TRANSECTORIAL, DESARROLLO DE CAPACIDADES EN SALUD PUBLICA ENFOCADO A LOS CICLOS DE VIDA Y PRIORIZANDO LA POBLACIÓN MATERNO INFANTIL VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA VARELA GIRALDO",nit:"1036397953",valor:3000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9817873"},{numero:"CD-CPS-090 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES EN LA SECRETARIA DE SALUD, EN LA IMPLEMENTACION DE ESTRATEGIAS PARA LOS SISTEMAS DE INFORMACION Y EL FORTALECIMIENTO DE LOS PROCESO DE GESTION DE LA SALUD PUBLICA EN EL MARCO DEL PLAN DE ACCION EN SALUD DE 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Carlos Alberto Gómez Mercado",nit:"1027955525",valor:2700000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9923328"}],
     hitos:[],
-    codigoProductoDNP:"190505200",
+    codigoProductoDNP:"",
     indicadorDNP:"Sistemas de información implementados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905052",
+    metaCuatrienio:"5",
+    metaVigencia:"1"
   },
   {
     bpin:"202500000049057", nombre:"Servicio de promoción de la salud y fortalecimiento de capacidades comunitarias para el bienestar integral en el Municipio de  Frontino ",
@@ -1815,12 +1827,12 @@ let PROYECTOS = [
     contrato:{numero:"CD-CPS-037 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DEL PROCESO DE GESTIÓN DE VIGILANCIA BASADA EN LA COMUNIDAD INCLUYENDO ACCIONES DEL PLAN AMPLIADO DE INMUNIZACIONES, DESARROLLO DE CAPACIDADES Y COORDINACIÓN INTERSECTORIAL PARA LA ADAPTACIÓN Y MITIGACIÓN DEL CAMBIO CLIMÁTICO Y SUS EFECTOS EN SALUD EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"CRISTIAN CAMILO RODRIGUEZ VALLE",nit:"1038336263",valor:11700000,fecha:"2026-01-22",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9690697"},
     contratos:[{numero:"CD-CPS-037 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DEL PROCESO DE GESTIÓN DE VIGILANCIA BASADA EN LA COMUNIDAD INCLUYENDO ACCIONES DEL PLAN AMPLIADO DE INMUNIZACIONES, DESARROLLO DE CAPACIDADES Y COORDINACIÓN INTERSECTORIAL PARA LA ADAPTACIÓN Y MITIGACIÓN DEL CAMBIO CLIMÁTICO Y SUS EFECTOS EN SALUD EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"CRISTIAN CAMILO RODRIGUEZ VALLE",nit:"1038336263",valor:11700000,fecha:"2026-01-22",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9690697"},{numero:"CD-CPS-041 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS TECNICOS DE APOYO A LA GESTION EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL PARA LA EJECUCION DE LAS ACTIVIDADES DE GESTIÓN, COORDINACIÓN Y VIGILANCIA EN SALUD PÚBLICA; SEGURIDAD ALIMENTARIA Y NUTRICIONAL, CONTEMPLADAS EN EL PLAN DE ACCIÓN EN SALUD DE ",contratista:"MARIA PAULA MORENO TABARES",nit:"1000084863",valor:11700000,fecha:"2026-01-22",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9697272"},{numero:"CD-CPS-043 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LAS ACCIONES DE PLANEACION INTEGRAL EN SALUD, GESTION DEL CONOCIMIENTO, DESARROLLO DE CAPACIDADES, PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTION DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"BEATRIZ ELENA JIMENEZ YEPES",nit:"42788745",valor:3000000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9723973"},{numero:"CD-CPS-046 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL PARA LA IMPLEMENTACIÓN DE LA POLÍTICA PÚBLICA DE PARTICIPACIÓN SOCIAL EN SALUD Y EL DESARROLLO DE CAPACIDADES EN SALUD MENTAL PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTIÓN DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"Leidy Dayam Usuga Silva",nit:"1038926169",valor:4033333,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9727471"},{numero:"CD-CPS-046 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTION A LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL PARA LA IMPLEMENTACIÓN DE LA POLÍTICA PÚBLICA DE PARTICIPACIÓN SOCIAL EN SALUD Y EL DESARROLLO DE CAPACIDADES EN SALUD MENTAL PARA FORTALECER LA GOBERNABILIDAD Y GOBERNANZA DE LA GESTIÓN DE LA SALUD PUBLICA EN EL MUNICIPIO DE FRONTINO ANTIOQUIA.",contratista:"Leidy Dayam Usuga Silva",nit:"1038926169",valor:12000000,fecha:"2026-01-23",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9727471"},{numero:"CD-CPS-073 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES DE APOYO A LA GESTIÓN EN LA SECRETARÍA DE SALUD Y PROTECCIÓN SOCIAL EN LOS PROCESOS DE GESTIÓN DEL CONOCIMIENTO, CUIDADO INTEGRAL DE LA SALUD, COORDINACIÓN INTERSECTORIAL Y TRANSECTORIAL, DESARROLLO DE CAPACIDADES EN SALUD PUBLICA ENFOCADO A LOS CICLOS DE VIDA Y PRIORIZANDO LA POBLACIÓN MATERNO INFANTIL VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"MANUELA VARELA GIRALDO",nit:"1036397953",valor:8000000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9817873"},{numero:"CI-002 DE 2026",tipo:"Contratos o convenios Interadministrativos",objeto:"CONTRATO INTERADMINISTRATIVO PARA EL FORTALECIMIENTO DE LA GESTION DE LA SALUD PUBLICA MEDIANTE ACCIONES DE VIGILANCIA EPIDEMIOLÓGICA Y DE FORTALECIMIENTO DEL PLAN AMPLIADO DE INMUNIZACIONES - PAI EN LA VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"ESE HOSPITAL MARIA ANTONIA TORO DE ELEJALDE",nit:"890906991",valor:20000000,fecha:"2026-01-28",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9884390"},{numero:"CD-CPS-090 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS PROFESIONALES EN LA SECRETARIA DE SALUD, EN LA IMPLEMENTACION DE ESTRATEGIAS PARA LOS SISTEMAS DE INFORMACION Y EL FORTALECIMIENTO DE LOS PROCESO DE GESTION DE LA SALUD PUBLICA EN EL MARCO DEL PLAN DE ACCION EN SALUD DE 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"Carlos Alberto Gómez Mercado",nit:"1027955525",valor:7000000,fecha:"2026-01-29",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9923328"},{numero:"CD-CPS-091 DE 2026",tipo:"Prestación de servicios",objeto:"PRESTACIÓN DE SERVICIOS DE APOYO A LA GESTION EN LA SECRETARIA DE SALUD Y PROTECCIÓN SOCIAL PARA EL FORTALECIMIENTO DE ESTRATEGIAS DE INFORMACIÓN EDUCACIÓN Y COMUNICACIÓN DE ACUERDO A LOS PROCESOS DE GESTIÓN DE LA SALUD PUBLICA Y DEL PLAN DE ACCIÓN EN SALUD DE LA VIGENCIA 2026 EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"JIMENA VARGAS RODRIGUEZ ",nit:"1038926207",valor:9660000,fecha:"2026-01-27",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9929801"}],
     hitos:[],
-    codigoProductoDNP:"190505400",
+    codigoProductoDNP:"",
     indicadorDNP:"Estrategias de promoción de la salud implementadas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1905054",
+    metaCuatrienio:"12",
+    metaVigencia:"3"
   },
   {
     bpin:"202500000049061", nombre:"Servicio de atención integral en salud y respuesta a urgencias para población afiliada y migrante no asegurada en el Municipio de  Frontino ",
@@ -1837,12 +1849,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"190604400",
+    codigoProductoDNP:"",
     indicadorDNP:"Personas afiliadas al régimen subsidiado",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"1906044",
+    metaCuatrienio:"18500",
+    metaVigencia:"4625"
   },
   {
     bpin:"202600000006597", nombre:"Construcción de placas huella para el mejoramiento de la red vial terciaria del municipio de  Frontino",
@@ -1859,12 +1871,12 @@ let PROYECTOS = [
     contrato:{numero:"CI-005 DE 2026",tipo:"Obra",objeto:"Contrato interadministrativo de administración delegada de recursos sin representación para la construcción de placa huella en sitios críticos de la zona rural en el Municipio de Frontino - Antioquia",contratista:"EMPRESA DE DESARROLLO URBANO DEL NORTE DE ANTIOQUIA",nit:"901442761",valor:2528425207,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9940714"},
     contratos:[{numero:"CI-005 DE 2026",tipo:"Obra",objeto:"Contrato interadministrativo de administración delegada de recursos sin representación para la construcción de placa huella en sitios críticos de la zona rural en el Municipio de Frontino - Antioquia",contratista:"EMPRESA DE DESARROLLO URBANO DEL NORTE DE ANTIOQUIA",nit:"901442761",valor:2528425207,fecha:"2026-01-30",estado:"EN_EJECUCION",secopLink:"https://www.secop.gov.co/CO1BusinessLine/Tendering/ContractNoticeView/Index?prevCtxLbl=Buscar+procesos&prevCtxUrl=https%3a%2f%2fwww.secop.gov.co%3a443%2fCO1BusinessLine%2fTendering%2fContractNoticeManagement%2fIndex&notice=CO1.NTC.9940714"}],
     hitos:[],
-    codigoProductoDNP:"240204200",
+    codigoProductoDNP:"",
     indicadorDNP:"Vía terciaria mejorada",
     unidadDNP:"Metros lineales",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"2402042",
+    metaCuatrienio:"4000",
+    metaVigencia:"1000"
   },
   {
     bpin:"202600000006625", nombre:"Dotación de centro comunitario para el fortalecimiento social, cultural y formativo de la población afrodescendiente del corregimiento de Murrí, municipio de  Frontino ",
@@ -1881,12 +1893,12 @@ let PROYECTOS = [
     contrato:{numero:"MINC-008 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE MENAJE, MATERIALES Y DEMÁS ELEMENTOS NECESARIOS PARA EL FORTALECIMIENTO COMUNITARIO, CON EL FIN DE GARANTIZAR DE FORMA ADECUADA Y OPORTUNA EN EL ACOMPAÑAMIENTO Y LA PROTECCIÓN DE LOS DERECHOS ETNICOS Y COLECTIVOS EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"GUILLERMO LEON VELEZ GOMEZ",nit:"71629613",valor:30899000,fecha:"2026-02-28",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9366231&AwardContractDetailId=7431140&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"},
     contratos:[{numero:"MINC-008 DE 2026",tipo:"Minima Cuantia",objeto:"SUMINISTRO DE MENAJE, MATERIALES Y DEMÁS ELEMENTOS NECESARIOS PARA EL FORTALECIMIENTO COMUNITARIO, CON EL FIN DE GARANTIZAR DE FORMA ADECUADA Y OPORTUNA EN EL ACOMPAÑAMIENTO Y LA PROTECCIÓN DE LOS DERECHOS ETNICOS Y COLECTIVOS EN EL MUNICIPIO DE FRONTINO ANTIOQUIA",contratista:"GUILLERMO LEON VELEZ GOMEZ",nit:"71629613",valor:30899000,fecha:"2026-02-28",estado:"TERMINADO",secopLink:"https://community.secop.gov.co/Public/Tendering/ContractDetailView/Index?UniqueIdentifier=CO1.PCCNTR.9366231&AwardContractDetailId=7431140&IsFromMarketplace=False&IsFromContractNotice=True&isModal=true&asPopupView=true#ContractExecution"}],
     hitos:[],
-    codigoProductoDNP:"410303100",
+    codigoProductoDNP:"",
     indicadorDNP:"Centros comunitarios dotados",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4103031",
+    metaCuatrienio:"1",
+    metaVigencia:"1"
   },
   {
     bpin:"202600000011039", nombre:"Mejoramiento de Viviendas de Interés Prioritario VIP para el fortalecimiento de condiciones de habitabilidad en el municipio de Frontino",
@@ -1903,12 +1915,12 @@ let PROYECTOS = [
     contrato:null,
     contratos:[],
     hitos:[],
-    codigoProductoDNP:"400104100",
+    codigoProductoDNP:"",
     indicadorDNP:"Vivienda de Interés Prioritario mejoradas",
     unidadDNP:"Número",
-    productoNombre:"",
-    metaCuatrienio:"",
-    metaVigencia:""
+    productoNombre:"4001041",
+    metaCuatrienio:"200",
+    metaVigencia:"50"
   },
   {
     bpin:"⚠ BPIN: 10 dígitos — consultar en SUIFP: https://suifp.dnp.gov.co  |  Estado válido: FORMULACION / VIABILIZADO / CONTRATADO / EN_EJECUCION / TERMINADO / SUSPENDIDO", nombre:"Proyecto ⚠ BPIN: 10 dígitos — consultar en SUIFP: https://suifp.dnp.gov.co  |  Estado válido: FORMULACION / VIABILIZADO / CONTRATADO / EN_EJECUCION / TERMINADO / SUSPENDIDO",
