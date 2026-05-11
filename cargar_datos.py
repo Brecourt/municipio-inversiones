@@ -242,20 +242,23 @@ def build_proyectos():
             fuentes_dict[fuente_ppal] = valor_total
         fuentes_js = "[" + ",".join(f'{{f:{s(k)},monto:{v}}}' for k, v in fuentes_dict.items()) + "]"
 
-        # Contratos — tomar el primero como contrato principal (compatibilidad con app.js)
+        # Contratos — todos los contratos del BPIN
+        def _cjs(c):
+            return (
+                f'{{numero:{s(str(col(c,"No. Contrato","")))},tipo:{s(str(col(c,"Tipo Contrato","")))}'
+                f',objeto:{s(str(col(c,"Objeto","")))},contratista:{s(str(col(c,"Contratista","")))}'
+                f',nit:{s(str(col(c,"NIT Contratista","")))},valor:{to_int(col(c,"Valor (COP)",default=0))}'
+                f',fecha:{s(str(col(c,"Fecha Suscripcion","") or ""))}'
+                f',estado:{s(str(col(c,"Estado","") or ""))}'
+                f',secopLink:{s(str(col(c,"Link SECOP II","") or ""))}}}'
+            )
         contratos_p = [c for c in contratos_all if str(col(c, "BPIN") or "") == bpin]
         if contratos_p:
-            c0 = contratos_p[0]
-            contrato_js = (
-                f'{{numero:{s(str(col(c0,"No. Contrato","")))},tipo:{s(str(col(c0,"Tipo Contrato","")))}'
-                f',objeto:{s(str(col(c0,"Objeto","")))},contratista:{s(str(col(c0,"Contratista","")))}'
-                f',nit:{s(str(col(c0,"NIT Contratista","")))},valor:{to_int(col(c0,"Valor (COP)",default=0))}'
-                f',fecha:{s(str(col(c0,"Fecha Suscripcion","") or ""))}'
-                f',estado:{s(str(col(c0,"Estado","") or ""))}'
-                f',secopLink:{s(str(col(c0,"Link SECOP II","") or ""))}}}'
-            )
+            contrato_js  = _cjs(contratos_p[0])          # primer contrato (compat. detalle proyecto)
+            contratos_js = "[" + ",".join(_cjs(c) for c in contratos_p) + "]"
         else:
-            contrato_js = "null"
+            contrato_js  = "null"
+            contratos_js = "[]"
 
         # Hitos JS
         hitos_js_list = []
@@ -285,6 +288,7 @@ def build_proyectos():
             f'    fuentes:{fuentes_js},\n'
             f'    ejecucion:{ejec_js},\n'
             f'    contrato:{contrato_js},\n'
+            f'    contratos:{contratos_js},\n'
             f'    hitos:{hitos_js},\n'
             f'    codigoProductoDNP:{s(cod_dnp)},\n'
             f'    indicadorDNP:{s(ind_dnp)},\n'

@@ -21,28 +21,37 @@ function ContratosPage({ onSelectProyecto }) {
   }, []);
 
   const todos = useMemo(() => {
-    return PROYECTOS
-      .filter(p => p.contrato)
-      .map(p => {
-        const ejec    = p.ejecucion.find(e => e.vigencia === vigencia);
-        const ejecPct = ejec && ejec.apropiacion > 0
-          ? Math.round((ejec.pagos / ejec.apropiacion) * 100)
-          : null;
-        return {
-          ...p.contrato,
-          proyectoId:      p.id,
-          proyectoNombre:  p.nombre,
-          sector:          p.sector,
-          estadoProyecto:  p.estado,
-          bpin:            p.bpin,
-          avanceFisico:    p.avanceFisico,
-          avanceFinanciero:p.avanceFinanciero,
+    const rows = [];
+    PROYECTOS.forEach(p => {
+      // Usar array completo de contratos; retroceder a contrato único si no existe
+      const lista = (p.contratos && p.contratos.length > 0)
+        ? p.contratos
+        : (p.contrato ? [p.contrato] : []);
+      if (!lista.length) return;
+
+      const ejec    = p.ejecucion.find(e => e.vigencia === vigencia);
+      const ejecPct = ejec && ejec.apropiacion > 0
+        ? Math.round((ejec.pagos / ejec.apropiacion) * 100)
+        : null;
+
+      lista.forEach(c => {
+        rows.push({
+          ...c,
+          proyectoId:       p.id,
+          proyectoNombre:   p.nombre,
+          sector:           p.sector,
+          estadoProyecto:   p.estado,
+          bpin:             p.bpin,
+          avanceFisico:     p.avanceFisico,
+          avanceFinanciero: p.avanceFinanciero,
           ejecPct,
-          programaPDM:     p.programaPDM,
-          programaNombre:  pdmProgs[p.programaPDM] || p.programaPDM || '—',
-          _ref:            p,
-        };
+          programaPDM:      p.programaPDM,
+          programaNombre:   pdmProgs[p.programaPDM] || p.programaPDM || '—',
+          _ref:             p,
+        });
       });
+    });
+    return rows;
   }, [vigencia, pdmProgs]);
 
   const filtered = useMemo(() => {
@@ -51,9 +60,10 @@ function ContratosPage({ onSelectProyecto }) {
     if (search) {
       const q = search.toLowerCase();
       arr = arr.filter(c =>
-        c.numero.toLowerCase().includes(q) ||
-        c.contratista.toLowerCase().includes(q) ||
-        c.proyectoNombre.toLowerCase().includes(q)
+        (c.numero||'').toLowerCase().includes(q) ||
+        (c.contratista||'').toLowerCase().includes(q) ||
+        (c.proyectoNombre||'').toLowerCase().includes(q) ||
+        (c.objeto||'').toLowerCase().includes(q)
       );
     }
     return [...arr].sort((a, b) =>
