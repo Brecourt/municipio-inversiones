@@ -406,22 +406,113 @@ function ContratosView({ vigencia }) {
 function PDMView({ vigencia }) {
   const [open, setOpen] = useState(null);
 
+  // Calcula avance real de cada Línea Estratégica a partir de proyectos
+  const lineasAvance = useMemo(() => PDM.ejes.map(eje => {
+    const progIds = new Set(eje.programas.map(p => p.id));
+    const proys = PROYECTOS.filter(p => progIds.has(p.programaPDM));
+    const proys_vig = proys.filter(p => p.ejecucion.some(e => e.vigencia === vigencia));
+    const ap  = proys_vig.reduce((a, p) => { const e = p.ejecucion.find(e => e.vigencia === vigencia); return a + (e?.apropiacion || 0); }, 0);
+    const pg  = proys_vig.reduce((a, p) => { const e = p.ejecucion.find(e => e.vigencia === vigencia); return a + (e?.pagos    || 0); }, 0);
+    const rp  = proys_vig.reduce((a, p) => { const e = p.ejecucion.find(e => e.vigencia === vigencia); return a + (e?.rp       || 0); }, 0);
+    const epFinanciero = pct(pg, ap);
+    const epComprom    = pct(rp, ap);
+    const avgFis = proys.length ? Math.round(proys.reduce((a, p) => a + (p.avanceFisico || 0), 0) / proys.length) : 0;
+    // Nombre corto: quitar "FRONTINO NOS UNE CON " y puntuación final
+    const shortName = eje.nombre
+      .replace(/^FRONTINO NOS UNE CON\s+/i, '')
+      .replace(/[.,]\s*$/, '')
+      .trim();
+    return { nombre: shortName, fullNombre: eje.nombre, ap, pg, rp, epFinanciero, epComprom, avgFis, cnt: proys.length, cntVig: proys_vig.length };
+  }), [vigencia]);
+
   return (
     <div className="fade-up">
-      <PageHeader title="🎯 Plan de Desarrollo" sub={PDM.nombre} />
+      <PageHeader title="🎯 Plan de Desarrollo" sub={`${PDM.nombre} · Vigencia ${vigencia}`} />
       <div style={{ padding: '13px 14px 0' }}>
-        {/* Resumen */}
-        <div style={{ ...CARD, padding: '13px' }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>Cumplimiento por Dimensión</div>
-          {PDM.indicadoresRadar.map((r, i) => (
-            <div key={i} style={{ marginBottom: 11 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                <span style={{ fontWeight: 600 }}>{r.eje}</span>
-                <strong style={{ color: pctColor(r.logrado) }}>{r.logrado}%</strong>
+
+        {/* ── Cumplimiento por Línea Estratégica ─────────────────── */}
+        <div style={{ ...CARD, padding: '14px' }}>
+          <div style={{ fontSize: 13, fontWeight: 700 }}>Avance por Línea Estratégica</div>
+          <div style={{ fontSize: 11, color: '#9ca3af', marginBottom: 14, marginTop: 2 }}>
+            Ejecución financiera y avance físico real · Vigencia {vigencia}
+          </div>
+
+          {lineasAvance.map((l, i) => {
+            const fc = pctColor(l.epFinanciero);
+            return (
+              <div key={i} style={{
+                marginBottom: 14, paddingBottom: 14,
+                borderBottom: i < lineasAvance.length - 1 ? '1px solid #f3f4f6' : 'none',
+              }}>
+                {/* Nombre + % financiero */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 7 }}>
+                  <div style={{ flex: 1, marginRight: 10 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#111827', lineHeight: 1.35 }}>{l.nombre}</div>
+                    <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 2 }}>
+                      {l.cntVig} proyectos vigencia · {fCOP(l.ap)} apropiados
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: fc, lineHeight: 1 }}>{l.epFinanciero}%</div>
+                    <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 1 }}>financiero</div>
+                  </div>
+                </div>
+
+                {/* Barra financiera */}
+                <div style={{ marginBottom: 6 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6b7280', marginBottom: 3 }}>
+                    <span>💰 Ejecución Financiera</span>
+                    <span style={{ fontWeight: 700, color: fc }}>{l.epFinanciero}%</span>
+                  </div>
+                  <div style={{ position: 'relative', background: '#f0f0f0', borderRadius: 5, height: 9, overflow: 'hidden' }}>
+                    {/* Comprometido (RP) como capa base */}
+                    <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${Math.min(l.epComprom, 100)}%`, background: fc + '50', borderRadius: 5 }} />
+                    {/* Pagado encima */}
+                    <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${Math.min(l.epFinanciero, 100)}%`, background: fc, borderRadius: 5, transition: 'width .4s' }} />
+                  </div>
+                  {l.epComprom > l.epFinanciero && (
+                    <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 2 }}>
+                      Comprometido: {l.epComprom}% · Pagado: {l.epFinanciero}%
+                    </div>
+                  )}
+                </div>
+
+                {/* Barra física */}
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6b7280', marginBottom: 3 }}>
+                    <span>🏗️ Avance Físico Prom.</span>
+                    <span style={{ fontWeight: 700, color: '#059669' }}>{l.avgFis}%</span>
+                  </div>
+                  <Bar2 value={l.avgFis} color="#10b981" height={6} />
+                </div>
               </div>
-              <Bar2 value={r.logrado} color={pctColor(r.logrado)} height={7} />
-            </div>
-          ))}
+            );
+          })}
+
+          {/* Totales del PDM */}
+          {(() => {
+            const totAp = lineasAvance.reduce((a, l) => a + l.ap, 0);
+            const totPg = lineasAvance.reduce((a, l) => a + l.pg, 0);
+            const totFis = lineasAvance.length ? Math.round(lineasAvance.reduce((a, l) => a + l.avgFis, 0) / lineasAvance.length) : 0;
+            const totEp = pct(totPg, totAp);
+            return (
+              <div style={{ background: '#f8fafc', borderRadius: 10, padding: '10px 12px', marginTop: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 7 }}>📊 Resumen General PDM</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+                  {[
+                    { label: 'Apropiación', val: fCOP(totAp), color: '#059669' },
+                    { label: 'Ejec. Financ.', val: `${totEp}%`,  color: pctColor(totEp) },
+                    { label: 'Av. Físico',   val: `${totFis}%`, color: '#10b981' },
+                  ].map((m, i) => (
+                    <div key={i} style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: m.color }}>{m.val}</div>
+                      <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 1 }}>{m.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Ejes colapsables */}
