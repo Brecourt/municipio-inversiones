@@ -7,10 +7,11 @@
 // ============================================================
 function ContratosPage({ onSelectProyecto }) {
   const vigencia    = React.useContext(VigenciaContext);
-  const [search,     setSearch]     = useState('');
-  const [filtroBPIN, setFiltroBPIN] = useState('');
-  const [filtroSec,  setFiltroSec]  = useState('');
-  const [sortBy,     setSortBy]     = useState('valor');
+  const [search,              setSearch]              = useState('');
+  const [filtroBPIN,          setFiltroBPIN]          = useState('');
+  const [filtroSec,           setFiltroSec]           = useState('');
+  const [filtroEstadoCont,    setFiltroEstadoCont]    = useState('');
+  const [sortBy,              setSortBy]              = useState('valor');
 
   // Build PDM program lookup: id → short name (strip trailing "(XXXX)")
   const pdmProgs = useMemo(() => {
@@ -59,6 +60,7 @@ function ContratosPage({ onSelectProyecto }) {
     let arr = todos;
     if (filtroSec)  arr = arr.filter(c => c.sector === filtroSec);
     if (filtroBPIN) arr = arr.filter(c => String(c.bpin).includes(filtroBPIN.replace(/-/g, '')));
+    if (filtroEstadoCont) arr = arr.filter(c => (c.estado||'').toUpperCase() === filtroEstadoCont);
     if (search) {
       const q = search.toLowerCase();
       arr = arr.filter(c =>
@@ -74,7 +76,7 @@ function ContratosPage({ onSelectProyecto }) {
       sortBy === 'ejecucion' ? (b.ejecPct||0) - (a.ejecPct||0) :
       a.numero.localeCompare(b.numero)
     );
-  }, [todos, filtroSec, search, sortBy]);
+  }, [todos, filtroSec, filtroEstadoCont, search, sortBy]);
 
   const totalValor   = filtered.reduce((a, c) => a + c.valor, 0);
   const avgAvance    = filtered.length ? Math.round(filtered.reduce((a, c) => a + (c.avanceFisico||0), 0) / filtered.length) : 0;
@@ -104,7 +106,7 @@ function ContratosPage({ onSelectProyecto }) {
         <KPICard icon="💵" label="Valor Total"        value={formatCOP(totalValor)} sub="Suma contratos filtrados"            color="#059669" />
         <KPICard icon="🏗️" label="Avance Físico Prom." value={`${avgAvance}%`}     sub="Avance físico promedio"              color="#7c3aed" />
         <KPICard icon="💰" label={`Ejec. Presup. ${vigencia}`} value={`${avgEjec}%`} sub="Pagos / Apropiación promedio"      color="#f59e0b" />
-        <KPICard icon="✅" label="Finalizados"         value={filtered.filter(c=>c.avanceFisico===100).length} sub="Al 100% de avance" color="#10b981" />
+        <KPICard icon="✅" label="Terminados"           value={filtered.filter(c=>(c.estado||'').toUpperCase()==='TERMINADO').length} sub="Contratos terminados" color="#10b981" />
       </div>
 
       {/* Gráfica + Filtros */}
@@ -201,12 +203,18 @@ function ContratosPage({ onSelectProyecto }) {
 
           <Sel value={filtroSec} onChange={setFiltroSec}
             options={[{ value:'', label:'Todos los sectores' }, ...Object.entries(SECTORES).map(([k,v])=>({ value:k, label:v.label }))]} />
+          <Sel value={filtroEstadoCont} onChange={setFiltroEstadoCont}
+            options={[
+              { value:'',            label:'Todos los estados' },
+              { value:'EN_EJECUCION', label:'⚡ En Ejecución' },
+              { value:'TERMINADO',   label:'✅ Terminado' },
+            ]} />
           <Sel value={sortBy} onChange={setSortBy}
             options={[{ value:'valor', label:'Ordenar: Mayor valor' }, { value:'avance', label:'Ordenar: Mayor avance físico' }, { value:'ejecucion', label:'Ordenar: Mayor ejecución presup.' }, { value:'numero', label:'Ordenar: No. contrato' }]} />
 
           {/* Chips de filtros activos */}
-          {(filtroBPIN || filtroSec) && (
-            <button onClick={() => { setFiltroBPIN(''); setFiltroSec(''); }}
+          {(filtroBPIN || filtroSec || filtroEstadoCont) && (
+            <button onClick={() => { setFiltroBPIN(''); setFiltroSec(''); setFiltroEstadoCont(''); }}
               style={{ padding:'6px 12px', background:'#fee2e2', border:'1px solid #fca5a5', borderRadius:8, color:'#991b1b', fontSize:12, fontWeight:700, cursor:'pointer' }}>
               🗑 Limpiar filtros
             </button>
@@ -260,7 +268,23 @@ function ContratosPage({ onSelectProyecto }) {
                 </div>
               );
             }},
-            { title: 'Estado', key: 'estadoProyecto', render: v => <EstadoBadge estado={v} /> },
+            { title: 'Estado Contrato', key: 'estado', render: (v, r) => {
+              const upper = (v||'').toUpperCase();
+              const cfg = upper === 'TERMINADO'
+                ? { bg:'#d1fae5', color:'#065f46', dot:'#10b981', label:'Terminado' }
+                : upper === 'EN_EJECUCION'
+                ? { bg:'#dbeafe', color:'#1e40af', dot:'#3b82f6', label:'En Ejecución' }
+                : { bg:'#f3f4f6', color:'#6b7280', dot:'#9ca3af', label: v||'—' };
+              return (
+                <div>
+                  <span style={{ display:'inline-flex', alignItems:'center', gap:5, background:cfg.bg, color:cfg.color, padding:'2px 8px', borderRadius:20, fontSize:11, fontWeight:700 }}>
+                    <span style={{ width:6, height:6, borderRadius:'50%', background:cfg.dot, flexShrink:0 }}/>
+                    {cfg.label}
+                  </span>
+                  <div style={{ fontSize:10, color:'#9ca3af', marginTop:2 }}>Proy: <EstadoBadge estado={r.estadoProyecto}/></div>
+                </div>
+              );
+            }},
             { title: '', key: '_ref', render: (r) => (
               <button onClick={() => onSelectProyecto(r)}
                 style={{ padding:'5px 12px', background:'#eff6ff', border:'1px solid #bfdbfe', borderRadius:6, color:'#2563eb', cursor:'pointer', fontSize:12, fontWeight:600 }}>
