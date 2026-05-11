@@ -7,9 +7,10 @@
 // ============================================================
 function ContratosPage({ onSelectProyecto }) {
   const vigencia    = React.useContext(VigenciaContext);
-  const [search,    setSearch]    = useState('');
-  const [filtroSec, setFiltroSec] = useState('');
-  const [sortBy,    setSortBy]    = useState('valor');
+  const [search,     setSearch]     = useState('');
+  const [filtroBPIN, setFiltroBPIN] = useState('');
+  const [filtroSec,  setFiltroSec]  = useState('');
+  const [sortBy,     setSortBy]     = useState('valor');
 
   // Build PDM program lookup: id → short name (strip trailing "(XXXX)")
   const pdmProgs = useMemo(() => {
@@ -56,7 +57,8 @@ function ContratosPage({ onSelectProyecto }) {
 
   const filtered = useMemo(() => {
     let arr = todos;
-    if (filtroSec) arr = arr.filter(c => c.sector === filtroSec);
+    if (filtroSec)  arr = arr.filter(c => c.sector === filtroSec);
+    if (filtroBPIN) arr = arr.filter(c => String(c.bpin).includes(filtroBPIN.replace(/-/g, '')));
     if (search) {
       const q = search.toLowerCase();
       arr = arr.filter(c =>
@@ -170,11 +172,45 @@ function ContratosPage({ onSelectProyecto }) {
       {/* Tabla */}
       <Card>
         <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-          <SearchInput value={search} onChange={setSearch} placeholder="Buscar contrato o contratista..." />
+          <SearchInput value={search} onChange={setSearch} placeholder="Buscar contrato, contratista u objeto..." />
+
+          {/* Filtro BPIN */}
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <span style={{ position:'absolute', left:10, fontSize:13, color:'#6b7280', fontWeight:700, pointerEvents:'none' }}>BPIN</span>
+            <input
+              value={filtroBPIN}
+              onChange={e => setFiltroBPIN(e.target.value.replace(/[^0-9-]/g, ''))}
+              placeholder="Ej: 47420"
+              maxLength={18}
+              style={{
+                paddingLeft: 52, paddingRight: filtroBPIN ? 30 : 12,
+                paddingTop: 8, paddingBottom: 8,
+                border: `1.5px solid ${filtroBPIN ? '#2563eb' : '#d1d5db'}`,
+                borderRadius: 8, fontSize: 13, outline: 'none',
+                width: 170, background: filtroBPIN ? '#eff6ff' : '#fafafa',
+                fontFamily: 'monospace', color: '#1e40af', fontWeight: 600,
+                transition: 'border-color .15s, background .15s',
+              }}
+            />
+            {filtroBPIN && (
+              <button onClick={() => setFiltroBPIN('')}
+                style={{ position:'absolute', right:6, background:'none', border:'none', cursor:'pointer', color:'#9ca3af', fontSize:16, lineHeight:1, padding:2 }}
+                title="Limpiar filtro BPIN">✕</button>
+            )}
+          </div>
+
           <Sel value={filtroSec} onChange={setFiltroSec}
             options={[{ value:'', label:'Todos los sectores' }, ...Object.entries(SECTORES).map(([k,v])=>({ value:k, label:v.label }))]} />
           <Sel value={sortBy} onChange={setSortBy}
             options={[{ value:'valor', label:'Ordenar: Mayor valor' }, { value:'avance', label:'Ordenar: Mayor avance físico' }, { value:'ejecucion', label:'Ordenar: Mayor ejecución presup.' }, { value:'numero', label:'Ordenar: No. contrato' }]} />
+
+          {/* Chips de filtros activos */}
+          {(filtroBPIN || filtroSec) && (
+            <button onClick={() => { setFiltroBPIN(''); setFiltroSec(''); }}
+              style={{ padding:'6px 12px', background:'#fee2e2', border:'1px solid #fca5a5', borderRadius:8, color:'#991b1b', fontSize:12, fontWeight:700, cursor:'pointer' }}>
+              🗑 Limpiar filtros
+            </button>
+          )}
         </div>
         <Tbl
           columns={[
