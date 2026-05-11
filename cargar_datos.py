@@ -197,9 +197,12 @@ def build_proyectos():
         pob_tip = str(col(p, "Tipo Población") or "")
         resp    = str(col(p, "Responsable") or "")
         obs     = str(col(p, "Observaciones") or "")
-        cod_dnp = str(col(p, "Código Producto DNP", "Codigo Producto DNP") or "")
-        ind_dnp = str(col(p, "Indicador DNP") or "")
-        uni_dnp = str(col(p, "Unidad DNP") or "")
+        cod_dnp       = str(col(p, "Código Producto DNP", "Codigo Producto DNP") or "")
+        ind_dnp       = str(col(p, "Indicador DNP") or "")
+        uni_dnp       = str(col(p, "Unidad DNP") or "")
+        prod_nombre   = str(col(p, "Producto") or "")
+        meta_cuatrien = str(col(p, "Meta Cuatrienio") or "")
+        meta_vigencia = str(col(p, "Meta Vigencia") or "")
 
         # Ejecucion por vigencia
         ejec_p = [e for e in ejecucion if str(col(e, "BPIN") or "") == bpin]
@@ -292,7 +295,10 @@ def build_proyectos():
             f'    hitos:{hitos_js},\n'
             f'    codigoProductoDNP:{s(cod_dnp)},\n'
             f'    indicadorDNP:{s(ind_dnp)},\n'
-            f'    unidadDNP:{s(uni_dnp)}\n'
+            f'    unidadDNP:{s(uni_dnp)},\n'
+            f'    productoNombre:{s(prod_nombre)},\n'
+            f'    metaCuatrienio:{s(meta_cuatrien)},\n'
+            f'    metaVigencia:{s(meta_vigencia)}\n'
             f'  }}'
         )
 
@@ -492,10 +498,10 @@ function formatBPIN(bpin) {
 
 function formatCOP(v) {
   const n = Number(v)||0;
-  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+'B';
-  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+'B';
-  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+'M';
-  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+'K';
+  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+' B';
+  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+' mmM';
+  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+' M';
+  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+' K';
   return '$'+n.toFixed(0);
 }
 
@@ -508,7 +514,9 @@ function semaforoColor(fisico, financiero, estado) {
   if (estado==='TERMINADO'||estado==='CERRADO') return 'VERDE';
   if (estado==='FORMULACION'||estado==='VIABILIZADO'||estado==='REGISTRADO') return null;
   const f=Number(fisico)||0, g=Number(financiero)||0;
+  if (f===0 && g===0) return 'ROJO';
   const brecha=Math.abs(f-g);
+  if (f===0||g===0) return 'AMARILLO';
   if (brecha>=25||(f<15&&g>35)) return 'ROJO';
   if (brecha>=15) return 'AMARILLO';
   return 'VERDE';

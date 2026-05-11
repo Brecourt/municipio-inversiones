@@ -779,6 +779,7 @@ function ProyectoDetalle({ proyecto, onBack, onEdit }) {
 }
 
 function TabGeneral({ p }) {
+  const hasProd = p.productoNombre || p.codigoProductoDNP || p.indicadorDNP;
   return (
     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
       <Card title="Información General">
@@ -811,6 +812,51 @@ function TabGeneral({ p }) {
           <span style={{fontWeight:800,fontSize:16,color:'#059669'}}>{formatCOP(p.valorTotal)}</span>
         </div>
       </Card>
+      {hasProd && (
+        <div style={{gridColumn:'1/-1'}}>
+          <Card title="📦 Producto DNP">
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))',gap:14}}>
+              {p.codigoProductoDNP && (
+                <div style={{background:'#eff6ff',borderRadius:10,padding:'12px 16px'}}>
+                  <div style={{fontSize:11,fontWeight:700,color:'#2563eb',textTransform:'uppercase',letterSpacing:1,marginBottom:4}}>Código Producto DNP</div>
+                  <code style={{fontSize:15,fontWeight:800,color:'#1e3a5f'}}>{p.codigoProductoDNP}</code>
+                </div>
+              )}
+              {p.productoNombre && (
+                <div style={{background:'#f0fdf4',borderRadius:10,padding:'12px 16px',gridColumn: p.codigoProductoDNP ? 'auto' : '1/-1'}}>
+                  <div style={{fontSize:11,fontWeight:700,color:'#059669',textTransform:'uppercase',letterSpacing:1,marginBottom:4}}>Producto</div>
+                  <div style={{fontSize:14,fontWeight:700,color:'#065f46'}}>{p.productoNombre}</div>
+                </div>
+              )}
+              {p.indicadorDNP && (
+                <div style={{background:'#fefce8',borderRadius:10,padding:'12px 16px',gridColumn:'1/-1'}}>
+                  <div style={{fontSize:11,fontWeight:700,color:'#ca8a04',textTransform:'uppercase',letterSpacing:1,marginBottom:4}}>Indicador de Producto</div>
+                  <div style={{fontSize:13,color:'#713f12'}}>{p.indicadorDNP}</div>
+                  {p.unidadDNP && <div style={{marginTop:4,fontSize:12,color:'#92400e',fontWeight:600}}>Unidad: <span style={{color:'#059669'}}>{p.unidadDNP}</span></div>}
+                </div>
+              )}
+              {(p.metaCuatrienio || p.metaVigencia) && (
+                <div style={{gridColumn:'1/-1',display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                  {p.metaCuatrienio && (
+                    <div style={{background:'#fff7ed',borderRadius:10,padding:'14px 18px',border:'2px solid #fed7aa'}}>
+                      <div style={{fontSize:11,fontWeight:700,color:'#c2410c',textTransform:'uppercase',letterSpacing:1,marginBottom:6}}>🎯 Meta Cuatrienio</div>
+                      <div style={{fontSize:22,fontWeight:800,color:'#ea580c'}}>{p.metaCuatrienio}</div>
+                      {p.unidadDNP && <div style={{fontSize:11,color:'#9a3412',marginTop:2}}>{p.unidadDNP}</div>}
+                    </div>
+                  )}
+                  {p.metaVigencia && (
+                    <div style={{background:'#f0fdf4',borderRadius:10,padding:'14px 18px',border:'2px solid #bbf7d0'}}>
+                      <div style={{fontSize:11,fontWeight:700,color:'#15803d',textTransform:'uppercase',letterSpacing:1,marginBottom:6}}>📅 Meta Vigencia</div>
+                      <div style={{fontSize:22,fontWeight:800,color:'#16a34a'}}>{p.metaVigencia}</div>
+                      {p.unidadDNP && <div style={{fontSize:11,color:'#166534',marginTop:2}}>{p.unidadDNP}</div>}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

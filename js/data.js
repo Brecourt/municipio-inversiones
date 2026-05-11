@@ -48,7 +48,7 @@ const FUENTES = {
 // PROYECTOS (25 proyectos)
 // ---------------------------------------------------------------
 
-// ─── Datos generados por cargar_datos.py — 2026-05-11 11:37:45 ───────────────────────────
+// ─── Datos generados por cargar_datos.py — 2026-05-11 11:55:49 ───────────────────────────
 
 const PDM = {
   municipio:"Frontino",
@@ -79,7 +79,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400303100",
     indicadorDNP:"Estaciones de clasificación y aprovechamiento de residuos sólidos construidas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047399", nombre:"Fortalecimiento del acceso efectivo a la justicia mediante el apoyo integral a la Casa de Justicia del Municipio de  Frontino ",
@@ -98,7 +101,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"120201800",
     indicadorDNP:"Iniciativas viabilizadas apoyadas a las comunidades etnicas, al programa nacional de casa de justicia y las iniciativas, estretegias y poryectos en materia de acceso a la justicia",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047402", nombre:"Prestación del servicio de alimentación como componente del bienestar integral de las personas privadas de la libertad en el municipio de  Frontino ",
@@ -117,7 +123,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"120600702",
     indicadorDNP:"Personas privadas de la libertad (PPL) con servicio de alimentacion",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047404", nombre:"Fortalecimiento de los procesos de educación para el trabajo, resocialización y desarrollo humano de adolescentes vinculados al CETRA del municipio de  Frontino ",
@@ -136,7 +145,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"120601400",
     indicadorDNP:"Personas beneficiarias de procesos de informacion para el trabajo y desarrollo humano",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047408", nombre:"Servicio de resocialización de personas privadas de la libertad mediante convenio interinstitucional con el INPEC del municipio de  Frontino ",
@@ -155,7 +167,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"120203300",
     indicadorDNP:"Espacios de articulacion generados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047414", nombre:"Formulación de la cartografía de zonificación y evaluación de tierras para el ordenamiento social y uso productivo del territorio rural del municipio de  Frontino ",
@@ -174,7 +189,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"170400100",
     indicadorDNP:"Mapas de zonificación elaborados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047417", nombre:"Formulación del Plan de Desarrollo Agropecuario para la inclusión productiva de pequeños productores rurales del municipio de  Frontino ",
@@ -193,7 +211,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"170202301",
     indicadorDNP:"Formulación de plan de Desarrollo Agropecuario y Rural ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047420", nombre:"Formulación de la asistencia técnica agropecuaria integral para la inclusión productiva de pequeños productores rurales del municipio de  Frontino ",
@@ -212,7 +233,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"170201000",
     indicadorDNP:"Pequeños productores rurales asistidos técnicamente",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047423", nombre:"Cofinanciación para la reactivación y continuidad de proyectos en encadenamientos productivos agropecuarios ante afectaciones climáticas, sanitarias, agentes biológicos o bajas productividades en el municipio de  Frontino ",
@@ -231,7 +255,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"170910500",
     indicadorDNP:"Cadenas productivas apoyadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047425", nombre:"Fortalecimiento de la comercialización directa de pequeños productores rurales mediante la realización de Mercados Campesinos en el municipio de  Frontino ",
@@ -250,7 +277,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"170203800",
     indicadorDNP:"Organizaciones de productores  formales apoyadas la  adquisición de competencias  comerciales y en casos  requeridos, la inserción o  consolidación en  encadenamientos comerciales. ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047493", nombre:"Mejoramiento de las redes de alumbrado público urbano y rural  mediante la reinversión de la sobretasa de alumbrado público en el municipio de  Frontino ",
@@ -269,7 +299,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"210201300",
     indicadorDNP:"Redes de alumbrado público mejoradas",
-    unidadDNP:"Metros "
+    unidadDNP:"Metros ",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047498", nombre:"Fortalecimiento de capacidades para el trabajo seguro, responsable y sostenible en actividades mineras del municipio de  Frontino ",
@@ -288,7 +321,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"210401002",
     indicadorDNP:"Personas capacitadas en seguridad minera",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047506", nombre:"Fortalecimiento para la regularización y formalización de la pequeña minería mediante asistencia técnica integral en el municipio de  Frontino ",
@@ -307,7 +343,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"210401800",
     indicadorDNP:"Unidades productivas mineras beneficiarias de asistencia técnica para regularización",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047538", nombre:"Mejoramiento integral de la infraestructura educativa para fortalecer las condiciones de prestación del servicio educativo en el municipio de  Frontino ",
@@ -326,7 +365,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"220105200",
     indicadorDNP:"Sedes educativas mejoradas ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047541", nombre:"Prestación continua del servicio educativo mediante el pago de servicios públicos domiciliarios en las instituciones educativas oficiales del municipio de  Frontino ",
@@ -345,7 +387,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"220106200",
     indicadorDNP:"Sedes mantenidas (Servicios Publicos)",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047555", nombre:"Fortalecimiento de la permanencia escolar mediante la implementación integral del Programa de Alimentación Escolar -PAE- en el municipio de  Frontino ",
@@ -364,7 +409,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"220102801",
     indicadorDNP:"Beneficiarios de la alimentación escolar",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047571", nombre:"Fortalecimiento de la permanencia escolar mediante la implementación del servicio de transporte escolar para estudiantes de instituciones educativas oficiales del municipio de  Frontino ",
@@ -383,7 +431,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"220102900",
     indicadorDNP:"Beneficiarios de transporte escolar",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047582", nombre:"Fortalecimiento de la calidad educativa mediante la realización del Foro Educativo Municipal en el municipio de  Frontino ",
@@ -402,7 +453,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"220104902",
     indicadorDNP:"Foros educativos territoriales realizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047610", nombre:"Mejoramiento de la infraestructura vial urbana para fortalecer la movilidad y seguridad vial en el municipio de  Frontino ",
@@ -421,7 +475,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240211400",
     indicadorDNP:"Vía urbana mejorada ",
-    unidadDNP:"Kilómetros"
+    unidadDNP:"Kilómetros",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047627", nombre:"Mantenimiento periódico y rutinario de la red vial terciaria del municipio de  Frontino ",
@@ -440,7 +497,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240211200",
     indicadorDNP:"Vía terciaria con mantenimiento ",
-    unidadDNP:"Kilómetros"
+    unidadDNP:"Kilómetros",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047646", nombre:"Mantenimiento periódico y rutinario de puentes de la red vial terciaria del municipio de  Frontino ",
@@ -459,7 +519,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240204800",
     indicadorDNP:"Puentes de la red terciaria con mantenimiento",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047652", nombre:"Mantenimiento y mejoramiento de caminos ancestrales para fortalecer la conectividad rural y cultural del municipio de  Frontino ",
@@ -478,7 +541,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240205600",
     indicadorDNP:"Caminos ancestrales con mantenimiento ",
-    unidadDNP:"Kilómetros"
+    unidadDNP:"Kilómetros",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047671", nombre:"Construcción de puentes y pontones en caminos ancestrales para fortalecer la conectividad rural del municipio de  Frontino ",
@@ -497,7 +563,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240205700",
     indicadorDNP:"Puente construido en caminos ancestrales ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047686", nombre:"Implementación de dispositivos de control y señalización vial para el fortalecimiento de la seguridad del transporte en el municipio de  Frontino ",
@@ -516,7 +585,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240903900",
     indicadorDNP:"Vías con dispositivos de control y señalización",
-    unidadDNP:"Kilómetros"
+    unidadDNP:"Kilómetros",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047730", nombre:"Elaboración del Inventario Municipal de Flora y Fauna para la conservación de la biodiversidad y los servicios ecosistémicos del municipio de  Frontino ",
@@ -535,7 +607,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"320200400",
     indicadorDNP:"Documentos de investigación realizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047751", nombre:"Servicio de Establecimiento de especies vegetales nativas para la conservación de la biodiversidad y los servicios ecosistémicos en el municipio de  Frontino ",
@@ -554,7 +629,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"320204100",
     indicadorDNP:"Árboles plantados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047762", nombre:"Fortalecimiento e la conciencia ambiental mediante la prestación del servicio de educación informal ambiental en el municipio de  Frontino ",
@@ -573,7 +651,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"320801000",
     indicadorDNP:"Personas capacitadas hacia el  conocimiento de la  biodiversidad y los ecosistemas  para sensibilizar a la población  despertar la conciencia  ambiental. ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047779", nombre:"Consolidación de negocios verdes mediante asistencia técnica especializada en el municipio de  Frontino ",
@@ -592,7 +673,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"320100300",
     indicadorDNP:"Negocios verdes consolidados con asistencia técnica",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047795", nombre:"Protección y manejo de áreas estratégicas para la conservación del recurso hídrico en el municipio de  Frontino ",
@@ -611,7 +695,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"320305000",
     indicadorDNP:"Áreas protegidas",
-    unidadDNP:"Hectáreas"
+    unidadDNP:"Hectáreas",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047800", nombre:"Adecuación de la Casa de la Cultura del corregimiento de Nutibara para el fortalecimiento del acceso a procesos culturales y artísticos del Municipio de  Frontino ",
@@ -630,7 +717,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330101800",
     indicadorDNP:"Casas de la cultura adecuadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047807", nombre:"Fortalecimiento de la gestión documental y archivística para la protección del patrimonio documental del municipio de  Frontino ",
@@ -649,7 +739,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330207000",
     indicadorDNP:"Servicio de Archivos Patrimoniales",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047832", nombre:"Formulación del Plan Municipal de Lectura, Escritura y Oralidad (LEO) para el fortalecimiento de los procesos culturales y educativos del municipio de  Frontino ",
@@ -668,7 +761,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330112900",
     indicadorDNP:"Documentos de planeación realizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047838", nombre:"Fortalecimiento de las capacidades del sector artístico y cultural mediante la prestación del servicio de educación informal en el municipio de  Frontino ",
@@ -687,7 +783,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330105100",
     indicadorDNP:"Personas capacitadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047842", nombre:"Prestación de los servicios bibliotecarios para el acceso a la información y la cultura en el municipio de  Frontino ",
@@ -706,7 +805,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330108500",
     indicadorDNP:"Usuarios atendidos",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047878", nombre:"Servicio para la Promoción y realización de actividades culturales y de circulación artística en el municipio de  Frontino ",
@@ -725,7 +827,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330105300",
     indicadorDNP:"Eventos de promoción de actividades culturales realizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047879", nombre:"Servicio de Salvaguardia integral del patrimonio cultural inmaterial del municipio  Frontino ",
@@ -744,7 +849,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"330204900",
     indicadorDNP:"Procesos de salvaguardia efectiva del patrimonio inmaterial realizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000047953", nombre:"Fortalecimiento de capacidades en turismo local mediante la prestación del servicio de educación informal en asuntos turísticos en el municipio de  Frontino ",
@@ -763,7 +871,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"350204500",
     indicadorDNP:"Personas capacitadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048004", nombre:"Mejoramiento de Viviendas de Interés Social para el fortalecimiento de condiciones de habitabilidad en el municipio de  Frontino ",
@@ -782,7 +893,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400104400",
     indicadorDNP:"Vivienda de Interés Social mejoradas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048025", nombre:"Construcción e Viviendas de Interés Prioritario para la reducción del déficit habitacional en el municipio de  Frontino ",
@@ -801,7 +915,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400103900",
     indicadorDNP:"Vivienda de Interés Prioritario construidas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048067", nombre:"Optimización de los sistemas de acueducto para mejorar el acceso al agua potable en el municipio de  Frontino ",
@@ -820,7 +937,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400301700",
     indicadorDNP:"Acueductos optimizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048094", nombre:"Optimización de los sistemas de alcantarillado para mejorar el saneamiento básico en el municipio de  Frontino ",
@@ -839,7 +959,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400302000",
     indicadorDNP:"Alcantarillados optimizados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048118", nombre:"Ampliación de los sistemas de alcantarillado para fortalecer el saneamiento básico en el municipio de  Frontino ",
@@ -858,7 +981,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400301900",
     indicadorDNP:"Alcantarillados ampliados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048135", nombre:"Ampliación de los sistemas de acueducto para fortalecer el acceso al agua potable en el municipio de  Frontino ",
@@ -877,7 +1003,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400301600",
     indicadorDNP:"Acueductos ampliados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048180", nombre:"Apoyo financiero para la aplicación de subsidios al consumo de servicios públicos domiciliarios en acueducto, alcantarillado y aseo en el municipio de  Frontino ",
@@ -896,7 +1025,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400304700",
     indicadorDNP:"Usuarios beneficiados con subsidios al consumo",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048185", nombre:"Apoyo financiero municipal para la ejecución de proyectos de acueducto y alcantarillado a través del Plan Departamental de Aguas PDA en el municipio de  Frontino ",
@@ -915,7 +1047,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400302500",
     indicadorDNP:"Servicios de apoyo financiero para la ejecución de proyectos de acueductos y alcantarillado",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048192", nombre:"Prestación del servicio de ayuda y atención humanitaria a víctimas del conflicto armado en el municipio de  Frontino ",
@@ -934,7 +1069,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410102500",
     indicadorDNP:"Personas con asistencia humanitaria a las victimas del conflicto armado",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048206", nombre:"Prestación del servicio de caracterización de la población víctima del conflicto armado para su atención, asistencia y reparación integral en el municipio de  Frontino ",
@@ -953,7 +1091,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410101400",
     indicadorDNP:"Victimas caracterizadas para su posterior atencion, asistencia y reparacion integral ",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048210", nombre:"Prestación de servicios de atención pedagógica y restaurativa para la inclusión social de niños, niñas, adolescentes y jóvenes mediante la operación de la Comisaría de Familia en la Casa de Justicia del municipio de  Frontino ",
@@ -972,7 +1113,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410203800",
     indicadorDNP:"Niños, niñas, adolescentes y jóvenes atendidos en los servicios de restablecimiento en la administración de justicia",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048222", nombre:"Prestación del servicio de atención integral a la primera infancia mediante la operación de Hogares de Paso en el municipio de  Frontino ",
@@ -991,7 +1135,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410200100",
     indicadorDNP:"Niños y niñas atendidos en servicios integrales",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048251", nombre:"Desarrollo de programa Renta Ciudadana enfocado en la dinámica relacional familiar, desarrollo autónomo de familias vulnerables y acompañamiento a la superación de la pobreza en el municipio de  Frontino ",
@@ -1010,7 +1157,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410204300",
     indicadorDNP:"Familias atendidas en de promoción de temas de dinámica relacional y desarrollo autónomo",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048257", nombre:"Fortalecimiento del tejido social y del Sistema Municipal de Juventudes en el municipio de  Frontino ",
@@ -1029,7 +1179,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410204200",
     indicadorDNP:"Acciones ejecutadas con las comunidades en temas de fortalecimiento del tejido social y construcción de escenarios comunitarios protectores de derechos.",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048277", nombre:"Mejoramiento y adecuación del Centro de Protección Social de Día para el Adulto Mayor en el municipio de  Frontino ",
@@ -1048,7 +1201,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410401200",
     indicadorDNP:"Centros de día para el adulto mayor modificados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048290", nombre:"Prestación del servicio de atención y protección integral al adulto mayor en el municipio de  Frontino ",
@@ -1067,7 +1223,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410400800",
     indicadorDNP:"Adultos mayores atendidos con servicios integrales",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048309", nombre:"Prestación del servicio de atención integral a la población en condición de discapacidad en el municipio de  Frontino ",
@@ -1086,7 +1245,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410402000",
     indicadorDNP:"Personas con discapacidad atendidas con servicios integrales",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048358", nombre:"Construcción de parques recreativos para el fomento de la recreación y la convivencia ciudadana en el municipio de  Frontino ",
@@ -1105,7 +1267,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"430101200",
     indicadorDNP:"Parques recreativos mantenidos",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048481", nombre:"Instalación de gimnasios biosaludables al aire libre para el fomento de la actividad física y la convivencia en el municipio  Frontino ",
@@ -1124,7 +1289,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"430102400",
     indicadorDNP:"Gimnasios al Aire libre construidos",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048491", nombre:"Desarrollo del Convenio para Promoción de la actividad física, recreación y deporte entre la Junta Municipal de Deportes - JUNDEPORTES Frontino y el municipio de  Frontino ",
@@ -1143,7 +1311,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"430103700",
     indicadorDNP:"Personas que acceden a servicios deportivos, recreativos y de actividad física",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048495", nombre:"Adecuación y mejoramiento de salones comunales para el fortalecimiento organizativo de las Juntas de Acción Comunal en el municipio de  Frontino ",
@@ -1162,7 +1333,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"450200300",
     indicadorDNP:"Salones comunales adecuados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048502", nombre:"Apoyo a la Promoción del ejercicio de la participación ciudadana para el fortalecimiento democrático y el respeto a los derechos humanos en el municipio de  Frontino ",
@@ -1181,7 +1355,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"450200100",
     indicadorDNP:"Espacios de participación promovidos",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048510", nombre:"Construcción y mejoramiento de obras de infraestructura para la reducción del riesgo de desastres en el municipio de  Frontino ",
@@ -1200,7 +1377,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"450302200",
     indicadorDNP:"Obras de infraestructura para la reducción del riesgo de desastres realizadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048531", nombre:"Prestación de servicios de apoyo para la atención inmediata de población afectada por emergencias y desastres en el municipio de  Frontino ",
@@ -1219,7 +1399,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"450302800",
     indicadorDNP:"Personas afectadas por situaciones de emergencia, desastre o declaratorias de calamidad pública apoyadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048534", nombre:"Mantenimiento de sedes administrativas públicas para garantizar su operación institucional  en el municipio de  Frontino ",
@@ -1238,7 +1421,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"459901600",
     indicadorDNP:"Sedes administrativas mantenidad",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048591", nombre:"Adecuación y modernización de sedes administrativas para el fortalecimiento de la gestión pública y la atención ciudadana en el municipio de  Frontino ",
@@ -1257,7 +1443,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"459901100",
     indicadorDNP:"Sedes administrativas adecuadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048648", nombre:"Prestación de servicios de asistencia profesional y técnica para fortalecer la gestión administrativa y operativa de la Alcaldía del Municipio de  Frontino ",
@@ -1276,7 +1465,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"459903100",
     indicadorDNP:"Servicio de asistencia técnica",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048881", nombre:"Formulación y adopción de Modelos en Planeación integral en Salud y Desarrollo Institucional con Planes de acción en Salud en el Municipio de  Frontino ",
@@ -1295,7 +1487,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190501501",
     indicadorDNP:"Planes de salud pública elaborados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048885", nombre:"Implementación del servicio de gestión del riesgo para prevención del consumo de sustancias psicoactivas con estrategias comunitarias y APS en el municipio de  Frontino ",
@@ -1314,7 +1509,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502000",
     indicadorDNP:"Campañas de gestión del riesgo en temas de consumo de sustancias psicoactivas implementadas",
-    unidadDNP:"Minutos"
+    unidadDNP:"Minutos",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048893", nombre:"Implementación del servicio de gestión del riesgo en salud sexual y reproductiva con enfoque de derechos y APS en el Municipio de  Frontino ",
@@ -1333,7 +1531,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502100",
     indicadorDNP:"Campañas de gestión del riesgo en temas de salud sexual y reproductiva implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048955", nombre:"Implementación del servicio de gestión del riesgo en trastornos mentales mediante estrategias comunitarias y APS en el Municipio de  Frontino ",
@@ -1352,7 +1553,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502200",
     indicadorDNP:"Campañas de gestión del riesgo en temas de trastornos mentales implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048959", nombre:"Implementación del servicio de gestión del riesgo para prevención de enfermedades asociadas a condiciones ambientales con enfoque APS en el municipio de  Frontino ",
@@ -1371,7 +1575,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502400",
     indicadorDNP:"Campañas de gestión del riesgo para abordar situaciones de salud relacionadas con condiciones ambientales implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048964", nombre:"Implementación del servicio de gestión del riesgo por exposición laboral con estrategias de educación y prevención en salud para trabajadores en el municipio de  Frontino ",
@@ -1390,7 +1597,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502500",
     indicadorDNP:"Campañas de gestión del riesgo para abordar situaciones prevalentes de origen laboral implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048970", nombre:"Implementación del servicio de gestión del riesgo para enfermedades emergentes, reemergentes y desatendidas con enfoque APS en el municipio de  Frontino ",
@@ -1409,7 +1619,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502600",
     indicadorDNP:"Campañas de gestión del riesgo para enfermedades emergentes, reemergentes y desatendidas implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000048999", nombre:"Implementación del servicio de gestión del riesgo para enfermedades inmunoprevenibles mediante fortalecimiento del PAI y APS territorial en el municipio de  Frontino ",
@@ -1428,7 +1641,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502700",
     indicadorDNP:"Campañas de gestión del riesgo para enfermedades inmunoprevenibles  implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049005", nombre:"Implementación del servicio de gestión del riesgo nutricional y alimentario con enfoque APS, inocuidad y Seguridad Alimentaria en el municipio de  Frontino ",
@@ -1447,7 +1663,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502800",
     indicadorDNP:"Campañas de gestión del riesgo para temas de consumo, aprovechamiento biológico, calidad e inocuidad de los alimentos implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049009", nombre:"Fortalecimiento del servicio de suministro de insumos para eventos de interés en Salud Pública en el Municipio de  Frontino ",
@@ -1466,7 +1685,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190502900",
     indicadorDNP:"Entidades territoriales con servicio de suministro de insumos para el manejo de eventos de interés en salud pública",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049022", nombre:"Servicio de promoción de la salud para prevención de enfermedades no transmisibles y envejecimiento saludable mediante APS en el Municipio de  Frontino ",
@@ -1485,7 +1707,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190503100",
     indicadorDNP:"Campañas de promoción de la salud  y prevención de riesgos asociados a condiciones no transmisibles implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049028", nombre:"Servicio de gestión territorial para respuesta en salud publica ante emergencias, desastres y pandemias en el Municipio de  Frontino ",
@@ -1504,7 +1729,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190503505",
     indicadorDNP:"Estrategias de gestión territorial para atención en salud -pandemias- a población afectada por emergencias o desastres implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049038", nombre:"Servicio de certificación, registro y caracterización de discapacidad con enfoque diferencial en el Municipio de  Frontino ",
@@ -1523,7 +1751,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190504002",
     indicadorDNP:"Valoraciones multidisciplinarias realizadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049043", nombre:"Fortalecimiento de la participación social en salud y gobernanza comunitaria en el Municipio de  Frontino ",
@@ -1542,7 +1773,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190504900",
     indicadorDNP:"Estrategias de promoción de la participación social en salud implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049049", nombre:"Implementación y fortalecimiento del Sistema de Información en Salud Pública para gestión del conocimiento y toma de decisiones en el Municipio de  Frontino ",
@@ -1561,7 +1795,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190505200",
     indicadorDNP:"Sistemas de información implementados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049057", nombre:"Servicio de promoción de la salud y fortalecimiento de capacidades comunitarias para el bienestar integral en el Municipio de  Frontino ",
@@ -1580,7 +1817,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190505400",
     indicadorDNP:"Estrategias de promoción de la salud implementadas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202500000049061", nombre:"Servicio de atención integral en salud y respuesta a urgencias para población afiliada y migrante no asegurada en el Municipio de  Frontino ",
@@ -1599,7 +1839,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"190604400",
     indicadorDNP:"Personas afiliadas al régimen subsidiado",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202600000006597", nombre:"Construcción de placas huella para el mejoramiento de la red vial terciaria del municipio de  Frontino",
@@ -1618,7 +1861,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"240204200",
     indicadorDNP:"Vía terciaria mejorada",
-    unidadDNP:"Metros lineales"
+    unidadDNP:"Metros lineales",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202600000006625", nombre:"Dotación de centro comunitario para el fortalecimiento social, cultural y formativo de la población afrodescendiente del corregimiento de Murrí, municipio de  Frontino ",
@@ -1637,7 +1883,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"410303100",
     indicadorDNP:"Centros comunitarios dotados",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"202600000011039", nombre:"Mejoramiento de Viviendas de Interés Prioritario VIP para el fortalecimiento de condiciones de habitabilidad en el municipio de Frontino",
@@ -1656,7 +1905,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"400104100",
     indicadorDNP:"Vivienda de Interés Prioritario mejoradas",
-    unidadDNP:"Número"
+    unidadDNP:"Número",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   },
   {
     bpin:"⚠ BPIN: 10 dígitos — consultar en SUIFP: https://suifp.dnp.gov.co  |  Estado válido: FORMULACION / VIABILIZADO / CONTRATADO / EN_EJECUCION / TERMINADO / SUSPENDIDO", nombre:"Proyecto ⚠ BPIN: 10 dígitos — consultar en SUIFP: https://suifp.dnp.gov.co  |  Estado válido: FORMULACION / VIABILIZADO / CONTRATADO / EN_EJECUCION / TERMINADO / SUSPENDIDO",
@@ -1675,7 +1927,10 @@ let PROYECTOS = [
     hitos:[],
     codigoProductoDNP:"",
     indicadorDNP:"",
-    unidadDNP:""
+    unidadDNP:"",
+    productoNombre:"",
+    metaCuatrienio:"",
+    metaVigencia:""
   }
 ];
 
@@ -1782,10 +2037,10 @@ function formatBPIN(bpin) {
 
 function formatCOP(v) {
   const n = Number(v)||0;
-  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+'B';
-  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+'B';
-  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+'M';
-  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+'K';
+  if (n >= 1e12) return '$'+(n/1e12).toFixed(1)+' B';
+  if (n >= 1e9)  return '$'+(n/1e9).toFixed(1)+' mmM';
+  if (n >= 1e6)  return '$'+(n/1e6).toFixed(0)+' M';
+  if (n >= 1e3)  return '$'+(n/1e3).toFixed(0)+' K';
   return '$'+n.toFixed(0);
 }
 
@@ -1798,7 +2053,9 @@ function semaforoColor(fisico, financiero, estado) {
   if (estado==='TERMINADO'||estado==='CERRADO') return 'VERDE';
   if (estado==='FORMULACION'||estado==='VIABILIZADO'||estado==='REGISTRADO') return null;
   const f=Number(fisico)||0, g=Number(financiero)||0;
+  if (f===0 && g===0) return 'ROJO';
   const brecha=Math.abs(f-g);
+  if (f===0||g===0) return 'AMARILLO';
   if (brecha>=25||(f<15&&g>35)) return 'ROJO';
   if (brecha>=15) return 'AMARILLO';
   return 'VERDE';
