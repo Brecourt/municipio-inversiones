@@ -68,7 +68,7 @@ function ContratosPage({ onSelectProyecto }) {
   const avgAvance    = filtered.length ? Math.round(filtered.reduce((a, c) => a + (c.avanceFisico||0), 0) / filtered.length) : 0;
   const withEjec     = filtered.filter(c => c.ejecPct !== null);
   const avgEjec      = withEjec.length ? Math.round(withEjec.reduce((a, c) => a + c.ejecPct, 0) / withEjec.length) : 0;
-  const tiposCount   = filtered.reduce((acc, c) => { acc[c.tipoContrato||'OBRA'] = (acc[c.tipoContrato||'OBRA']||0)+1; return acc; }, {});
+  const tiposCount   = filtered.reduce((acc, c) => { const t = c.tipo || 'Sin tipo'; acc[t] = (acc[t]||0)+1; return acc; }, {});
 
   // Gráfica por sector
   const porSector = Object.entries(SECTORES).map(([k, v]) => {
@@ -111,15 +111,49 @@ function ContratosPage({ onSelectProyecto }) {
           </ResponsiveContainer>
         </Card>
 
-        <Card title="Tipos de Contrato" style={{ minWidth: 200 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 4 }}>
-            {Object.entries(tiposCount).map(([tipo, cnt]) => (
-              <div key={tipo} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-                <span style={{ fontSize: 12, color: '#374151' }}>{tipo.replace(/_/g,' ')}</span>
-                <span style={{ fontWeight: 700, fontSize: 14, color: '#2563eb' }}>{cnt}</span>
+        <Card title="Tipos de Contrato" style={{ minWidth: 220 }}>
+          {(() => {
+            const TIPO_CFG = {
+              'Prestación de servicios':                    { color:'#2563eb', short:'Prest. Servicios' },
+              'Régimen especial':                           { color:'#7c3aed', short:'Rég. Especial' },
+              'Minima Cuantia':                             { color:'#f59e0b', short:'Mínima Cuantía' },
+              'Régimen especial - Obra':                    { color:'#9333ea', short:'Rég. Esp. Obra' },
+              'Suministro':                                 { color:'#0891b2', short:'Suministro' },
+              'Contratos o convenios Interadministrativos': { color:'#16a34a', short:'Interadministrat.' },
+              'Obra':                                       { color:'#64748b', short:'Obra' },
+            };
+            const total = Object.values(tiposCount).reduce((a,b)=>a+b, 0);
+            const sorted = Object.entries(tiposCount).sort((a,b) => b[1]-a[1]);
+            return (
+              <div style={{ display:'flex', flexDirection:'column', gap:9, paddingTop:4 }}>
+                {sorted.map(([tipo, cnt]) => {
+                  const cfg = TIPO_CFG[tipo] || { color:'#6b7280', short: tipo };
+                  const pct = total ? Math.round((cnt/total)*100) : 0;
+                  return (
+                    <div key={tipo}>
+                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:3 }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                          <span style={{ width:8, height:8, borderRadius:'50%', background:cfg.color, flexShrink:0, display:'inline-block' }}/>
+                          <span style={{ fontSize:11, color:'#374151', fontWeight:500 }} title={tipo}>{cfg.short}</span>
+                        </div>
+                        <div style={{ display:'flex', alignItems:'center', gap:5 }}>
+                          <span style={{ fontSize:10, color:'#9ca3af' }}>{pct}%</span>
+                          <span style={{ fontWeight:700, fontSize:13, color:cfg.color }}>{cnt}</span>
+                        </div>
+                      </div>
+                      <div style={{ height:4, background:'#f3f4f6', borderRadius:3, overflow:'hidden' }}>
+                        <div style={{ width:`${pct}%`, height:'100%', background:cfg.color, borderRadius:3 }}/>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div style={{ borderTop:'1px solid #f3f4f6', paddingTop:6, display:'flex', justifyContent:'space-between', fontSize:11 }}>
+                  <span style={{ color:'#6b7280' }}>Total</span>
+                  <span style={{ fontWeight:700, color:'#111827' }}>{total}</span>
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })()}
         </Card>
       </div>
 
