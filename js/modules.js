@@ -79,10 +79,15 @@ function ContratosPage({ onSelectProyecto }) {
   }, [todos, filtroSec, filtroEstadoCont, search, sortBy]);
 
   const totalValor   = filtered.reduce((a, c) => a + c.valor, 0);
-  const avgAvance    = filtered.length ? Math.round(filtered.reduce((a, c) => a + (c.avanceFisico||0), 0) / filtered.length) : 0;
-  const withEjec     = filtered.filter(c => c.ejecPct !== null);
-  const avgEjec      = withEjec.length ? Math.round(withEjec.reduce((a, c) => a + c.ejecPct, 0) / withEjec.length) : 0;
-  const tiposCount   = filtered.reduce((acc, c) => { const t = c.tipo || 'Sin tipo'; acc[t] = (acc[t]||0)+1; return acc; }, {});
+
+  // La ejecución (avanceFisico, ejecPct) vive a nivel BPIN — no por contrato.
+  // Deduplicamos por BPIN antes de promediar para que un BPIN con N contratos
+  // no pese N veces en el promedio.
+  const uniqueBPIN = [...new Map(filtered.map(c => [c.bpin, c])).values()];
+  const avgAvance  = uniqueBPIN.length ? Math.round(uniqueBPIN.reduce((a, c) => a + (c.avanceFisico||0), 0) / uniqueBPIN.length) : 0;
+  const withEjec   = uniqueBPIN.filter(c => c.ejecPct !== null);
+  const avgEjec    = withEjec.length ? Math.round(withEjec.reduce((a, c) => a + c.ejecPct, 0) / withEjec.length) : 0;
+  const tiposCount = filtered.reduce((acc, c) => { const t = c.tipo || 'Sin tipo'; acc[t] = (acc[t]||0)+1; return acc; }, {});
 
   // Gráfica por sector
   const porSector = Object.entries(SECTORES).map(([k, v]) => {

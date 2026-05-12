@@ -348,19 +348,36 @@ function ProyectoDetalle({ proyecto, vigencia, onBack }) {
 function ContratosView({ vigencia }) {
   const [search, setSearch] = useState('');
 
-  const all = useMemo(() => PROYECTOS.filter(p => p.contrato).map(p => {
-    const ejec = p.ejecucion.find(e => e.vigencia === vigencia);
-    return { ...p.contrato, proyecto: p, ep: pct(ejec?.pagos, ejec?.apropiacion) };
-  }), [vigencia]);
+  // Un BPIN puede tener varios contratos → aplanamos el array
+  const all = useMemo(() => {
+    const rows = [];
+    PROYECTOS.forEach(p => {
+      const contratos = (p.contratos && p.contratos.length > 0)
+        ? p.contratos
+        : (p.contrato ? [p.contrato] : []);
+      const ejec = p.ejecucion.find(e => e.vigencia === vigencia);
+      const ep   = pct(ejec?.pagos, ejec?.apropiacion);
+      contratos.forEach(c => rows.push({ ...c, bpin: p.bpin, proyecto: p, ep }));
+    });
+    return rows;
+  }, [vigencia]);
 
   const filtered = useMemo(() => {
     if (!search) return all;
     const q = search.toLowerCase();
-    return all.filter(c => c.numero.toLowerCase().includes(q) || c.contratista.toLowerCase().includes(q) || c.proyecto.nombre.toLowerCase().includes(q));
+    return all.filter(c =>
+      (c.numero||'').toLowerCase().includes(q) ||
+      (c.contratista||'').toLowerCase().includes(q) ||
+      (c.proyecto.nombre||'').toLowerCase().includes(q)
+    );
   }, [all, search]);
 
-  const totalVal = filtered.reduce((a, c) => a + c.valor, 0);
-  const avgEp    = filtered.length ? Math.round(filtered.reduce((a, c) => a + c.ep, 0) / filtered.length) : 0;
+  const totalVal = filtered.reduce((a, c) => a + (c.valor||0), 0);
+  // La ejecución vive a nivel BPIN → deduplicamos antes de promediar
+  const uniqueBPIN = [...new Map(filtered.map(c => [c.bpin, c])).values()];
+  const avgEp = uniqueBPIN.length
+    ? Math.round(uniqueBPIN.reduce((a, c) => a + c.ep, 0) / uniqueBPIN.length)
+    : 0;
 
   return (
     <div className="fade-up">
