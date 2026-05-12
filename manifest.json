@@ -1,7 +1,7 @@
 {
-  "name": "Frontino · Inversión Municipal",
-  "short_name": "Frontino",
-  "description": "Sistema de Seguimiento de Inversión Municipal del municipio de Frontino, Antioquia",
+  "name": "SUIM · Frontino",
+  "short_name": "SUIM",
+  "description": "Sistema Único de Información Municipal del municipio de Frontino, Antioquia",
   "start_url": "/municipio-inversiones/mobile.html",
   "scope": "/municipio-inversiones/",
   "display": "standalone",

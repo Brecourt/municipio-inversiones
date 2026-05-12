@@ -1438,8 +1438,8 @@ function App() {
           <span style={{display:'none',width:46,height:46,background:'rgba(255,255,255,0.12)',borderRadius:10,alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>🏛️</span>
           <div>
             <div style={{color:'#fff',fontWeight:800,fontSize:12.5,lineHeight:1.3}}>{PDM.municipio||'Municipio'}</div>
-            <div style={{color:'rgba(255,255,255,0.6)',fontSize:10.5,marginTop:1}}>Sistema de Seguimiento</div>
-            <div style={{color:'rgba(255,255,255,0.45)',fontSize:10,marginTop:1}}>Inversión Municipal · Colombia</div>
+            <div style={{color:'rgba(255,255,255,0.6)',fontSize:10.5,marginTop:1}}>Sistema Único de Información Municipal</div>
+            <div style={{color:'rgba(255,255,255,0.45)',fontSize:10,marginTop:1}}>SUIM · Frontino, Antioquia</div>
           </div>
         </div>
         <nav style={{flex:1,padding:'10px 8px',overflowY:'auto'}}>
