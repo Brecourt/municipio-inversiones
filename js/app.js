@@ -1363,8 +1363,7 @@ function App() {
     {id:'dashboard',   label:'Dashboard',               icon:'📊', group:''},
     {id:'proyectos',   label:'Proyectos de Inversión',  icon:'📁', group:'Seguimiento'},
     {id:'semaforo',    label:'Semáforo de Riesgo',      icon:'🚦', group:'Seguimiento'},
-    {id:'alertas',     label:'Centro de Alertas',       icon:'🔔', group:'Seguimiento'},
-    {id:'contratos',   label:'Contratos',               icon:'📄', group:'Seguimiento'},
+{id:'contratos',   label:'Contratos',               icon:'📄', group:'Seguimiento'},
     {id:'politicas',   label:'Políticas Públicas',      icon:'📜', group:'Planificación'},
     {id:'planes',      label:'Planes Sectoriales',      icon:'🗂️', group:'Planificación'},
     {id:'indicadores', label:'Indicadores PDM',         icon:'🎯', group:'Planificación'},
@@ -1404,8 +1403,7 @@ function App() {
       return <ProyectosPage onSelect={setSelectedProyecto} onNew={()=>{setEditingProyecto(null);setShowForm(true);}}/>;
     }
     if (page==='semaforo')    return <SemaforoPage     onSelect={p=>{setSelectedProyecto(p);setPage('proyectos');}}/>;
-    if (page==='alertas')     return <AlertasPage/>;
-    if (page==='contratos')   return <ContratosPage    onSelectProyecto={p=>{setSelectedProyecto(p);setPage('proyectos');}}/>;
+if (page==='contratos')   return <ContratosPage    onSelectProyecto={p=>{setSelectedProyecto(p);setPage('proyectos');}}/>;
     if (page==='indicadores') return <IndicadoresPDMPage/>;
     if (page==='comparativo') return <ComparativoPage/>;
     if (page==='politicas') {
@@ -1457,10 +1455,6 @@ function App() {
                       onMouseLeave={e=>{if(page!==item.id)e.currentTarget.style.background='transparent'}}>
                       <span style={{fontSize:15,flexShrink:0}}>{item.icon}</span>
                       <span style={{whiteSpace:'nowrap',fontSize:12.5}}>{item.label}</span>
-                      {item.id==='alertas' && (() => {
-                        const cnt = PROYECTOS.filter(p=>p.estado==='SUSPENDIDO'||((p.estado==='EN_EJECUCION'||p.estado==='EJECUCION')&&Math.abs(p.avanceFisico-p.avanceFinanciero)>15)).length;
-                        return cnt>0?<span style={{marginLeft:'auto',background:'#ef4444',color:'#fff',borderRadius:10,fontSize:10,fontWeight:800,padding:'1px 6px',minWidth:18,textAlign:'center'}}>{cnt}</span>:null;
-                      })()}
                     </button>
                   ))}
                 </div>
