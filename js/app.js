@@ -175,6 +175,14 @@ function DashboardPage() {
   const vigencia = React.useContext(VigenciaContext);
   const totalInversion = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.apropiacion||0);},0);
   const totalPagado   = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.pagos||0);},0);
+  const totalCdp      = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.cdp||0);},0);
+  const MESES_LABEL = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const tendenciaMensual = MESES_LABEL.map((_,i)=>({
+    mes: MESES_LABEL[i],
+    apropiado:    +((totalInversion*(i+1)/12)/1e9).toFixed(2),
+    comprometido: +((Math.min(totalCdp, totalCdp*(i+1)/6))/1e9).toFixed(2),
+    pagado:       +((Math.min(totalPagado, totalPagado*(i+1)/6))/1e9).toFixed(2),
+  }));
   const enEjecucion   = PROYECTOS.filter(p=>p.estado==='EN_EJECUCION'||p.estado==='EJECUCION');
   const avgFis  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFisico,0)/enEjecucion.length) : 0;
   const avgFin  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFinanciero,0)/enEjecucion.length) : 0;
@@ -232,7 +240,7 @@ function DashboardPage() {
       {/* Tendencia mensual — ancho completo */}
       <Card title={`Tendencia de Ejecución Presupuestal ${vigencia}`} subtitle="Apropiado vs Comprometido vs Pagado — miles de millones COP" style={{marginBottom:20}}>
         <ResponsiveContainer width="100%" height={230}>
-          <AreaChart data={TENDENCIA_MENSUAL} margin={{top:5,right:20,left:10,bottom:0}}>
+          <AreaChart data={tendenciaMensual} margin={{top:5,right:20,left:10,bottom:0}}>
             <defs>
               <linearGradient id="gAp" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#93c5fd" stopOpacity={0.4}/><stop offset="95%" stopColor="#93c5fd" stopOpacity={0}/></linearGradient>
               <linearGradient id="gCo" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/><stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/></linearGradient>

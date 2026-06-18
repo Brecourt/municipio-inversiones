@@ -83,7 +83,7 @@ FUENTE_COL_MAP = {
 def s(v):
     if v is None:
         return '""'
-    v = str(v).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ").strip()
+    v = str(v).replace("\\", "\\\\").replace('"', '\\"').replace("\r", " ").replace("\n", " ").strip()
     return f'"{v}"'
 
 def n(v):

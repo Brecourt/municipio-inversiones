@@ -61,7 +61,7 @@ const FUENTES_PADRE = ['SGP','SGR','RECURSOS_PROPIOS','CREDITO','COFINANCIACION'
 // PROYECTOS — cargados desde POAI 2026 via cargar_poai.py
 // ---------------------------------------------------------------
 
-// ─── Datos generados por cargar_poai.py — 2026-06-16 16:43:07 ───
+// ─── Datos generados por cargar_poai.py — 2026-06-16 17:05:24 ───
 
 const PDM = {
   municipio:"Frontino",
