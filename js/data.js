@@ -2231,3 +2231,10 @@ function formatCOP(v) {
   if (abs >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
   return '$' + v.toFixed(0);
 }
+function formatBPIN(v) {
+  if (!v) return '—';
+  const s = String(v).replace(/\D/g, '');
+  if (s.length >= 15) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
+  if (s.length >= 14) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
+  return s;
+}

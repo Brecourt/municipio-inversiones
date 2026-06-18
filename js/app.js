@@ -691,7 +691,7 @@ function ProyectosPage({ onSelect, onNew }) {
     )},
     {title:'Estado',   key:'estado',  render:v=><EstadoBadge estado={v}/>},
     {title:'Semáforo', key:'avanceFisico', render:(_,r)=><SemaforoBadge proyecto={r}/>},
-    {title:'Vigencia', key:'vigenciaInicio', render:(v,r)=>`${v}${r.vigenciaFin!==v?'–'+r.vigenciaFin:''}`},
+    {title:'Vigencia', key:'ejecucion', render:v=>v&&v.length?[...new Set(v.map(e=>e.vigencia))].join(', '):'—'},
     {title:'Valor Total', key:'valorTotal', render:v=><span style={{fontWeight:700}}>{formatCOP(v)}</span>},
     {title:'Avance', key:'avanceFisico', render:(v,r)=>r.estado==='EJECUCION'?<AvanceBar fisico={v} financiero={r.avanceFinanciero}/>:<span style={{color:'#9ca3af'}}>—</span>},
     {title:'', key:'id', render:(_,r)=>(
@@ -745,7 +745,7 @@ function ProyectosPage({ onSelect, onNew }) {
                   <div style={{fontSize:14,fontWeight:800,color:'#059669',marginBottom:8}}>{formatCOP(p.valorTotal)}</div>
                   {p.estado==='EJECUCION' && <AvanceBar fisico={p.avanceFisico} financiero={p.avanceFinanciero}/>}
                   <div style={{marginTop:8,display:'flex',justifyContent:'space-between',fontSize:11,color:'#9ca3af'}}>
-                    <span>Vigencia {p.vigenciaInicio}{p.vigenciaFin!==p.vigenciaInicio?'–'+p.vigenciaFin:''}</span>
+                    <span>Vigencia {p.ejecucion&&p.ejecucion.length?[...new Set(p.ejecucion.map(e=>e.vigencia))].join(', '):'—'}</span>
                     <SemaforoBadge proyecto={p}/>
                   </div>
                 </div>
