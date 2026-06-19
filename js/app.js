@@ -1328,12 +1328,15 @@ function ReportesPage() {
       )}
       {tipo==='pdm' && (
         <Card title="Cumplimiento PDM 2024-2027 por Eje Estratégico">
-          {PDM.ejes.map((eje,i)=>{
-            const ps=PROYECTOS.filter(p=>p.pdm.eje===eje.nombre);
+          {(()=>{const EJE_COLORS=['#2563eb','#059669','#7c3aed','#d97706'];return PDM.ejes.map((eje,i)=>{
+            const color=eje.color||EJE_COLORS[i%EJE_COLORS.length];
+            const progIds=new Set((eje.programas||[]).map(pr=>String(pr.id)));
+            const ps=PROYECTOS.filter(p=>progIds.has(String(p.programaPDM)));
+            const progsCod=[...new Set((eje.programas||[]).map(pr=>pr.id))];
             return (
-              <div key={i} style={{marginBottom:20,paddingLeft:12,borderLeft:`3px solid ${eje.color}`}}>
-                <h4 style={{margin:'0 0 6px',fontSize:14,fontWeight:700,color:eje.color}}>{eje.nombre}</h4>
-                <div style={{fontSize:12,color:'#6b7280',marginBottom:8}}>Programas: {eje.programas.join(' · ')} · {ps.length} proyectos alineados</div>
+              <div key={i} style={{marginBottom:20,paddingLeft:12,borderLeft:`3px solid ${color}`}}>
+                <h4 style={{margin:'0 0 6px',fontSize:14,fontWeight:700,color:color}}>{eje.nombre}</h4>
+                <div style={{fontSize:12,color:'#6b7280',marginBottom:8}}>Programas: {progsCod.join(' · ')} · {ps.length} proyectos alineados</div>
                 <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
                   {ps.map(p=>(
                     <div key={p.id} style={{background:'#f9fafb',borderRadius:6,padding:'5px 10px',fontSize:11,border:'1px solid #e5e7eb',display:'flex',alignItems:'center',gap:6}}>
@@ -1346,7 +1349,7 @@ function ReportesPage() {
                 </div>
               </div>
             );
-          })}
+          })})()}
         </Card>
       )}
     </div>

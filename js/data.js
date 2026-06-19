@@ -2234,7 +2234,11 @@ function formatCOP(v) {
 function formatBPIN(v) {
   if (!v) return '—';
   const s = String(v).replace(/\D/g, '');
-  if (s.length >= 15) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
   if (s.length >= 14) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
   return s;
 }
+
+// Estas colecciones se alimentan desde la plataforma externa;
+// se inicializan vacías para que las páginas carguen sin error.
+const POLITICAS = [];
+const PLANES_SECTORIALES = [];

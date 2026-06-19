@@ -309,10 +309,10 @@ function ContratosPage({ onSelectProyecto }) {
 // COMPARATIVO MULTI-VIGENCIA
 // ============================================================
 function ComparativoPage() {
-  const [vigA, setVigA] = useState(2023);
-  const [vigB, setVigB] = useState(2024);
+  const [vigA, setVigA] = useState(2025);
+  const [vigB, setVigB] = useState(2026);
 
-  const vigOpts = [2022,2023,2024,2025].map(v => ({ value:v, label:`Vigencia ${v}` }));
+  const vigOpts = [2024,2025,2026,2027].map(v => ({ value:v, label:`Vigencia ${v}` }));
 
   const calcVig = (vig) => {
     const proyVig = PROYECTOS.filter(p =>
@@ -417,8 +417,8 @@ function ComparativoPage() {
       {/* Tabla de proyectos nuevos en vigB vs vigA */}
       <Card title={`Proyectos nuevos en Vigencia ${vigB}`} subtitle={`No presentes en vigencia ${vigA}`}>
         {(() => {
-          const idsA = new Set(PROYECTOS.filter(p=>p.ejecucion.some(e=>e.vigencia===vigA)).map(p=>p.id));
-          const nuevos = PROYECTOS.filter(p=>p.ejecucion.some(e=>e.vigencia===vigB) && !idsA.has(p.id));
+          const idsA = new Set(PROYECTOS.filter(p=>p.ejecucion.some(e=>e.vigencia===vigA)).map(p=>p.bpin));
+          const nuevos = PROYECTOS.filter(p=>p.ejecucion.some(e=>e.vigencia===vigB) && !idsA.has(p.bpin));
           if (!nuevos.length) return <div style={{textAlign:'center',padding:30,color:'#9ca3af'}}>No hay proyectos nuevos en la vigencia {vigB}</div>;
           return (
             <Tbl columns={[
