@@ -1,12 +1,11 @@
 """
-cargar_poai.py  — Genera js/data.js a partir de archivos oficiales SisPT:
-  plantillas/PDT_05284.xlsx          (Plan de Desarrollo Territorial)
-  plantillas/POAI_PA_SALUD_2026.xlsx (POAI Salud Publica)
-  plantillas/POAI_PA_SECTORES_2026.xlsx (POAI demas sectores)
+cargar_poai.py  — Genera js/data.js a partir del archivo unificado POAI 2026:
+  plantillas/POAI_UNIFICADO_2026.xlsx   (fuente unica: todos los sectores + seguimiento)
 
 Complementa con:
-  plantillas/05_IndicadoresPDM.xlsx  (logrado/meta por eje, se mantiene)
-  plantillas/02_Proyectos.xlsx       (contratos y ejecucion real, hoja Contratos y EjecucionPresupuestal)
+  plantillas/PDT_05284.xlsx             (Plan de Desarrollo Territorial)
+  plantillas/05_IndicadoresPDM.xlsx     (indicadores radar)
+  plantillas/02_Proyectos.xlsx          (contratos — hoja Contratos)
 
 Uso:  python cargar_poai.py
 Req:  pip install pandas openpyxl
@@ -20,13 +19,13 @@ BASE     = os.path.dirname(os.path.abspath(__file__))
 PLANT    = os.path.join(BASE, "plantillas")
 OUT_JS   = os.path.join(BASE, "js", "data.js")
 
-PDT_FILE  = os.path.join(PLANT, "PDT_05284.xlsx")
-POAI_SAL  = os.path.join(PLANT, "POAI_PA_SALUD_2026.xlsx")
-POAI_SEC  = os.path.join(PLANT, "POAI_PA_SECTORES_2026.xlsx")
-RADAR_XLS = os.path.join(PLANT, "05_IndicadoresPDM.xlsx")
-PROY_XLS  = os.path.join(PLANT, "02_Proyectos.xlsx")
+PDT_FILE     = os.path.join(PLANT, "PDT_05284.xlsx")
+POAI_UNI     = os.path.join(PLANT, "POAI_UNIFICADO_2026.xlsx")
+RADAR_XLS    = os.path.join(PLANT, "05_IndicadoresPDM.xlsx")
+PROY_XLS     = os.path.join(PLANT, "02_Proyectos.xlsx")
 
 VIGENCIA_POAI = 2026
+SHEET_POAI    = 'POAI - PA-2026_V2'
 
 # ── Sector desde codigo de programa MGA ──────────────────────
 SECTOR_MAP = {
@@ -108,12 +107,21 @@ def to_float(v, default=0.0):
         return default
 
 def clean_col(name):
-    """Normaliza nombre de columna: remueve acentos y espacios extra."""
     r = str(name).strip()
     for a, b in [('á','a'),('é','e'),('í','i'),('ó','o'),('ú','u'),
                  ('Á','A'),('É','E'),('Í','I'),('Ó','O'),('Ú','U'),('ñ','n'),('Ñ','N')]:
         r = r.replace(a, b)
     return r
+
+def clean_nombre(v):
+    """Limpia el nombre del proyecto: remueve espacios dobles y trailing."""
+    if not v or str(v).strip() in ('nan', 'None', ''):
+        return ''
+    t = str(v).strip()
+    # Colapsar espacios multiples
+    t = re.sub(r'\s+', ' ', t)
+    # Capitalizar primera letra
+    return t
 
 # ── Leer hoja complementaria de 02_Proyectos.xlsx ────────────
 def read_openpyxl_sheet(path, sheet_name):
@@ -146,11 +154,38 @@ def col_val(row, *keys, default=None):
             return v
     return default
 
-# ── Leer POAI (Salud + Sectores) ─────────────────────────────
-def read_poai(path, sheet_name):
-    df = pd.read_excel(path, sheet_name=sheet_name, header=1, dtype={'BPIM': str})
-    # Normalizar nombres de columnas (sin acentos)
+# ── Leer POAI unificado ──────────────────────────────────────
+def read_poai():
+    """
+    Lee el archivo POAI unificado (todos los sectores).
+    Devuelve un DataFrame con columnas normalizadas y alias estandar para
+    las columnas de seguimiento financiero (acceso por indice posicional
+    para evitar problemas de encoding en los nombres originales).
+    """
+    df = pd.read_excel(POAI_UNI, sheet_name=SHEET_POAI, header=1, dtype={'BPIM': str})
+    # Normalizar nombres de columnas (sin acentos, sin espacios extremos)
     df.columns = [clean_col(c) for c in df.columns]
+    # Alias explícitos por índice para columnas con caracteres especiales
+    # [30]=TOTAL-Programado [31]=Compromisos/RP [32]=Obligaciones [33]=Pagos [34]=%AvanceFin
+    col_list = list(df.columns)
+    alias = {
+        'TOTAL':        col_list[30] if len(col_list) > 30 else None,
+        'COMPROMISOS':  col_list[31] if len(col_list) > 31 else None,
+        'OBLIGACIONES': col_list[32] if len(col_list) > 32 else None,
+        'PAGOS':        col_list[33] if len(col_list) > 33 else None,
+        'PCT_FIN':      col_list[34] if len(col_list) > 34 else None,
+    }
+    for new_key, orig in alias.items():
+        if orig and orig in df.columns:
+            df[new_key] = df[orig]
+
+    # Columna Nombre limpia
+    nombre_col = 'Nombre del Proyecto - Programa'
+    if nombre_col in df.columns:
+        df['NOMBRE_LIMPIO'] = df[nombre_col].apply(clean_nombre)
+    else:
+        df['NOMBRE_LIMPIO'] = df.get('Indicador MGA', '')
+
     # Filtrar filas sin BPIN valido
     df = df[df['BPIM'].notna() & (df['BPIM'].str.strip() != '') & (df['BPIM'].str.strip() != 'nan')]
     return df
@@ -194,17 +229,14 @@ def build_pdm(poai_all):
     lineas_raw, pip_df = read_pdt()
     radar_js = read_radar()
 
-    # Info basica
     municipio  = "Frontino"
     periodo    = "2024-2027"
     nombre_pdm = '"Frontino Nos Une" 2024-2027'
     alcalde    = "Luz Gabriela Rivera Cano"
     acuerdo    = "Acuerdo 007 de 31 de Mayo de 2024"
 
-    # Inversion total: suma TOTAL del POAI 2026
     inv_total = int(poai_all['TOTAL'].sum())
 
-    # Lineas estrategicas
     LINEAS = {
         'LE-1': 'FRONTINO NOS UNE CON TEJIDO SOCIAL, INCLUSION Y RECONCILIACION.',
         'LE-2': 'FRONTINO NOS UNE CON SOSTENIBILIDAD AMBIENTAL Y DESARROLLO SUSTENTABLE.',
@@ -220,10 +252,7 @@ def build_pdm(poai_all):
     except:
         pass
 
-    # Construir ejes con programas desde POAI (1 row = 1 proyecto/producto)
     ejes_dict = {lid: {'id': lid, 'nombre': nm, 'programas': []} for lid, nm in LINEAS.items()}
-
-    col_clean = {clean_col(c): c for c in poai_all.columns}
 
     for _, r in poai_all.iterrows():
         linea = str(r.get('Linea', '') or '').strip()
@@ -262,24 +291,15 @@ def build_pdm(poai_all):
 
 # ── Construir PROYECTOS desde POAI ───────────────────────────
 def build_proyectos(poai_all):
-    # Cargar datos complementarios (contratos y ejecucion real) de 02_Proyectos.xlsx
-    ejecucion_rows = read_openpyxl_sheet(PROY_XLS, "EjecucionPresupuestal")
+    # Contratos desde 02_Proyectos.xlsx
     contratos_rows = read_openpyxl_sheet(PROY_XLS, "Contratos")
-
-    # Indexar por BPIN
-    ejec_idx = {}
-    for e in ejecucion_rows:
-        bpin_e = str(col_val(e, "BPIN") or "")
-        if bpin_e:
-            ejec_idx.setdefault(bpin_e, []).append(e)
-
     cont_idx = {}
     for c in contratos_rows:
         bpin_c = str(col_val(c, "BPIN") or "")
         if bpin_c:
             cont_idx.setdefault(bpin_c, []).append(c)
 
-    # Columnas de fuentes disponibles en el dataframe
+    # Columnas de fuentes disponibles
     fuente_cols_present = []
     for col_poai, fkey in FUENTE_COL_MAP.items():
         clean = clean_col(col_poai)
@@ -297,14 +317,19 @@ def build_proyectos(poai_all):
         except:
             prog_str = ''
         programa    = str(r.get('Programa', '') or '').strip()
-        prod_mga    = str(r.get('Producto MGA', '') or '').strip().rstrip('.0')
-        cod_ind     = str(r.get('Cod. Indicador de Producto', '') or '').strip().rstrip('.0')
+        prod_mga    = str(r.get('Produto MGA', r.get('Producto MGA', '')) or '').strip().rstrip('.0')
+        cod_ind     = str(r.get('Cod. Indicador de Produto', r.get('Cod. Indicador de Producto', '')) or '').strip().rstrip('.0')
         ind_mga     = str(r.get('Indicador MGA', '') or '').strip()
         desc_pdm    = str(r.get('Descripcion Indicador PDM', '') or '').strip()
         meta_4      = r.get('Meta Cuatrienio', '')
         meta_vig    = r.get('Meta 2026', '')
         dependencia = str(r.get('Dependencia Responsable', '') or '').strip()
-        actividades = str(r.get('Actividades - Acciones - Estrategias', '') or '').strip()
+
+        # Nombre del proyecto: directo del campo oficial
+        nombre = str(r.get('NOMBRE_LIMPIO', '') or '').strip()
+        if not nombre:
+            nombre = ind_mga
+
         total       = to_int(r.get('TOTAL', 0))
 
         prog_int = 0
@@ -312,11 +337,25 @@ def build_proyectos(poai_all):
             prog_int = int(float(prog_str)) if prog_str else 0
         except:
             pass
-
         sector = SECTOR_MAP.get(prog_int, 'GOBIERNO')
 
-        # Nombre del proyecto: primer línea de actividades o indicador MGA
-        nombre = actividades.split('\n')[0].strip() if actividades else ind_mga
+        # Avances directamente del archivo de seguimiento
+        avance_fisico_val = to_float(r.get('Avance Fisico 2026', 0))
+        pct_fisico        = to_float(r.get('%Avance Fisico', 0))
+        # Convertir a porcentaje entero si viene como fracción decimal (0.18 → 18)
+        if 0 < pct_fisico <= 1.0:
+            pct_fisico = round(pct_fisico * 100, 1)
+        else:
+            pct_fisico = round(pct_fisico, 1)
+
+        compromisos  = to_int(r.get('COMPROMISOS', 0))
+        obligaciones = to_int(r.get('OBLIGACIONES', 0))
+        pagos        = to_int(r.get('PAGOS', 0))
+        pct_fin_raw  = to_float(r.get('PCT_FIN', 0))
+        if 0 < pct_fin_raw <= 1.0:
+            pct_fin = round(pct_fin_raw * 100, 1)
+        else:
+            pct_fin = round(pct_fin_raw, 1)
 
         # Fuentes desde columnas POAI
         fuentes_dict = {}
@@ -328,37 +367,18 @@ def build_proyectos(poai_all):
             fuentes_dict['RECURSOS_PROPIOS'] = total
         fuentes_js = "[" + ",".join(f'{{f:{s(k)},monto:{v}}}' for k, v in fuentes_dict.items()) + "]"
 
-        # Ejecucion real desde 02_Proyectos.xlsx si existe, o solo apropiacion POAI
-        ejec_rows_bpin = ejec_idx.get(bpin, [])
-        ejec_js_list = []
-        total_aprop = 0
-        total_pagos = 0
-        if ejec_rows_bpin:
-            for e in ejec_rows_bpin:
-                vig  = to_int(col_val(e, "Vigencia", default=0))
-                apro = to_int(col_val(e, "Apropiacion Final (COP)", "Apropiacion Inicial (COP)", default=0))
-                cdp  = to_int(col_val(e, "CDP (COP)", default=0))
-                rp   = to_int(col_val(e, "RP (COP)", default=0))
-                obl  = to_int(col_val(e, "Obligaciones (COP)", default=0))
-                pag  = to_int(col_val(e, "Pagos (COP)", default=0))
-                fuente_e = str(col_val(e, "Fuente", default="") or "")
-                ejec_js_list.append(
-                    f'{{vigencia:{vig},apropiacion:{apro},cdp:{cdp},rp:{rp},obligaciones:{obl},pagos:{pag},fuente:{s(fuente_e)}}}'
-                )
-                total_aprop += apro
-                total_pagos += pag
-        else:
-            # Solo apropiacion del POAI para la vigencia actual
-            ejec_js_list.append(
-                f'{{vigencia:{VIGENCIA_POAI},apropiacion:{total},cdp:0,rp:0,obligaciones:0,pagos:0,fuente:""}}'
-            )
-            total_aprop = total
+        # Ejecucion: datos reales del archivo de seguimiento
+        ejec_js = (
+            f'[{{vigencia:{VIGENCIA_POAI},'
+            f'apropiacion:{total},'
+            f'cdp:{compromisos},'
+            f'rp:{compromisos},'
+            f'obligaciones:{obligaciones},'
+            f'pagos:{pagos},'
+            f'fuente:""}}]'
+        )
 
-        ejec_js = "[" + ",".join(ejec_js_list) + "]"
-        # valorTotal siempre desde el POAI (apropiacion oficial vigencia)
-        avance_fin = round((total_pagos / total) * 100) if total > 0 else 0
-
-        # Contratos
+        # Contratos desde 02_Proyectos.xlsx
         def _cjs(c):
             return (
                 f'{{numero:{s(str(col_val(c,"No. Contrato","") or ""))}'
@@ -379,17 +399,25 @@ def build_proyectos(poai_all):
             contrato_js  = "null"
             contratos_js = "[]"
 
+        # Estado basado en avance financiero (claves de ESTADOS en data.js)
+        if pct_fin >= 80:
+            estado = "TERMINADO"
+        elif pct_fin > 0 or compromisos > 0:
+            estado = "EN_EJECUCION"
+        else:
+            estado = "REGISTRADO"
+
         items.append(
             f'  {{\n'
             f'    bpin:{s(bpin)}, nombre:{s(nombre)},\n'
-            f'    sector:{s(sector)}, estado:"REGISTRADO",\n'
+            f'    sector:{s(sector)}, estado:{s(estado)},\n'
             f'    programaPDM:{s(prog_str)},\n'
             f'    fechaInicio:"", fechaFin:"",\n'
             f'    descripcion:{s(desc_pdm)}, objetivo:{s(ind_mga)},\n'
             f'    responsable:{s(dependencia)}, poblacionBeneficiada:0,\n'
             f'    tipoPoblacion:"", observaciones:"",\n'
             f'    valorTotal:{total},\n'
-            f'    avanceFisico:0, avanceFinanciero:{avance_fin},\n'
+            f'    avanceFisico:{pct_fisico}, avanceFinanciero:{pct_fin},\n'
             f'    fuentes:{fuentes_js},\n'
             f'    ejecucion:{ejec_js},\n'
             f'    contrato:{contrato_js},\n'
@@ -421,7 +449,6 @@ def read_static_header():
     except:
         return "// data.js generado por cargar_poai.py"
 
-# ── Bloque de funciones utilitarias (semaforoColor, formatCOP) ─
 UTILITY_JS = r"""
 function semaforoColor(fisico, financiero) {
   const f = fisico || 0, g = financiero || 0;
@@ -440,40 +467,40 @@ function formatCOP(v) {
   if (abs >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
   return '$' + v.toFixed(0);
 }
+function formatBPIN(v) {
+  if (!v) return '—';
+  const s = String(v).replace(/\D/g, '');
+  if (s.length >= 14) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
+  return s;
+}
+const POLITICAS = [];
+const PLANES_SECTORIALES = [];
 """
 
 # ── MAIN ─────────────────────────────────────────────────────
 def main():
     print("=== cargar_poai.py ===")
+    print(f"\n[1] Leyendo POAI unificado: {POAI_UNI}")
+    poai_all = read_poai()
+    print(f"    {len(poai_all)} proyectos | {poai_all['BPIM'].nunique()} BPINs unicos")
+    total_inv = poai_all['TOTAL'].sum()
+    print(f"    Inversion total 2026: ${total_inv:,.0f}")
+    prom_fin = poai_all['PCT_FIN'].mean() * 100 if poai_all['PCT_FIN'].max() <= 1 else poai_all['PCT_FIN'].mean()
+    print(f"    Avance financiero promedio: {prom_fin:.1f}%")
 
-    # Leer POAI
-    print(f"\n[1] Leyendo POAI Salud:    {POAI_SAL}")
-    df_sal = read_poai(POAI_SAL, 'POAI - PA - 2026')
-    print(f"    {len(df_sal)} proyectos")
-
-    print(f"\n[2] Leyendo POAI Sectores: {POAI_SEC}")
-    df_sec = read_poai(POAI_SEC, 'POAI - PA-2026')
-    print(f"    {len(df_sec)} proyectos")
-
-    poai_all = pd.concat([df_sal, df_sec], ignore_index=True)
-    print(f"\n    TOTAL: {len(poai_all)} proyectos / {poai_all['BPIM'].nunique()} BPINs unicos")
-    print(f"    Inversion total 2026: ${poai_all['TOTAL'].sum():,.0f}")
-
-    print(f"\n[3] Construyendo PDM desde PDT: {PDT_FILE}")
+    print(f"\n[2] Construyendo PDM desde PDT: {PDT_FILE}")
     pdm_js = build_pdm(poai_all)
 
-    print(f"\n[4] Construyendo PROYECTOS...")
+    print(f"\n[3] Construyendo PROYECTOS con datos de seguimiento...")
     proy_js = build_proyectos(poai_all)
 
-    # Leer cabecera estatica
     static = read_static_header()
-
-    # Timestamp
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     out = (
         static + "\n\n"
-        f"// ─── Datos generados por cargar_poai.py — {ts} ───\n\n"
+        f"// ─── Datos generados por cargar_poai.py — {ts} ───\n"
+        f"// ─── Fuente: POAI_UNIFICADO_2026.xlsx — Seguimiento al 31 Mayo 2026 ───\n\n"
         + pdm_js + "\n\n"
         + proy_js + "\n\n"
         + UTILITY_JS
