@@ -62,7 +62,7 @@ const FUENTES_PADRE = ['SGP','SGR','RECURSOS_PROPIOS','CREDITO','COFINANCIACION'
 // ---------------------------------------------------------------
 
 // ─── Seguimiento fisico y financiero al 30 de Junio de 2026 ───
-// ─── Fuente: POAI_SEGUIMIENTO_2026.xlsx · generado 2026-07-27 16:19:08 ───
+// ─── Fuente: POAI_SEGUIMIENTO_2026.xlsx · generado 2026-07-27 16:24:02 ───
 
 const CORTE = {
   fecha:"2026-06-30",
@@ -2592,12 +2592,15 @@ function semaforoColor(fisico, financiero) {
   if (brecha <= 25) return 'AMARILLO';
   return 'ROJO';
 }
+// Escala corta en español: 1e9 son miles de millones (mmM), no "billones".
+// La B se reserva para el billón real (1e12), como en la escala larga que usa Colombia.
 function formatCOP(v) {
   if (!v && v !== 0) return '$0';
   const abs = Math.abs(v);
-  if (abs >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
-  if (abs >= 1e6) return '$' + (v/1e6).toFixed(1) + 'M';
-  if (abs >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
+  if (abs >= 1e12) return '$' + (v/1e12).toFixed(1) + ' B';
+  if (abs >= 1e9)  return '$' + (v/1e9).toFixed(1)  + ' mmM';
+  if (abs >= 1e6)  return '$' + (v/1e6).toFixed(1)  + ' M';
+  if (abs >= 1e3)  return '$' + (v/1e3).toFixed(0)  + ' K';
   return '$' + v.toFixed(0);
 }
 // Valor completo en pesos, con separador de miles: $1.234.567.890
