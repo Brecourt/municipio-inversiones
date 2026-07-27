@@ -76,6 +76,19 @@ FUENTES_MAP = [
     ('otros',                       'RECURSOS_PROPIOS'),
 ]
 
+# ── Correcciones de BPIN en el reporte de contratacion ───────
+# El consolidado que se remite a entes de control a veces trae un
+# consecutivo interno en vez del BPIN del SisPT. Aqui se mapea al BPIN
+# real. Si la fuente se corrige, la regla simplemente deja de aplicar.
+#
+#   codigo reportado -> BPIN real                 autorizado por / fecha
+CORRECCIONES_BPIN = {
+    # SA-001-CPS-099-DE-2026 COOTRANSFRON, transporte escolar.
+    # Consecutivo local (vigencia 2026 + DANE 05284 + 0001).
+    # Confirmado por el municipio el 2026-07-27.
+    '2026052840001': '202500000047571',
+}
+
 MESES = {
     'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,
     'julio':7,'agosto':8,'septiembre':9,'setiembre':9,'octubre':10,
@@ -281,11 +294,24 @@ def read_contratos(bpins_validos):
         g = lambda k: str(r.get(k, '') or '').strip()
 
         crudo = g('proyectos')
-        bpins = [b.strip() for b in re.split(r'[;,]', crudo) if b.strip()]
-        validos    = [b for b in bpins if b in bpins_validos]
-        invalidos  = [b for b in bpins if b not in bpins_validos]
-
         numero = g('numeroContratoInternoConvenio') or g('idContratoSecop')
+
+        bpins, corregidos = [], []
+        for b in re.split(r'[;,]', crudo):
+            b = b.strip()
+            if not b:
+                continue
+            if b not in bpins_validos and b in CORRECCIONES_BPIN:
+                real = CORRECCIONES_BPIN[b]
+                corregidos.append((b, real))
+                b = real
+            bpins.append(b)
+
+        for orig, real in corregidos:
+            avisos.append(f"fila {i}: {numero} — BPIN corregido {orig} -> {real}")
+
+        validos   = [b for b in bpins if b in bpins_validos]
+        invalidos = [b for b in bpins if b not in bpins_validos]
         if invalidos:
             avisos.append(
                 f"fila {i}: contrato {numero} referencia BPIN no registrado en el POAI: "
@@ -323,6 +349,7 @@ def read_contratos(bpins_validos):
             'bpinsCrudo':  crudo,
             'enlazado':    bool(validos),
             'compartido':  len(validos) > 1,
+            'corregido':   bool(corregidos),
         }
         contratos.append(c)
         for b in validos:
@@ -347,6 +374,7 @@ def contrato_a_js(c):
     partes.append('bpinsCrudo:' + s(c['bpinsCrudo']))
     partes.append('enlazado:' + ('true' if c['enlazado'] else 'false'))
     partes.append('compartido:' + ('true' if c['compartido'] else 'false'))
+    partes.append('corregido:' + ('true' if c.get('corregido') else 'false'))
     partes.append('secopLink:' + s(
         'https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=' + c['idSecop']
         if c['idSecop'] else ''
@@ -614,7 +642,7 @@ def main():
         for c in compartidos:
             print(f"                    {c['numero']} -> {len(c['bpins'])} BPIN")
     for a in avisos:
-        print(f"    [!] {a}")
+        print(f"    [{'~' if 'corregido' in a else '!'}] {a}")
 
     print(f"\n[3] Construyendo PDM...")
     pdm_js = build_pdm(df, cols, fis_prom, fin_glob)

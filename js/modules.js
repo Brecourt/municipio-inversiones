@@ -73,7 +73,8 @@ function ContratosPage({ onSelectProyecto }) {
     });
   }, [vigencia, pdmProgs]);
 
-  const sinEnlace = useMemo(() => todos.filter(c => !c._ref), [todos]);
+  const sinEnlace  = useMemo(() => todos.filter(c => !c._ref), [todos]);
+  const corregidos = useMemo(() => todos.filter(c => c.corregido), [todos]);
 
   const filtered = useMemo(() => {
     let arr = todos;
@@ -132,6 +133,27 @@ function ContratosPage({ onSelectProyecto }) {
         <KPICard icon="💰" label={`Ejec. Presup. ${vigencia}`} value={`${avgEjec}%`} sub="Pagos / Apropiación promedio"      color="#f59e0b" />
         <KPICard icon="✅" label="Terminados" value={filtered.filter(c=>['TERMINADO','LIQUIDADO'].includes(estadoContrato(c.estado))).length} sub="Terminados o liquidados" color="#10b981" />
       </div>
+
+      {/* BPIN reasignados al cargar: queda constancia de que el dato difiere de la fuente */}
+      {corregidos.length > 0 && (
+        <div style={{ background:'#eff6ff', border:'1px solid #bfdbfe', borderRadius:10, padding:'12px 16px', marginBottom:20 }}>
+          <div style={{ fontSize:13, fontWeight:700, color:'#1e40af', marginBottom:4 }}>
+            ℹ {corregidos.length} contrato{corregidos.length>1?'s':''} con BPIN reasignado al cargar
+          </div>
+          <div style={{ fontSize:12, color:'#1e3a5f', lineHeight:1.6 }}>
+            El archivo de contratación reportó un consecutivo interno; se asignó el BPIN del SisPT que corresponde.
+            <ul style={{ margin:'6px 0 0', paddingLeft:18 }}>
+              {corregidos.map(c => (
+                <li key={c.idSecop || c.numero}>
+                  <code style={{ fontSize:11 }}>{c.numero}</code> — {c.contratista} · {formatCOP(c.valor)}
+                  {' · reportado '}<code style={{ fontSize:11 }}>{c.bpinsCrudo}</code>
+                  {' → '}<code style={{ fontSize:11 }}>{c.bpin}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {/* Contratos cuyo BPIN no existe en el POAI: se muestran para poder corregir la fuente */}
       {sinEnlace.length > 0 && (
