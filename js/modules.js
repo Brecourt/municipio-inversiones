@@ -5,6 +5,21 @@
 // ============================================================
 // CONTRATOS PAGE
 // ============================================================
+// El reporte a entes de control trae el estado en texto libre
+// ("En Ejecución", "Terminado", "Liquidado"...). Lo normalizamos a una
+// clave estable para filtrar y pintar sin depender de tildes ni mayusculas.
+function estadoContrato(v) {
+  const t = String(v || '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toUpperCase().replace(/[^A-Z]/g, '');
+  if (!t) return '';
+  if (t.startsWith('ENEJECUCION') || t === 'EJECUCION') return 'EN_EJECUCION';
+  if (t.startsWith('TERMINAD'))  return 'TERMINADO';
+  if (t.startsWith('LIQUIDAD'))  return 'LIQUIDADO';
+  if (t.startsWith('SUSPENDID')) return 'SUSPENDIDO';
+  if (t.startsWith('CELEBRAD') || t.startsWith('SUSCRIT')) return 'CELEBRADO';
+  return t;
+}
 function ContratosPage({ onSelectProyecto }) {
   const vigencia    = React.useContext(VigenciaContext);
   const [search,              setSearch]              = useState('');
@@ -22,45 +37,49 @@ function ContratosPage({ onSelectProyecto }) {
     return m;
   }, []);
 
+  // CONTRATOS es la lista maestra: cada contrato aparece UNA vez aunque
+  // cubra varios proyectos, de modo que el valor no se cuente por duplicado.
   const todos = useMemo(() => {
-    const rows = [];
-    PROYECTOS.forEach(p => {
-      // Usar array completo de contratos; retroceder a contrato único si no existe
-      const lista = (p.contratos && p.contratos.length > 0)
-        ? p.contratos
-        : (p.contrato ? [p.contrato] : []);
-      if (!lista.length) return;
+    const porBpin = {};
+    PROYECTOS.forEach(p => { if (p.bpin) porBpin[p.bpin] = p; });
 
-      const ejec    = p.ejecucion.find(e => e.vigencia === vigencia);
+    const fuente = (typeof CONTRATOS !== 'undefined' && CONTRATOS.length)
+      ? CONTRATOS
+      : PROYECTOS.flatMap(p => (p.contratos || []).map(c => ({ ...c, bpins: [p.bpin] })));
+
+    return fuente.map(c => {
+      const bpins = c.bpins && c.bpins.length ? c.bpins : (c.bpin ? [c.bpin] : []);
+      const p     = porBpin[bpins[0]];
+      const ejec  = p && p.ejecucion.find(e => e.vigencia === vigencia);
       const ejecPct = ejec && ejec.apropiacion > 0
         ? Math.round((ejec.pagos / ejec.apropiacion) * 100)
         : null;
-
-      lista.forEach(c => {
-        rows.push({
-          ...c,
-          proyectoId:       p.bpin || p.id,
-          proyectoNombre:   p.nombre,
-          sector:           p.sector,
-          estadoProyecto:   p.estado,
-          bpin:             p.bpin,
-          avanceFisico:     p.avanceFisico,
-          avanceFinanciero: p.avanceFinanciero,
-          ejecPct,
-          programaPDM:      p.programaPDM,
-          programaNombre:   pdmProgs[p.programaPDM] || p.programaPDM || '—',
-          _ref:             p,
-        });
-      });
+      return {
+        ...c,
+        bpins,
+        bpin:             bpins[0] || '',
+        proyectoId:       bpins[0] || '',
+        proyectoNombre:   p ? p.nombre : (c.bpinsCrudo ? `Sin proyecto asociado (${c.bpinsCrudo})` : 'Sin proyecto asociado'),
+        sector:           p ? p.sector : '',
+        estadoProyecto:   p ? p.estado : '',
+        avanceFisico:     p ? p.avanceFisico : 0,
+        avanceFinanciero: p ? p.avanceFinanciero : 0,
+        ejecPct,
+        programaPDM:      p ? p.programaPDM : '',
+        programaNombre:   p ? (pdmProgs[p.programaPDM] || p.programaPDM || '—') : '—',
+        nProyectos:       bpins.length,
+        _ref:             p || null,
+      };
     });
-    return rows;
   }, [vigencia, pdmProgs]);
+
+  const sinEnlace = useMemo(() => todos.filter(c => !c._ref), [todos]);
 
   const filtered = useMemo(() => {
     let arr = todos;
     if (filtroSec)  arr = arr.filter(c => c.sector === filtroSec);
     if (filtroBPIN) arr = arr.filter(c => String(c.bpin).includes(filtroBPIN.replace(/-/g, '')));
-    if (filtroEstadoCont) arr = arr.filter(c => (c.estado||'').toUpperCase() === filtroEstadoCont);
+    if (filtroEstadoCont) arr = arr.filter(c => estadoContrato(c.estado) === filtroEstadoCont);
     if (search) {
       const q = search.toLowerCase();
       arr = arr.filter(c =>
@@ -111,8 +130,29 @@ function ContratosPage({ onSelectProyecto }) {
         <KPICard icon="💵" label="Valor Total"        value={formatCOP(totalValor)} sub="Suma contratos filtrados"            color="#059669" />
         <KPICard icon="🏗️" label="Avance Físico Prom." value={`${avgAvance}%`}     sub="Avance físico promedio"              color="#7c3aed" />
         <KPICard icon="💰" label={`Ejec. Presup. ${vigencia}`} value={`${avgEjec}%`} sub="Pagos / Apropiación promedio"      color="#f59e0b" />
-        <KPICard icon="✅" label="Terminados"           value={filtered.filter(c=>(c.estado||'').toUpperCase()==='TERMINADO').length} sub="Contratos terminados" color="#10b981" />
+        <KPICard icon="✅" label="Terminados" value={filtered.filter(c=>['TERMINADO','LIQUIDADO'].includes(estadoContrato(c.estado))).length} sub="Terminados o liquidados" color="#10b981" />
       </div>
+
+      {/* Contratos cuyo BPIN no existe en el POAI: se muestran para poder corregir la fuente */}
+      {sinEnlace.length > 0 && (
+        <div style={{ background:'#fffbeb', border:'1px solid #fcd34d', borderRadius:10, padding:'12px 16px', marginBottom:20 }}>
+          <div style={{ fontSize:13, fontWeight:700, color:'#92400e', marginBottom:4 }}>
+            ⚠ {sinEnlace.length} contrato{sinEnlace.length>1?'s':''} sin proyecto asociado · {formatCOP(sinEnlace.reduce((a,c)=>a+c.valor,0))}
+          </div>
+          <div style={{ fontSize:12, color:'#78350f', lineHeight:1.6 }}>
+            El BPIN reportado no corresponde a ningún proyecto del POAI. Verifique el campo
+            <strong> proyectos</strong> en el archivo de contratación:
+            <ul style={{ margin:'6px 0 0', paddingLeft:18 }}>
+              {sinEnlace.map(c => (
+                <li key={c.idSecop || c.numero}>
+                  <code style={{ fontSize:11 }}>{c.numero}</code> — {c.contratista} · {formatCOP(c.valor)}
+                  {c.bpinsCrudo && <> · BPIN reportado: <code style={{ fontSize:11 }}>{c.bpinsCrudo}</code></>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {/* Gráfica + Filtros */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 20, marginBottom: 20 }}>
@@ -230,8 +270,16 @@ function ContratosPage({ onSelectProyecto }) {
             { title: 'No. Contrato', key: 'numero', render: v => <code style={{ fontSize:12, color:'#6b7280' }}>{v}</code> },
             { title: 'Proyecto / PDM', key: 'proyectoNombre', render: (v, r) => (
               <div>
-                <div style={{ fontWeight:600, fontSize:13, color:'#111827' }}>{v.slice(0,45)}{v.length>45?'…':''}</div>
-                <div style={{ fontSize:11, color:'#9ca3af' }}>BPIN {formatBPIN(r.bpin)}</div>
+                <div style={{ fontWeight:600, fontSize:13, color: r._ref?'#111827':'#b45309' }}>{v.slice(0,45)}{v.length>45?'…':''}</div>
+                <div style={{ fontSize:11, color:'#9ca3af' }}>
+                  BPIN {formatBPIN(r.bpin)}
+                  {r.nProyectos > 1 && (
+                    <span title={`Este contrato cubre ${r.nProyectos} proyectos: ${r.bpins.join(', ')}`}
+                      style={{ marginLeft:6, background:'#ede9fe', color:'#5b21b6', padding:'1px 6px', borderRadius:4, fontSize:10, fontWeight:700 }}>
+                      +{r.nProyectos-1} proyecto{r.nProyectos>2?'s':''}
+                    </span>
+                  )}
+                </div>
                 {r.programaNombre && r.programaNombre !== '—' && (
                   <div style={{ fontSize:10, color:'#6b7280', marginTop:2, fontStyle:'italic' }}
                     title={r.programaNombre}>
@@ -245,11 +293,11 @@ function ContratosPage({ onSelectProyecto }) {
             { title: 'Valor', key: 'valor', render: v => <strong style={{ fontFamily:'monospace', fontSize:12 }}>{formatCOP(v)}</strong> },
             { title: 'Avance Físico', key: 'avanceFisico', render: v => {
               const pct = v || 0;
-              const c = pct===100?'#10b981':pct>=60?'#3b82f6':pct>=30?'#f59e0b':'#ef4444';
+              const c = pct>=100?'#059669':pct>=60?'#3b82f6':pct>=30?'#f59e0b':'#ef4444';
               return (
                 <div style={{ display:'flex', alignItems:'center', gap:6 }}>
                   <div style={{ width:64, height:7, background:'#f3f4f6', borderRadius:4, overflow:'hidden' }}>
-                    <div style={{ width:`${pct}%`, height:'100%', background:c, borderRadius:4 }} />
+                    <div style={{ width:`${Math.min(pct,100)}%`, height:'100%', background:c, borderRadius:4 }} />
                   </div>
                   <span style={{ fontSize:12, fontWeight:700, color:c }}>{pct}%</span>
                 </div>
@@ -274,11 +322,13 @@ function ContratosPage({ onSelectProyecto }) {
               );
             }},
             { title: 'Estado Contrato', key: 'estado', render: (v, r) => {
-              const upper = (v||'').toUpperCase();
-              const cfg = upper === 'TERMINADO'
-                ? { bg:'#d1fae5', color:'#065f46', dot:'#10b981', label:'Terminado' }
-                : upper === 'EN_EJECUCION'
+              const k = estadoContrato(v);
+              const cfg = k === 'TERMINADO' || k === 'LIQUIDADO'
+                ? { bg:'#d1fae5', color:'#065f46', dot:'#10b981', label: k==='LIQUIDADO'?'Liquidado':'Terminado' }
+                : k === 'EN_EJECUCION'
                 ? { bg:'#dbeafe', color:'#1e40af', dot:'#3b82f6', label:'En Ejecución' }
+                : k === 'SUSPENDIDO'
+                ? { bg:'#fee2e2', color:'#991b1b', dot:'#ef4444', label:'Suspendido' }
                 : { bg:'#f3f4f6', color:'#6b7280', dot:'#9ca3af', label: v||'—' };
               return (
                 <div>
@@ -290,15 +340,15 @@ function ContratosPage({ onSelectProyecto }) {
                 </div>
               );
             }},
-            { title: '', key: '_ref', render: (r) => (
+            { title: '', key: '_ref', render: (r) => r ? (
               <button onClick={() => onSelectProyecto(r)}
                 style={{ padding:'5px 12px', background:'#eff6ff', border:'1px solid #bfdbfe', borderRadius:6, color:'#2563eb', cursor:'pointer', fontSize:12, fontWeight:600 }}>
                 Ver →
               </button>
-            )},
+            ) : <span style={{ fontSize:11, color:'#9ca3af' }}>sin proyecto</span> },
           ]}
           data={filtered}
-          onRow={r => onSelectProyecto(r._ref)}
+          onRow={r => { if (r._ref) onSelectProyecto(r._ref); }}
         />
       </Card>
     </div>

@@ -20,7 +20,7 @@ Complementa con:
 
 Req:  pip install pandas openpyxl
 """
-import os, re, unicodedata
+import os, re, csv, io, unicodedata
 import pandas as pd
 from datetime import date, datetime
 from openpyxl import load_workbook
@@ -30,6 +30,7 @@ PLANT  = os.path.join(BASE, "plantillas")
 OUT_JS = os.path.join(BASE, "js", "data.js")
 
 POAI_XLS  = os.path.join(PLANT, "POAI_SEGUIMIENTO_2026.xlsx")
+CONTR_CSV = os.path.join(PLANT, "CONTRATACION_2026.csv")
 PDT_FILE  = os.path.join(PLANT, "PDT_05284.xlsx")
 RADAR_XLS = os.path.join(PLANT, "05_IndicadoresPDM.xlsx")
 PROY_XLS  = os.path.join(PLANT, "02_Proyectos.xlsx")
@@ -242,6 +243,116 @@ def read_poai():
     dd, mm = detectar_corte(cols['pagos'])
     return df, cols, fuentes, (dd, mm)
 
+# ── Contratacion (reporte a entes de control) ────────────────
+def _fecha_iso(v):
+    """Convierte DD/MM/AAAA a AAAA-MM-DD. Descarta placeholders (0/01/1900)."""
+    t = str(v or '').strip()
+    m = re.match(r'^(\d{1,2})/(\d{1,2})/(\d{4})$', t)
+    if not m:
+        return ''
+    d, mth, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    if y < 1950 or d == 0 or mth == 0:
+        return ''
+    return f"{y:04d}-{mth:02d}-{d:02d}"
+
+def read_contratos(bpins_validos):
+    """
+    Lee el consolidado de contratacion (delimitado por |).
+    El campo 'proyectos' puede traer varios BPIN separados por ; o ,
+    Devuelve (lista_de_contratos, indice_por_bpin, avisos)
+    """
+    if not os.path.exists(CONTR_CSV):
+        return [], {}, ["No se encontro plantillas/CONTRATACION_2026.csv"]
+
+    raw = open(CONTR_CSV, 'rb').read()
+    txt = None
+    for enc in ('utf-8-sig', 'utf-8', 'cp1252', 'latin-1'):
+        try:
+            txt = raw.decode(enc); break
+        except Exception:
+            continue
+    if txt is None:
+        return [], {}, ["No se pudo decodificar CONTRATACION_2026.csv"]
+
+    filas = list(csv.DictReader(io.StringIO(txt), delimiter='|'))
+    contratos, por_bpin, avisos = [], {}, []
+
+    for i, r in enumerate(filas, start=2):
+        g = lambda k: str(r.get(k, '') or '').strip()
+
+        crudo = g('proyectos')
+        bpins = [b.strip() for b in re.split(r'[;,]', crudo) if b.strip()]
+        validos    = [b for b in bpins if b in bpins_validos]
+        invalidos  = [b for b in bpins if b not in bpins_validos]
+
+        numero = g('numeroContratoInternoConvenio') or g('idContratoSecop')
+        if invalidos:
+            avisos.append(
+                f"fila {i}: contrato {numero} referencia BPIN no registrado en el POAI: "
+                + ", ".join(invalidos)
+            )
+
+        c = {
+            'numero':      numero,
+            'idSecop':     g('idContratoSecop'),
+            'tipo':        g('tipoContrato'),
+            'modalidad':   g('modalidad'),
+            'objeto':      g('objetoContrato'),
+            'contratista': g('nombreContratista'),
+            'tipoDoc':     g('tipoIdentificacionContratista'),
+            'nit':         g('identificacionContratista'),
+            'valor':       to_int(g('compromisos')),
+            'adiciones':   to_int(g('valorTotalAdiciones')),
+            'nAdiciones':  to_int(g('numeroAdiciones')),
+            'nProrrogas':  to_int(g('numeroProrrogas')),
+            'nSuspension': to_int(g('numeroSuspenciones')),
+            'plazoDias':   to_int(g('plazoContrato')),
+            'fecha':       _fecha_iso(g('fechaFirmaContrato')),
+            'fechaInicio': _fecha_iso(g('fechaInicioContrato')),
+            'fechaFin':    _fecha_iso(g('fechaTerminaContrato')),
+            'fechaActa':   _fecha_iso(g('fechaActaLiquidacion')),
+            'estado':      g('estadoContrato'),
+            'linea':       g('lineaProyecto'),
+            'fSGP':        to_int(g('valorTotalSGP')),
+            'fSGR':        to_int(g('valorTotalSGR')),
+            'fPropios':    to_int(g('valorTotalPropios')),
+            'fNacion':     to_int(g('valorTotalPgn')),
+            'fOtros':      to_int(g('valorTotalOtros')),
+            'observaciones': g('observaciones'),
+            'bpins':       validos,
+            'bpinsCrudo':  crudo,
+            'enlazado':    bool(validos),
+            'compartido':  len(validos) > 1,
+        }
+        contratos.append(c)
+        for b in validos:
+            por_bpin.setdefault(b, []).append(c)
+
+    return contratos, por_bpin, avisos
+
+def contrato_a_js(c):
+    campos = [
+        ('numero', s), ('idSecop', s), ('tipo', s), ('modalidad', s), ('objeto', s),
+        ('contratista', s), ('tipoDoc', s), ('nit', s),
+        ('valor', str), ('adiciones', str), ('nAdiciones', str), ('nProrrogas', str),
+        ('nSuspension', str), ('plazoDias', str),
+        ('fecha', s), ('fechaInicio', s), ('fechaFin', s), ('fechaActa', s),
+        ('estado', s), ('linea', s),
+        ('fSGP', str), ('fSGR', str), ('fPropios', str), ('fNacion', str), ('fOtros', str),
+        ('observaciones', s),
+    ]
+    partes = [f'{k}:{fn(c[k])}' for k, fn in campos]
+    partes.append('bpins:[' + ",".join(s(b) for b in c['bpins']) + ']')
+    partes.append('bpin:' + s(c['bpins'][0] if c['bpins'] else ''))
+    partes.append('bpinsCrudo:' + s(c['bpinsCrudo']))
+    partes.append('enlazado:' + ('true' if c['enlazado'] else 'false'))
+    partes.append('compartido:' + ('true' if c['compartido'] else 'false'))
+    partes.append('secopLink:' + s(
+        'https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=' + c['idSecop']
+        if c['idSecop'] else ''
+    ))
+    return '{' + ",".join(partes) + '}'
+
 # ── PDM ──────────────────────────────────────────────────────
 def read_radar():
     if not os.path.exists(RADAR_XLS):
@@ -332,28 +443,7 @@ def build_pdm(df, cols, avance_global_fis, avance_global_fin):
     )
 
 # ── PROYECTOS ────────────────────────────────────────────────
-def build_proyectos(df, cols, fuentes):
-    contratos = read_sheet_rows(PROY_XLS, "Contratos")
-    cont_idx = {}
-    for c in contratos:
-        b = str(col_val(c, "BPIN") or "")
-        if b:
-            cont_idx.setdefault(b, []).append(c)
-
-    def contrato_js(c):
-        return (
-            f'{{numero:{s(col_val(c,"No. Contrato",default=""))}'
-            f',tipo:{s(col_val(c,"Tipo Contrato",default=""))}'
-            f',objeto:{s(col_val(c,"Objeto",default=""))}'
-            f',contratista:{s(col_val(c,"Contratista",default=""))}'
-            f',nit:{s(col_val(c,"NIT Contratista",default=""))}'
-            f',valor:{to_int(col_val(c,"Valor (COP)",default=0))}'
-            f',fecha:{s(col_val(c,"Fecha Suscripcion",default=""))}'
-            f',estado:{s(col_val(c,"Estado",default=""))}'
-            f',avanceFisico:{to_int(col_val(c,"Avance Fisico (%)",default=0))}'
-            f',secopLink:{s(col_val(c,"Link SECOP II",default=""))}}}'
-        )
-
+def build_proyectos(df, cols, fuentes, cont_idx):
     items = []
     for _, r in df.iterrows():
         bpin  = str(r.get(cols['bpin'], '') or '').strip()
@@ -398,8 +488,9 @@ def build_proyectos(df, cols, fuentes):
                    f'obligaciones:{obl},pagos:{pagos},fuente:""}}]')
 
         cs = cont_idx.get(bpin, [])
-        c_uno  = contrato_js(cs[0]) if cs else "null"
-        c_todos = "[" + ",".join(contrato_js(c) for c in cs) + "]"
+        c_uno   = contrato_a_js(cs[0]) if cs else "null"
+        c_todos = "[" + ",".join(contrato_a_js(c) for c in cs) + "]"
+        val_contratado = sum(c['valor'] for c in cs)
 
         items.append(
             '  {\n'
@@ -419,6 +510,7 @@ def build_proyectos(df, cols, fuentes):
             f'    ejecucion:{ejec_js},\n'
             f'    contrato:{c_uno},\n'
             f'    contratos:{c_todos},\n'
+            f'    valorContratado:{val_contratado}, numContratos:{len(cs)},\n'
             f'    hitos:[],\n'
             f'    codigoProductoDNP:{s(str(r.get(cols["prod_mga"],"") or "").strip().rstrip(".0"))},\n'
             f'    indicadorDNP:{s(str(r.get(cols["cod_ind"],"") or "").strip().rstrip(".0"))},\n'
@@ -508,11 +600,31 @@ def main():
     print(f"    Pagos:          ${pag:,}  ({fin_glob}%)")
     print(f"    Avance fisico:  {fis_prom}% promedio")
 
-    print(f"\n[2] Construyendo PDM...")
+    print(f"\n[2] Contratacion: {os.path.basename(CONTR_CSV)}")
+    bpins_validos = set(str(b).strip() for b in df[cols['bpin']])
+    contratos, cont_idx, avisos = read_contratos(bpins_validos)
+    val_contr = sum(c['valor'] for c in contratos)
+    enlazados = sum(1 for c in contratos if c['enlazado'])
+    print(f"    Contratos:      {len(contratos)}")
+    print(f"    Valor total:    ${val_contr:,}")
+    print(f"    Enlazados:      {enlazados}/{len(contratos)}  ({len(cont_idx)} proyectos con contrato)")
+    compartidos = [c for c in contratos if c['compartido']]
+    if compartidos:
+        print(f"    Compartidos:    {len(compartidos)} contrato(s) cubren varios proyectos")
+        for c in compartidos:
+            print(f"                    {c['numero']} -> {len(c['bpins'])} BPIN")
+    for a in avisos:
+        print(f"    [!] {a}")
+
+    print(f"\n[3] Construyendo PDM...")
     pdm_js = build_pdm(df, cols, fis_prom, fin_glob)
 
-    print(f"[3] Construyendo PROYECTOS...")
-    proy_js = build_proyectos(df, cols, fuentes)
+    print(f"[4] Construyendo PROYECTOS...")
+    proy_js = build_proyectos(df, cols, fuentes, cont_idx)
+
+    contratos_js = ("const CONTRATOS = [\n  "
+                    + ",\n  ".join(contrato_a_js(c) for c in contratos)
+                    + "\n];")
 
     corte_js = (
         'const CORTE = {\n'
@@ -522,7 +634,9 @@ def main():
         f'  programado:{total},\n'
         f'  compromisos:{comp},\n'
         f'  obligaciones:{obl},\n'
-        f'  pagos:{pag}\n'
+        f'  pagos:{pag},\n'
+        f'  numContratos:{len(contratos)},\n'
+        f'  valorContratado:{val_contr}\n'
         '};'
     )
 
@@ -530,14 +644,36 @@ def main():
     out = (
         read_static_header() + "\n\n"
         f"// ─── Seguimiento fisico y financiero al {corte_txt} ───\n"
-        f"// ─── Fuente: {os.path.basename(POAI_XLS)} · generado {ts} ───\n\n"
-        + corte_js + "\n\n" + pdm_js + "\n\n" + proy_js + "\n\n" + UTILITY_JS
+        f"// ─── Fuentes: {os.path.basename(POAI_XLS)} + {os.path.basename(CONTR_CSV)} ───\n"
+        f"// ─── Generado {ts} por cargar_poai.py ───\n\n"
+        + corte_js + "\n\n" + pdm_js + "\n\n" + proy_js + "\n\n"
+        + contratos_js + "\n\n" + UTILITY_JS
     )
+    # Guarda: detectar literales de Python que se hayan colado al JS.
+    # Producen un ReferenceError en el navegador que la validacion de
+    # sintaxis no alcanza a ver, dejando la pagina en blanco.
+    fugas = []
+    for pat, desc in [
+        (r'[:\[,]\s*True\b',   'booleano True de Python'),
+        (r'[:\[,]\s*False\b',  'booleano False de Python'),
+        (r'[:\[,]\s*None\b',   'None de Python'),
+        (r"\{'[a-zA-Z_]+':",   'diccionario de Python serializado con str()'),
+    ]:
+        for m in re.finditer(pat, out):
+            linea = out.count('\n', 0, m.start()) + 1
+            fugas.append(f"linea {linea}: {desc} -> {out[m.start():m.start()+60]!r}")
+    if fugas:
+        print("\n[ERROR] Se filtraron literales de Python al JavaScript generado:")
+        for f_ in fugas[:8]:
+            print("   " + f_)
+        print("   No se escribio data.js. Revise cargar_poai.py.")
+        raise SystemExit(1)
+
     with open(OUT_JS, "w", encoding="utf-8") as f:
         f.write(out)
 
     print(f"\n[OK] {OUT_JS}")
-    print(f"     {proy_js.count('bpin:')} proyectos · corte {corte_txt}")
+    print(f"     {len(df)} proyectos · {len(contratos)} contratos · corte {corte_txt}")
 
 if __name__ == "__main__":
     main()
