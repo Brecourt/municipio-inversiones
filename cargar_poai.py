@@ -470,11 +470,10 @@ function formatCOPFull(v) {
   const n = Number(v) || 0;
   return '$' + n.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 }
+// El BPIN se muestra tal cual, solo digitos y sin separadores
 function formatBPIN(v) {
   if (!v) return '—';
-  const s = String(v).replace(/\D/g, '');
-  if (s.length >= 14) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
-  return s;
+  return String(v).replace(/\D/g, '');
 }
 const POLITICAS = [];
 const PLANES_SECTORIALES = [];

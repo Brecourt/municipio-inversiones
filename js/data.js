@@ -62,7 +62,7 @@ const FUENTES_PADRE = ['SGP','SGR','RECURSOS_PROPIOS','CREDITO','COFINANCIACION'
 // ---------------------------------------------------------------
 
 // ─── Seguimiento fisico y financiero al 30 de Junio de 2026 ───
-// ─── Fuente: POAI_SEGUIMIENTO_2026.xlsx · generado 2026-07-27 16:09:41 ───
+// ─── Fuente: POAI_SEGUIMIENTO_2026.xlsx · generado 2026-07-27 16:19:08 ───
 
 const CORTE = {
   fecha:"2026-06-30",
@@ -2605,11 +2605,10 @@ function formatCOPFull(v) {
   const n = Number(v) || 0;
   return '$' + n.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 }
+// El BPIN se muestra tal cual, solo digitos y sin separadores
 function formatBPIN(v) {
   if (!v) return '—';
-  const s = String(v).replace(/\D/g, '');
-  if (s.length >= 14) return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6);
-  return s;
+  return String(v).replace(/\D/g, '');
 }
 const POLITICAS = [];
 const PLANES_SECTORIALES = [];

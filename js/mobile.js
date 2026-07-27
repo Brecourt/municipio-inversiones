@@ -18,7 +18,7 @@ function fCOP(v) {
   return `$${v.toLocaleString('es-CO')}`;
 }
 function fBPIN(b) {
-  return b ? String(b).replace(/(\d{4})(\d{5})(\d{5})/, '$1-$2-$3') : '';
+  return b ? String(b).replace(/\D/g, '') : '';
 }
 function pct(p, a) { return a > 0 ? Math.round((p / a) * 100) : 0; }
 function pctColor(v) { return v >= 80 ? '#059669' : v >= 50 ? '#d97706' : '#ef4444'; }
