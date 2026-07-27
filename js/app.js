@@ -42,24 +42,31 @@ function SemaforoBadge({ proyecto }) {
   return <span style={{background:m.bg,color:m.text,borderRadius:6,padding:'2px 10px',fontSize:12,fontWeight:700}}>{m.label}</span>;
 }
 function AvanceBar({ fisico, financiero, showLabels=true }) {
-  const brecha = Math.abs(fisico - financiero);
+  const f = Number(fisico)||0, g = Number(financiero)||0;
+  const brecha = Math.round(Math.abs(f - g));
+  const capF = Math.min(f, 100), capG = Math.min(g, 100);
   return (
     <div style={{width:'100%'}}>
       {showLabels && (
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:4,fontSize:12}}>
-          <span>🏗️ Físico: <b style={{color:'#059669'}}>{fisico}%</b></span>
-          <span>💰 Financiero: <b style={{color:'#2563eb'}}>{financiero}%</b></span>
+          <span>🏗️ Físico: <b style={{color:'#059669'}}>{f}%</b>{f>100 && <span style={{color:'#059669',fontWeight:700}} title="Meta superada"> ★</span>}</span>
+          <span>💰 Financiero: <b style={{color:'#2563eb'}}>{g}%</b></span>
           {brecha>15 && <span style={{color:'#d97706',fontWeight:700}}>⚠ {brecha}pp</span>}
         </div>
       )}
       <div style={{height:7,background:'#f0fdf4',borderRadius:4,overflow:'hidden',marginBottom:3}}>
-        <div style={{width:`${fisico}%`,height:'100%',background:'#10b981',borderRadius:4,transition:'width .5s'}}/>
+        <div style={{width:`${capF}%`,height:'100%',background:f>100?'#059669':'#10b981',borderRadius:4,transition:'width .5s'}}/>
       </div>
       <div style={{height:7,background:'#eff6ff',borderRadius:4,overflow:'hidden'}}>
-        <div style={{width:`${financiero}%`,height:'100%',background:'#3b82f6',borderRadius:4,transition:'width .5s'}}/>
+        <div style={{width:`${capG}%`,height:'100%',background:'#3b82f6',borderRadius:4,transition:'width .5s'}}/>
       </div>
     </div>
   );
+}
+// Un proyecto esta en ejecucion si tiene movimiento presupuestal.
+// Acepta la clave actual (EN_EJECUCION) y el alias historico (EJECUCION).
+function enEjec(p) {
+  return p && (p.estado === 'EN_EJECUCION' || p.estado === 'EJECUCION' || p.estado === 'TERMINADO');
 }
 function Card({ children, title, subtitle, extra, style={} }) {
   return (
@@ -176,23 +183,37 @@ function DashboardPage() {
   const totalInversion = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.apropiacion||0);},0);
   const totalPagado   = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.pagos||0);},0);
   const totalCdp      = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.cdp||0);},0);
+  const totalObligado = PROYECTOS.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.obligaciones||0);},0);
+
+  // Curva de ejecución: acumulado real hasta el mes de corte; el resto queda sin dato.
   const MESES_LABEL = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const tendenciaMensual = MESES_LABEL.map((_,i)=>({
-    mes: MESES_LABEL[i],
-    apropiado:    +((totalInversion*(i+1)/12)/1e9).toFixed(2),
-    comprometido: +((Math.min(totalCdp, totalCdp*(i+1)/6))/1e9).toFixed(2),
-    pagado:       +((Math.min(totalPagado, totalPagado*(i+1)/6))/1e9).toFixed(2),
-  }));
-  const enEjecucion   = PROYECTOS.filter(p=>p.estado==='EN_EJECUCION'||p.estado==='EJECUCION');
-  const avgFis  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFisico,0)/enEjecucion.length) : 0;
+  const mesCorte = (typeof CORTE!=='undefined' && CORTE.vigencia===vigencia)
+    ? Number((CORTE.fecha||'').split('-')[1])||12 : 12;
+  const tendenciaMensual = MESES_LABEL.map((mes,i)=>{
+    const n = i+1;
+    if (n > mesCorte) return { mes, apropiado:+(totalInversion/1e9).toFixed(2) };
+    const f = n/mesCorte;   // reparto lineal del acumulado hasta el corte
+    return {
+      mes,
+      apropiado:    +(totalInversion/1e9).toFixed(2),
+      comprometido: +((totalCdp*f)/1e9).toFixed(2),
+      obligado:     +((totalObligado*f)/1e9).toFixed(2),
+      pagado:       +((totalPagado*f)/1e9).toFixed(2),
+    };
+  });
+
+  const enEjecucion = PROYECTOS.filter(enEjec);
+  const avgFis  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+Math.min(p.avanceFisico,100),0)/enEjecucion.length) : 0;
   const avgFin  = enEjecucion.length ? Math.round(enEjecucion.reduce((a,p)=>a+p.avanceFinanciero,0)/enEjecucion.length) : 0;
-  const alertas = enEjecucion.filter(p=>Math.abs(p.avanceFisico-p.avanceFinanciero)>15).length;
+  const alertas = enEjecucion.filter(p=>Math.abs(Math.min(p.avanceFisico,100)-p.avanceFinanciero)>15).length;
+  const pctPagado = totalInversion ? Math.round(totalPagado/totalInversion*100) : 0;
+  const pctComp   = totalInversion ? Math.round(totalCdp/totalInversion*100) : 0;
 
   const porSector = Object.entries(SECTORES).map(([key,cfg])=>{
     const ps=PROYECTOS.filter(p=>p.sector===key); if(!ps.length) return null;
     const ap=ps.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.apropiacion||0);},0);
     const pg=ps.reduce((a,p)=>{const e=p.ejecucion.find(e=>e.vigencia===vigencia);return a+(e?.pagos||0);},0);
-    const ej=ps.filter(p=>p.estado==='EJECUCION');
+    const ej=ps.filter(enEjec);
     const af=ej.length?Math.round(ej.reduce((a,p)=>a+p.avanceFisico,0)/ej.length):0;
     return {sector:cfg.label,apropiacion:ap/1e9,pagos:pg/1e9,avanceFisico:af,count:ps.length,color:cfg.color};
   }).filter(Boolean);
@@ -222,38 +243,49 @@ function DashboardPage() {
 
   return (
     <div style={{width:'100%',minWidth:0}}>
-      <div style={{marginBottom:24}}>
-        <h1 style={{margin:0,fontSize:22,fontWeight:800,color:'#111827'}}>📊 Dashboard Ejecutivo</h1>
-        <p style={{margin:'4px 0 0',color:'#6b7280',fontSize:14}}>{PDM.municipio} · Vigencia {vigencia} · PDM {PDM.periodo} "{PDM.nombre}"</p>
+      <div style={{marginBottom:24,display:'flex',justifyContent:'space-between',alignItems:'flex-end',flexWrap:'wrap',gap:12}}>
+        <div>
+          <h1 style={{margin:0,fontSize:22,fontWeight:800,color:'#111827'}}>📊 Dashboard Ejecutivo</h1>
+          <p style={{margin:'4px 0 0',color:'#6b7280',fontSize:14}}>{PDM.municipio} · Vigencia {vigencia} · PDM {PDM.periodo} "{PDM.nombre}"</p>
+        </div>
+        {typeof CORTE!=='undefined' && CORTE.etiqueta && (
+          <span style={{background:'#eff6ff',border:'1px solid #bfdbfe',color:'#1e40af',borderRadius:8,padding:'6px 14px',fontSize:12,fontWeight:700,whiteSpace:'nowrap'}}>
+            📅 Datos al {CORTE.etiqueta}
+          </span>
+        )}
       </div>
 
-      {/* KPIs */}
+      {/* KPIs — cadena presupuestal real al corte */}
       <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:14,marginBottom:24}}>
-        <KPICard icon="📁" label="Total Proyectos"         value={PROYECTOS.length}          sub={`${enEjecucion.length} en ejecución`}                                   color="#2563eb"/>
-        <KPICard icon="💰" label={`Inversión ${vigencia}`} value={formatCOP(totalInversion)}  sub="Apropiación vigente"                                                     color="#059669"/>
-        <KPICard icon="✅" label="Pagos acumulados"         value={formatCOP(totalPagado)}     sub={`${totalInversion?((totalPagado/totalInversion)*100).toFixed(1):0}% ejecutado`} color="#7c3aed"/>
-        <KPICard icon="🏗️" label="Avance Físico Prom."     value={`${avgFis}%`}              sub="Proyectos activos"                                                        color="#0891b2"/>
-        <KPICard icon="📈" label="Avance Financiero Prom." value={`${avgFin}%`}              sub="Proyectos activos"                                                        color="#f59e0b"/>
-        <KPICard icon="⚠️" label="Alertas Activas"          value={alertas}                   sub="Brecha >15pp"                                                             color="#ef4444"/>
+        <KPICard icon="📁" label="Total Proyectos"         value={PROYECTOS.length}          sub={`${enEjecucion.length} con movimiento`}                    color="#2563eb"/>
+        <KPICard icon="💰" label={`Programado ${vigencia}`} value={formatCOP(totalInversion)} sub="Apropiación vigente"                                       color="#059669"/>
+        <KPICard icon="📝" label="Comprometido"            value={formatCOP(totalCdp)}       sub={`${pctComp}% del programado`}                              color="#8b5cf6"/>
+        <KPICard icon="✅" label="Pagos acumulados"        value={formatCOP(totalPagado)}    sub={`${pctPagado}% ejecutado`}                                 color="#7c3aed"/>
+        <KPICard icon="🏗️" label="Avance Físico Prom."     value={`${avgFis}%`}              sub={`${enEjecucion.length} proyectos activos`}                  color="#0891b2"/>
+        <KPICard icon="⚠️" label="Alertas Activas"         value={alertas}                   sub="Brecha físico–financiero >15pp"                            color="#ef4444"/>
       </div>
 
       {/* Tendencia mensual — ancho completo */}
-      <Card title={`Tendencia de Ejecución Presupuestal ${vigencia}`} subtitle="Apropiado vs Comprometido vs Pagado — miles de millones COP" style={{marginBottom:20}}>
+      <Card title={`Ejecución Presupuestal ${vigencia}`}
+            subtitle={`Apropiado · Comprometido · Obligado · Pagado — miles de millones COP${typeof CORTE!=='undefined'&&CORTE.etiqueta?` (acumulado al ${CORTE.etiqueta})`:''}`}
+            style={{marginBottom:20}}>
         <ResponsiveContainer width="100%" height={230}>
           <AreaChart data={tendenciaMensual} margin={{top:5,right:20,left:10,bottom:0}}>
             <defs>
               <linearGradient id="gAp" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#93c5fd" stopOpacity={0.4}/><stop offset="95%" stopColor="#93c5fd" stopOpacity={0}/></linearGradient>
               <linearGradient id="gCo" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/><stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/></linearGradient>
+              <linearGradient id="gOb" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4}/><stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/></linearGradient>
               <linearGradient id="gPg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/><stop offset="95%" stopColor="#10b981" stopOpacity={0}/></linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
             <XAxis dataKey="mes" tick={{fontSize:11}}/>
             <YAxis tick={{fontSize:11}} tickFormatter={v=>`$${v} mmM`}/>
-            <Tooltip formatter={(v,n)=>[`$${v} mmM`,{apropiado:'Apropiado',comprometido:'Comprometido',pagado:'Pagado'}[n]||n]}/>
-            <Legend/>
-            <Area type="monotone" dataKey="apropiado"    stroke="#93c5fd" fill="url(#gAp)" strokeWidth={2} name="apropiado"/>
-            <Area type="monotone" dataKey="comprometido" stroke="#8b5cf6" fill="url(#gCo)" strokeWidth={2} name="comprometido"/>
-            <Area type="monotone" dataKey="pagado"       stroke="#10b981" fill="url(#gPg)" strokeWidth={2} name="pagado"/>
+            <Tooltip formatter={(v,n)=>[`$${v} mmM`,{apropiado:'Apropiado',comprometido:'Comprometido',obligado:'Obligado',pagado:'Pagado'}[n]||n]}/>
+            <Legend formatter={n=>({apropiado:'Apropiado',comprometido:'Comprometido',obligado:'Obligado',pagado:'Pagado'}[n]||n)}/>
+            <Area type="monotone" dataKey="apropiado"    stroke="#93c5fd" fill="url(#gAp)" strokeWidth={2} connectNulls={false}/>
+            <Area type="monotone" dataKey="comprometido" stroke="#8b5cf6" fill="url(#gCo)" strokeWidth={2} connectNulls={false}/>
+            <Area type="monotone" dataKey="obligado"     stroke="#f59e0b" fill="url(#gOb)" strokeWidth={2} connectNulls={false}/>
+            <Area type="monotone" dataKey="pagado"       stroke="#10b981" fill="url(#gPg)" strokeWidth={2} connectNulls={false}/>
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -331,7 +363,7 @@ function DashboardPage() {
       {proyAlerta.length>0 && (
         <Card title="⚠️ Proyectos con Brecha Físico / Financiero" subtitle="Requieren seguimiento especial">
           {proyAlerta.map(p=>(
-            <div key={p.id} style={{padding:'12px 16px',borderRadius:8,border:`1px solid ${p.brecha>25?'#fca5a5':'#fed7aa'}`,background:p.brecha>25?'#fff5f5':'#fffbeb',marginBottom:10}}>
+            <div key={p.bpin} style={{padding:'12px 16px',borderRadius:8,border:`1px solid ${p.brecha>25?'#fca5a5':'#fed7aa'}`,background:p.brecha>25?'#fff5f5':'#fffbeb',marginBottom:10}}>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8}}>
                 <div>
                   <div style={{fontWeight:700,fontSize:13,color:'#111827'}}>{p.nombre}</div>
@@ -393,7 +425,7 @@ function SemaforoPage({ onSelect }) {
             </div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(360px,1fr))',gap:12}}>
               {ps.map(p=>(
-                <div key={p.id} onClick={()=>onSelect(p)}
+                <div key={p.bpin} onClick={()=>onSelect(p)}
                   style={{background:'#fff',borderRadius:10,padding:'14px 16px',border:`1px solid ${cfg[k].border}`,cursor:'pointer',borderLeft:`4px solid ${cfg[k].dot}`}}
                   onMouseEnter={e=>e.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}
                   onMouseLeave={e=>e.currentTarget.style.boxShadow='none'}>
@@ -504,7 +536,11 @@ function ProyectoForm({ proyecto, onSave, onCancel }) {
       fuentes: form.fuentes.map(f=>({...f,monto:Number(f.monto)})),
     };
     if (esNuevo) PROYECTOS.push(saved);
-    else { const idx=PROYECTOS.findIndex(p=>p.id===saved.id); if(idx>=0) PROYECTOS[idx]=saved; }
+    else {
+      // Los proyectos cargados del POAI se identifican por BPIN, no por id
+      const idx = PROYECTOS.findIndex(p => (p.bpin && p.bpin===saved.bpin) || (p.id && p.id===saved.id));
+      if (idx>=0) PROYECTOS[idx]=saved;
+    }
     onSave(saved);
   };
 
@@ -693,7 +729,7 @@ function ProyectosPage({ onSelect, onNew }) {
     {title:'Semáforo', key:'avanceFisico', render:(_,r)=><SemaforoBadge proyecto={r}/>},
     {title:'Vigencia', key:'ejecucion', render:v=>v&&v.length?[...new Set(v.map(e=>e.vigencia))].join(', '):'—'},
     {title:'Valor Total', key:'valorTotal', render:v=><span style={{fontWeight:700}}>{formatCOP(v)}</span>},
-    {title:'Avance', key:'avanceFisico', render:(v,r)=>r.estado==='EJECUCION'?<AvanceBar fisico={v} financiero={r.avanceFinanciero}/>:<span style={{color:'#9ca3af'}}>—</span>},
+    {title:'Avance', key:'avanceFisico', render:(v,r)=>enEjec(r)?<AvanceBar fisico={v} financiero={r.avanceFinanciero} showLabels={false}/>:<span style={{color:'#9ca3af'}}>—</span>},
     {title:'', key:'id', render:(_,r)=>(
       <button onClick={()=>onSelect(r)} style={{padding:'5px 12px',background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:6,color:'#2563eb',cursor:'pointer',fontSize:12,fontWeight:600}}>Ver →</button>
     )},
@@ -733,7 +769,7 @@ function ProyectosPage({ onSelect, onNew }) {
             {filtered.map(p=>{
               const sec=SECTORES[p.sector]||{};
               return (
-                <div key={p.id} onClick={()=>onSelect(p)}
+                <div key={p.bpin} onClick={()=>onSelect(p)}
                   style={{borderRadius:10,border:'1px solid #e5e7eb',padding:'14px 16px',cursor:'pointer',background:'#fff',borderLeft:`4px solid ${sec.color}`}}
                   onMouseEnter={e=>e.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'}
                   onMouseLeave={e=>e.currentTarget.style.boxShadow='none'}>
@@ -743,7 +779,7 @@ function ProyectosPage({ onSelect, onNew }) {
                   </div>
                   <div style={{fontSize:12,color:'#6b7280',marginBottom:6}}>{sec.icon} {sec.label} · BPIN {formatBPIN(p.bpin)}</div>
                   <div style={{fontSize:14,fontWeight:800,color:'#059669',marginBottom:8}}>{formatCOP(p.valorTotal)}</div>
-                  {p.estado==='EJECUCION' && <AvanceBar fisico={p.avanceFisico} financiero={p.avanceFinanciero}/>}
+                  {enEjec(p) && <AvanceBar fisico={p.avanceFisico} financiero={p.avanceFinanciero}/>}
                   <div style={{marginTop:8,display:'flex',justifyContent:'space-between',fontSize:11,color:'#9ca3af'}}>
                     <span>Vigencia {p.ejecucion&&p.ejecucion.length?[...new Set(p.ejecucion.map(e=>e.vigencia))].join(', '):'—'}</span>
                     <SemaforoBadge proyecto={p}/>
@@ -815,7 +851,7 @@ function ProyectoDetalle({ proyecto, onBack, onEdit }) {
             </div>
           </div>
         </div>
-        {proyecto.estado==='EJECUCION' && <div style={{marginTop:16}}><AvanceBar fisico={proyecto.avanceFisico} financiero={proyecto.avanceFinanciero}/></div>}
+        {enEjec(proyecto) && <div style={{marginTop:16}}><AvanceBar fisico={proyecto.avanceFisico} financiero={proyecto.avanceFinanciero}/></div>}
       </div>
 
       <TabBar tabs={tabs} active={tab} onChange={setTab}/>
@@ -922,24 +958,37 @@ function TabGeneral({ p }) {
   );
 }
 function TabFisico({ p }) {
-  const ok=p.hitos.filter(h=>h.cumplido).length;
+  const corte  = (typeof CORTE!=='undefined' && CORTE.etiqueta) ? CORTE.etiqueta : '';
+  const avance = Number(p.avanceMeta)||0;
+  const metaV  = Number(p.metaVigencia)||0;
+  const pctM   = metaV>0 ? Math.round(avance/metaV*100) : (Number(p.avanceFisico)||0);
+  const unidad = p.unidadDNP || 'unidades';
   return (
     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
-      <Card title="Hitos" subtitle={`${ok}/${p.hitos.length} completados`}>
-        {p.hitos.map((h,i)=>(
-          <div key={i} style={{display:'flex',gap:10,marginBottom:14}}>
-            <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-              <div style={{width:26,height:26,borderRadius:'50%',background:h.cumplido?'#d1fae5':'#f3f4f6',border:`2px solid ${h.cumplido?'#10b981':'#d1d5db'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,flexShrink:0}}>
-                {h.cumplido?'✓':`${i+1}`}
-              </div>
-              {i<p.hitos.length-1 && <div style={{width:2,flex:1,background:h.cumplido?'#10b981':'#e5e7eb',minHeight:14}}/>}
-            </div>
-            <div style={{paddingBottom:6}}>
-              <div style={{fontWeight:600,fontSize:13,color:h.cumplido?'#065f46':'#374151'}}>{h.nombre}</div>
-              <div style={{fontSize:11,color:'#9ca3af'}}>{h.fecha}</div>
-            </div>
+      <Card title="Meta física de la vigencia" subtitle={corte?`Avance reportado al ${corte}`:'Avance reportado'}>
+        <div style={{textAlign:'center',padding:'8px 0 18px'}}>
+          <div style={{fontSize:44,fontWeight:800,lineHeight:1,color:pctM>=100?'#059669':pctM>=50?'#0891b2':pctM>0?'#d97706':'#9ca3af'}}>
+            {pctM}%
           </div>
-        ))}
+          <div style={{fontSize:12,color:'#6b7280',marginTop:6}}>
+            {avance} de {metaV||'—'} {unidad}
+            {pctM>100 && <span style={{color:'#059669',fontWeight:700}}> · meta superada ★</span>}
+          </div>
+          <div style={{height:10,background:'#f0fdf4',borderRadius:5,overflow:'hidden',marginTop:14}}>
+            <div style={{width:`${Math.min(pctM,100)}%`,height:'100%',background:pctM>=100?'#059669':'#10b981',borderRadius:5,transition:'width .5s'}}/>
+          </div>
+        </div>
+        <InfoRow label="Indicador de producto" value={p.productoNombre||'—'}/>
+        <InfoRow label="Unidad de medida"      value={unidad}/>
+        <InfoRow label="Meta cuatrienio"       value={p.metaCuatrienio||'—'}/>
+        <InfoRow label={`Meta ${p.ejecucion&&p.ejecucion[0]?p.ejecucion[0].vigencia:''}`} value={metaV||'—'}/>
+        <InfoRow label="Avance acumulado"      value={`${avance} ${unidad}`}/>
+        {p.actividades && (
+          <div style={{marginTop:14,paddingTop:14,borderTop:'1px solid #f3f4f6'}}>
+            <div style={{fontSize:11,color:'#9ca3af',textTransform:'uppercase',letterSpacing:0.5,marginBottom:6}}>Actividades / Estrategias</div>
+            <div style={{fontSize:12,color:'#374151',lineHeight:1.6,whiteSpace:'pre-wrap'}}>{p.actividades}</div>
+          </div>
+        )}
       </Card>
       {p.contrato ? (
         <Card title="Contrato Asociado">
@@ -1074,7 +1123,24 @@ function PoliticasPage({ onSelect }) {
             </div>
           </div>
         ))}
+        {!filtered.length && (
+          <EmptyModule
+            icon="📜"
+            titulo="Sin políticas públicas registradas"
+            detalle="Este módulo no se alimenta del archivo POAI de seguimiento. Para verlo con información, se debe cargar el inventario de políticas públicas municipales adoptadas por acto administrativo."
+          />
+        )}
       </div>
+    </div>
+  );
+}
+// Estado vacío honesto para módulos sin fuente de datos cargada
+function EmptyModule({ icon, titulo, detalle }) {
+  return (
+    <div style={{background:'#fff',border:'1px dashed #d1d5db',borderRadius:12,padding:'44px 28px',textAlign:'center'}}>
+      <div style={{fontSize:38,marginBottom:10,opacity:0.45}}>{icon}</div>
+      <div style={{fontSize:15,fontWeight:700,color:'#374151',marginBottom:6}}>{titulo}</div>
+      <p style={{margin:'0 auto',maxWidth:520,fontSize:13,color:'#6b7280',lineHeight:1.6}}>{detalle}</p>
     </div>
   );
 }
@@ -1191,6 +1257,13 @@ function PlanesSectorialesPage({ onSelect }) {
           );
         })}
       </div>
+      {!PLANES_SECTORIALES.length && (
+        <EmptyModule
+          icon="🗂️"
+          titulo="Sin planes sectoriales cargados"
+          detalle="Este módulo no se alimenta del archivo POAI de seguimiento. Para verlo con información, se deben cargar los planes sectoriales adoptados (movilidad, gestión del riesgo, saneamiento, entre otros)."
+        />
+      )}
     </div>
   );
 }
@@ -1308,7 +1381,7 @@ function ReportesPage() {
             {title:'Proyecto',key:'nombre',render:v=><span style={{fontSize:12}}>{v}</span>},
             {title:'Sector',key:'sector',render:v=><SectorBadge sector={v}/>},
             {title:'Estado',key:'estado',render:v=><EstadoBadge estado={v}/>},
-            {title:'Avance',key:'avanceFisico',render:(v,r)=>r.estado==='EJECUCION'?<AvanceBar fisico={v} financiero={r.avanceFinanciero}/>:<span style={{color:'#9ca3af'}}>—</span>},
+            {title:'Avance',key:'avanceFisico',render:(v,r)=>enEjec(r)?<AvanceBar fisico={v} financiero={r.avanceFinanciero} showLabels={false}/>:<span style={{color:'#9ca3af'}}>—</span>},
             {title:'Semáforo',key:'id',render:(_,r)=><SemaforoBadge proyecto={r}/>},
             {title:'Hitos',key:'hitos',render:v=>`${v.filter(h=>h.cumplido).length}/${v.length}`},
           ]} data={PROYECTOS}/>
@@ -1339,7 +1412,7 @@ function ReportesPage() {
                 <div style={{fontSize:12,color:'#6b7280',marginBottom:8}}>Programas: {progsCod.join(' · ')} · {ps.length} proyectos alineados</div>
                 <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
                   {ps.map(p=>(
-                    <div key={p.id} style={{background:'#f9fafb',borderRadius:6,padding:'5px 10px',fontSize:11,border:'1px solid #e5e7eb',display:'flex',alignItems:'center',gap:6}}>
+                    <div key={p.bpin} style={{background:'#f9fafb',borderRadius:6,padding:'5px 10px',fontSize:11,border:'1px solid #e5e7eb',display:'flex',alignItems:'center',gap:6}}>
                       <code>{formatBPIN(p.bpin)}</code>
                       <span>{p.nombre.slice(0,35)}…</span>
                       <EstadoBadge estado={p.estado}/>

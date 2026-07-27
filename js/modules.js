@@ -39,7 +39,7 @@ function ContratosPage({ onSelectProyecto }) {
       lista.forEach(c => {
         rows.push({
           ...c,
-          proyectoId:       p.id,
+          proyectoId:       p.bpin || p.id,
           proyectoNombre:   p.nombre,
           sector:           p.sector,
           estadoProyecto:   p.estado,
